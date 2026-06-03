@@ -4,7 +4,45 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>WeJobs.ro | Agenție de recrutare România → Germania</title>
-<meta name="description" content="WeJobs.ro – agenție de recrutare premium. Locuri de muncă verificate în Germania pentru candidați din România, cu contract legal și suport în limba română. Aplică online în câteva minute." />
+<meta name="description" content="WeJobs.ro – agenție de recrutare. Locuri de muncă verificate în Germania pentru candidați din România, cu contract legal și suport în limba română. Aplică online în câteva minute." />
+<meta name="keywords" content="locuri de munca Germania, joburi Germania romani, recrutare Germania, sofer Amazon Germania, sofer C+E Germania, agentie recrutare, contract legal Germania" />
+<meta name="robots" content="index, follow" />
+<meta name="author" content="WeJobs.ro" />
+<link rel="canonical" href="https://wejobs.ro/" />
+<!-- Open Graph / social -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="WeJobs.ro" />
+<meta property="og:locale" content="ro_RO" />
+<meta property="og:title" content="WeJobs.ro | Agenție de recrutare România → Germania" />
+<meta property="og:description" content="Locuri de muncă verificate în Germania pentru candidați din România. Contract legal, suport în limba română. Aplică online în câteva minute." />
+<meta property="og:url" content="https://wejobs.ro/" />
+<meta property="og:image" content="https://wejobs.ro/assets/images/hero-soferi-germania.webp.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="WeJobs.ro | Agenție de recrutare România → Germania" />
+<meta name="twitter:description" content="Locuri de muncă verificate în Germania pentru candidați din România. Aplică online în câteva minute." />
+<meta name="twitter:image" content="https://wejobs.ro/assets/images/hero-soferi-germania.webp.png" />
+<link rel="icon" type="image/png" href="assets/images/logo-wejobs-header.png" />
+<!-- Schema.org: organizația de recrutare -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "EmploymentAgency",
+  "name": "WeJobs.ro",
+  "url": "https://wejobs.ro/",
+  "logo": "https://wejobs.ro/assets/images/logo-wejobs-header.png",
+  "image": "https://wejobs.ro/assets/images/hero-soferi-germania.webp.png",
+  "description": "Agenție de recrutare care conectează candidați din România cu locuri de muncă verificate în Germania, cu contract legal și suport în limba română.",
+  "areaServed": ["RO", "DE"],
+  "knowsLanguage": ["ro", "de"],
+  "telephone": "+49 170 304 4341",
+  "founder": "Drăguț Alin Andrei",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Erlangen",
+    "addressCountry": "DE"
+  }
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Fraunces:ital,opsz,wght@1,9..144,400..600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -43,6 +81,15 @@ header{position:sticky;top:0;z-index:100;background:rgba(8,8,10,.72);backdrop-fi
 .navlinks a{color:#d7d7dc;position:relative;padding:4px 0;letter-spacing:.02em}
 .navlinks a::after{content:"";position:absolute;left:0;bottom:-2px;height:1.5px;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-2));transition:width .3s}
 .navlinks a:hover{color:#fff}.navlinks a:hover::after{width:100%}
+.burger{display:none;background:none;border:0;cursor:pointer;width:44px;height:44px;padding:10px;flex-direction:column;justify-content:center;gap:5px}
+.burger span{display:block;height:2px;width:100%;background:var(--gold-2);border-radius:2px;transition:transform .3s,opacity .3s}
+.burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-menu{display:none;flex-direction:column;gap:6px;padding:14px 4% 22px;border-bottom:1px solid var(--line);background:rgba(8,8,10,.96)}
+.mobile-menu.open{display:flex}
+.mobile-menu a{font-family:"Archivo";font-weight:600;font-size:16px;color:#e0e0e6;padding:13px 8px;border-bottom:1px solid var(--line-2)}
+.mobile-menu a.btn{margin-top:10px;border-bottom:0;color:#10100a}
 
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-family:"Archivo",sans-serif;font-weight:700;font-size:14.5px;border:0;cursor:pointer;border-radius:12px;padding:14px 24px;transition:transform .25s,box-shadow .25s,background .25s;letter-spacing:.01em}
 .btn.gold{background:linear-gradient(135deg,#e7c876,#c9962e 55%,#a9781f);color:#10100a;box-shadow:0 10px 30px rgba(201,150,46,.28)}
@@ -138,6 +185,12 @@ section{padding:96px 0;position:relative}
 .about-visual{position:relative;border-radius:22px;overflow:hidden;border:1px solid var(--line-gold);box-shadow:0 30px 70px rgba(0,0,0,.5)}
 .about-visual img{width:100%;height:430px;object-fit:cover;filter:contrast(1.05)}
 .about-visual .ph-fallback{width:100%;height:430px;background:radial-gradient(120% 120% at 80% 0%,rgba(201,150,46,.25),transparent 55%),linear-gradient(160deg,#1d1d23,#101014)}
+.about-panel{display:grid;gap:14px;background:linear-gradient(180deg,var(--card-hi),var(--card));border:1px solid var(--line-gold);border-radius:22px;padding:26px;box-shadow:0 30px 70px rgba(0,0,0,.45)}
+.about-panel .ap-row{display:flex;gap:16px;align-items:center;padding:16px 18px;background:var(--card);border:1px solid var(--line);border-radius:14px}
+.about-panel .ap-ic{flex:none;width:46px;height:46px;border-radius:12px;display:grid;place-items:center;background:rgba(201,150,46,.12);border:1px solid var(--line-gold)}
+.about-panel .ap-ic svg{width:22px;height:22px;fill:none;stroke:var(--gold-2);stroke-width:2}
+.about-panel b{font-family:"Archivo";font-size:16px;display:block}
+.about-panel span{font-size:13.5px;color:var(--gray)}
 
 /* FAQ */
 .faq{max-width:840px;margin:auto;display:grid;gap:14px}
@@ -172,6 +225,9 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold);bo
 select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%23c9962e'%3E%3Cpath d='M7 10L2 4h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
 textarea{min-height:120px;resize:vertical}
 .form-note{font-size:12.5px;color:var(--gray-d);margin-top:4px}
+.consent{display:flex;gap:10px;align-items:flex-start;font-family:"Manrope";font-weight:500;font-size:13px;color:var(--gray);margin:0 0 18px;text-transform:none;letter-spacing:0}
+.consent input{width:auto;margin:3px 0 0}
+.consent a{color:var(--gold-2);text-decoration:underline}
 
 /* FOOTER */
 footer{border-top:1px solid var(--line);padding:64px 0 32px;background:var(--graphite)}
@@ -193,16 +249,33 @@ footer .fl a:hover{color:var(--gold-2)}
 
 @media(max-width:980px){
   .navlinks{display:none}
-  .hero-inner{grid-template-columns:1fr;gap:36px}
+  .burger{display:flex}
+  .hide-mobile{display:none}
+  section{padding:64px 0}
+  .hero-inner{grid-template-columns:1fr;gap:32px;min-height:auto;padding:46px 0}
   .hero-visual{order:-1}
-  .hero-visual img,.hero-visual .ph-fallback{height:330px}
+  .hero-visual img,.hero-visual .ph-fallback{height:300px}
   .stats .container{grid-template-columns:1fr 1fr}
+  .stats .s{padding:26px 14px}
   .stats .s:nth-child(3)::before,.stats .s+.s::before{display:none}
   .jobs,.features,.steps,.apply-grid,.about-grid,.footer-grid{grid-template-columns:1fr}
   .about-visual{order:-1}
-  .nav{height:66px}
+  .nav{height:64px}
+  .section-head{margin-bottom:34px}
 }
-@media(max-width:520px){.form-row{grid-template-columns:1fr}.job-grid{grid-template-columns:1fr}.stats .container{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){
+  .form-row{grid-template-columns:1fr}
+  .job-grid{grid-template-columns:1fr}
+  .stats .container{grid-template-columns:1fr 1fr}
+  .topbar .container{font-size:11.5px;height:auto;padding:8px 0;line-height:1.4}
+  .hero-trust{gap:8px}
+  .hero-trust .chip{font-size:12px;padding:8px 12px}
+  .hero-actions .btn{width:100%}
+  form{padding:24px}
+  .feature,.step{padding:26px 22px}
+  .faq summary{font-size:15.5px;padding:18px 18px}
+  footer{padding:48px 0 28px}
+}
 </style>
 </head>
 <body>
@@ -223,6 +296,17 @@ footer .fl a:hover{color:var(--gold-2)}
       <a href="#despre">Despre</a>
       <a href="#intrebari">Întrebări</a>
     </nav>
+    <a class="btn gold hide-mobile" href="#aplica">Aplică acum</a>
+    <button class="burger" id="burger" aria-label="Meniu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="#joburi">Joburi</a>
+    <a href="#de-ce-noi">De ce noi</a>
+    <a href="#cum-functioneaza">Cum funcționează</a>
+    <a href="#despre">Despre</a>
+    <a href="#intrebari">Întrebări</a>
     <a class="btn gold" href="#aplica">Aplică acum</a>
   </div>
 </header>
@@ -349,8 +433,11 @@ footer .fl a:hover{color:var(--gold-2)}
           <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Sprijin la documente și la integrarea în Germania</li>
         </ul>
       </div>
-      <div class="about-visual reveal">
-        <img src="assets/images/hero-soferi-germania.webp.png" alt="WeJobs.ro recrutare Germania" onerror="this.outerHTML='<div class=&quot;ph-fallback&quot;></div>'">
+      <div class="about-panel reveal">
+        <div class="ap-row"><div class="ap-ic"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div><div><b>Contract legal german</b><span>Forme legale și drepturi clare</span></div></div>
+        <div class="ap-row"><div class="ap-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 010 18M12 3a15 15 0 000 18"/></svg></div><div><b>Suport în limba română</b><span>Comunicăm românește, pas cu pas</span></div></div>
+        <div class="ap-row"><div class="ap-ic"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div><div><b>Angajatori verificați</b><span>Doar firme reale din Germania</span></div></div>
+        <div class="ap-row"><div class="ap-ic"><svg viewBox="0 0 24 24"><path d="M3 7h18v13H3z"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div><div><b>Condiții transparente</b><span>Salariu și program scrise clar</span></div></div>
       </div>
     </div>
   </div>
@@ -364,11 +451,15 @@ footer .fl a:hover{color:var(--gold-2)}
       <p>Cele mai des întâlnite întrebări de la candidați.</p>
     </div>
     <div class="faq reveal">
-      <details><summary>Cum aplic la un job? <span class="pl"></span></summary><div class="ans">Alegi postul dorit, apeși „Aplică" și completezi formularul (nume, telefon, email). Te contactăm noi în limba română. Nu ai nevoie de niciun cont.</div></details>
-      <details><summary>Am nevoie să știu germană? <span class="pl"></span></summary><div class="ans">Depinde de post. La unele poziții cunoștințele de germană sau engleză sunt un avantaj, dar nu mereu obligatorii. Cerințele exacte sunt scrise în fiecare ofertă.</div></details>
-      <details><summary>Contractul este legal? <span class="pl"></span></summary><div class="ans">Da. Posturile pe care le prezentăm sunt cu contract de muncă în Germania, cu forme legale și condiții confirmate înainte.</div></details>
-      <details><summary>Există cazare? <span class="pl"></span></summary><div class="ans">La o parte din posturi cazarea este disponibilă (în unele cazuri contra cost). Detaliile apar în fiecare ofertă și ți le confirmăm la interviu.</div></details>
-      <details><summary>Cât durează procesul? <span class="pl"></span></summary><div class="ans">După ce aplici, te contactăm pentru verificare și interviu. De acolo stabilim împreună pașii următori și data plecării, în funcție de post.</div></details>
+      <details><summary>Cum aplic la un job? <span class="pl"></span></summary><div class="ans">Alegi postul dorit, apeși „Aplică" și completezi formularul (nume, telefon, e-mail și, dacă vrei, câteva detalii despre experiență). Aplicația ajunge direct la noi și te contactăm în limba română. Nu ai nevoie de niciun cont.</div></details>
+      <details><summary>Trebuie să plătesc ceva pentru a aplica? <span class="pl"></span></summary><div class="ans">Aplicarea pe site este gratuită. Orice detalii despre condiții (inclusiv eventuale costuri de cazare sau transport, acolo unde există) ți le comunicăm clar și din timp, înainte să iei o decizie. Nu îți cerem date bancare sau plăți prin formularul de aplicare.</div></details>
+      <details><summary>Am nevoie să știu limba germană? <span class="pl"></span></summary><div class="ans">Depinde de post. La unele poziții (ex. curierat) nu este obligatoriu, dar cunoștințe de bază de germană sau engleză sunt un avantaj. Cerințele exacte de limbă sunt scrise în fiecare ofertă în parte.</div></details>
+      <details><summary>Contractul de muncă este legal? <span class="pl"></span></summary><div class="ans">Da. Posturile pe care le prezentăm sunt cu contract de muncă în Germania, cu forme legale, asigurări și drepturi conform legislației germane. Condițiile sunt confirmate înainte de plecare.</div></details>
+      <details><summary>Ce documente îmi trebuie? <span class="pl"></span></summary><div class="ans">În general: act de identitate/pașaport valabil și, pentru posturile de șofer, permisul de conducere corespunzător (B sau C+E) și actele aferente (ex. card tahograf, atestat). Lista exactă ți-o spunem pentru fiecare post și te ajutăm cu pașii.</div></details>
+      <details><summary>Există cazare în Germania? <span class="pl"></span></summary><div class="ans">La o parte dintre posturi cazarea este disponibilă, în unele cazuri contra cost. Dacă un post include cazare, scrie în ofertă, iar detaliile ți le confirmăm la interviu.</div></details>
+      <details><summary>Cât durează până plec efectiv la muncă? <span class="pl"></span></summary><div class="ans">După ce aplici, te contactăm pentru o verificare și un interviu. De acolo stabilim împreună pașii și data plecării, în funcție de post și de actele tale. Termenul exact diferă de la caz la caz.</div></details>
+      <details><summary>Ce se întâmplă cu datele mele după ce aplic? <span class="pl"></span></summary><div class="ans">Folosim datele tale doar pentru a procesa aplicarea și a te contacta în legătură cu posturile. Nu le vindem și nu le dăm către terți în scopuri de marketing. Detaliile complete sunt în <a href="legal.html">Politica de confidențialitate</a>.</div></details>
+      <details><summary>Pot aplica dacă nu am experiență? <span class="pl"></span></summary><div class="ans">Da, în multe cazuri da. Experiența este un avantaj, dar pentru anumite posturi contează mai mult seriozitatea și disponibilitatea. Aplică și discutăm — îți spunem sincer dacă se potrivește.</div></details>
     </div>
   </div>
 </section>
@@ -404,8 +495,9 @@ footer .fl a:hover{color:var(--gold-2)}
         <textarea id="mesaj" name="mesaj" placeholder="Scrie câteva detalii despre tine..."></textarea>
         <input type="hidden" name="aplicat_de_pe" value="Pagina principală (formular general)">
         <input type="hidden" name="_subject" value="Aplicație nouă WeJobs.ro">
+        <label class="consent"><input type="checkbox" name="consimtamant" required> Sunt de acord cu prelucrarea datelor mele conform <a href="legal.html" target="_blank">Politicii de confidențialitate</a>.</label>
         <button class="btn gold" type="submit" style="width:100%;">Trimite aplicația</button>
-        <p class="form-note">Prin trimitere, ești de acord să fii contactat de echipa WeJobs.ro.</p>
+        <p class="form-note">Aplicația ajunge direct la echipa WeJobs.ro. Nu îți cerem date bancare.</p>
       </form>
     </div>
   </div>
@@ -429,20 +521,17 @@ footer .fl a:hover{color:var(--gold-2)}
         <div class="fl">
           <a target="_blank" id="wa-footer" href="#">Scrie-ne pe WhatsApp</a>
           <a href="#aplica">Aplică online</a>
+          <a href="legal.html">Date legale & Confidențialitate</a>
           <span>Suport în limba română</span>
         </div>
       </div>
     </div>
     <div class="copy">
       <span>© 2026 WeJobs.ro. Toate drepturile rezervate.</span>
-      <span>Recrutare România → Germania</span>
+      <span><a href="legal.html" style="color:inherit">Confidențialitate (GDPR)</a> • <a href="legal.html#impressum" style="color:inherit">Date legale</a></span>
     </div>
   </div>
 </footer>
-
-<a class="floating-wa" id="wa-float" target="_blank" aria-label="WhatsApp" href="#">
-  <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.821 11.821 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.515 5.26l-.999 3.648 3.973-1.041zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-</a>
 
 <!-- Supabase (bază de date) + configurare + strat de date -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -453,9 +542,20 @@ footer .fl a:hover{color:var(--gold-2)}
   const checkSvg = '<svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>';
   const waBase = txt => `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(txt)}`;
 
-  document.getElementById('wa-float').href  = waBase("Bună ziua! Am văzut site-ul WeJobs.ro și doresc detalii despre joburi.");
   document.getElementById('wa-footer').href = waBase("Bună ziua! Doresc informații despre joburile disponibile pe WeJobs.ro");
   document.getElementById('apply-form').action = CONFIG.formspree;
+
+  // Meniu mobil
+  const burger = document.getElementById('burger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  burger.addEventListener('click', ()=>{
+    const open = mobileMenu.classList.toggle('open');
+    burger.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open);
+  });
+  mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>{
+    mobileMenu.classList.remove('open'); burger.classList.remove('open'); burger.setAttribute('aria-expanded','false');
+  }));
 
   function renderJobs(active){
     const cont = document.getElementById('jobs-container');
