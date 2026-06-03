@@ -13,8 +13,8 @@ const CONFIG = {
   // Baza de date + logare (Supabase). Le iei din proiectul tău Supabase:
   //   Project Settings  ->  API
   // Cât timp sunt goale, site-ul folosește joburile de rezervă de mai jos.
-  supabaseUrl: "",   // ex: https://abcdxyz.supabase.co
-  supabaseKey: ""    // cheia "anon public" (e ok să fie publică; e protejată prin reguli)
+  supabaseUrl: "https://cmpagnbvympkrtcjnefz.supabase.co",   // Project URL
+  supabaseKey: "sb_publishable_B66wSpD1Xd2a7PkCUAZBQQ_qYY6650Q"    // cheia publishable (publică, e ok)
 };
 
 /* -------------------------------------------------------------------------
