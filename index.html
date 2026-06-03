@@ -3,333 +3,497 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>WeJobs.ro | Locuri de muncă pentru șoferi în Germania</title>
-<meta name="description" content="WeJobs.ro recrutează șoferi categoria B, C și C+E pentru companii verificate din Germania. Aplicare rapidă, suport în limba română și contracte legale." />
+<title>WeJobs.ro | Agenție de recrutare România → Germania</title>
+<meta name="description" content="WeJobs.ro – agenție de recrutare premium. Locuri de muncă verificate în Germania pentru candidați din România, cu contract legal și suport în limba română. Aplică online în câteva minute." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Fraunces:ital,opsz,wght@1,9..144,400..600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --navy:#0b1220;
-  --navy-2:#111b2e;
-  --text:#101828;
-  --muted:#667085;
-  --soft:#f5f7fb;
-  --soft-2:#eef3f9;
-  --white:#ffffff;
-  --line:#e5eaf1;
-  --gold:#d39a26;
-  --gold-dark:#b87d13;
-  --green:#16a34a;
-  --radius:22px;
-  --shadow:0 24px 60px rgba(16,24,40,.11);
+  --black:#08080a;--graphite:#0e0e11;--surface:#131317;--card:#16161b;--card-hi:#1d1d23;
+  --line:rgba(255,255,255,.08);--line-2:rgba(255,255,255,.05);--line-gold:rgba(201,150,46,.34);
+  --gold:#c9962e;--gold-2:#e7c876;--gold-3:#f5e3aa;--white:#f4f3ef;--gray:#a3a3ab;--gray-d:#6d6d76;--r:18px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{
-  font-family:"Inter",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  color:var(--text);
-  background:var(--white);
-  line-height:1.6;
-  -webkit-font-smoothing:antialiased;
-}
+body{font-family:"Manrope",system-ui,sans-serif;background:var(--black);color:var(--white);line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(900px 600px at 82% -8%,rgba(201,150,46,.16),transparent 60%),radial-gradient(700px 700px at -10% 30%,rgba(201,150,46,.07),transparent 60%),linear-gradient(180deg,#08080a,#0b0b0e 40%,#08080a)}
+body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 a{text-decoration:none;color:inherit}
-img{display:block;max-width:100%}
-.container{width:min(1180px,92%);margin:0 auto}
-.topbar{background:var(--navy);color:#d7e3f4;font-size:13px}
-.topbar .inner{height:38px;display:flex;align-items:center;justify-content:space-between;gap:18px}
-.topbar b{color:#ffd277}
-.header{
-  position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);
-  backdrop-filter:blur(16px);border-bottom:1px solid var(--line)
+img{max-width:100%;display:block}
+.container{width:min(1200px,92%);margin:auto}
+.gold-text{background:linear-gradient(100deg,#9a7322,#e7c876 34%,#f8eecb 50%,#c9962e 68%,#8a6418);-webkit-background-clip:text;background-clip:text;color:transparent}
+.eyebrow{font-family:"Archivo",sans-serif;text-transform:uppercase;letter-spacing:.32em;font-size:12px;font-weight:700;color:var(--gold-2);display:inline-flex;align-items:center;gap:12px}
+.eyebrow::before{content:"";width:34px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+
+/* ANNOUNCEMENT BAR */
+.topbar{background:linear-gradient(90deg,rgba(201,150,46,.12),rgba(201,150,46,.04));border-bottom:1px solid var(--line-gold);font-size:13px}
+.topbar .container{display:flex;align-items:center;justify-content:center;gap:10px;height:38px;text-align:center;color:#e9dcb6;font-family:"Archivo";font-weight:600;letter-spacing:.02em}
+.topbar b{color:var(--gold-2)}
+.topbar .dot{width:6px;height:6px;border-radius:50%;background:var(--gold-2);box-shadow:0 0 10px var(--gold-2);animation:pulse 1.8s infinite}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+
+/* HEADER */
+header{position:sticky;top:0;z-index:100;background:rgba(8,8,10,.72);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.nav{height:78px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{display:flex;align-items:center}
+.brand-name{font-family:"Archivo",sans-serif;font-weight:900;font-size:24px;letter-spacing:-.5px;color:var(--white)}
+.brand-name .ro{font-size:14px;color:var(--gold-2);font-weight:700;vertical-align:super;margin-left:1px}
+.navlinks{display:flex;gap:30px;font-family:"Archivo",sans-serif;font-weight:600;font-size:14.5px}
+.navlinks a{color:#d7d7dc;position:relative;padding:4px 0;letter-spacing:.02em}
+.navlinks a::after{content:"";position:absolute;left:0;bottom:-2px;height:1.5px;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-2));transition:width .3s}
+.navlinks a:hover{color:#fff}.navlinks a:hover::after{width:100%}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-family:"Archivo",sans-serif;font-weight:700;font-size:14.5px;border:0;cursor:pointer;border-radius:12px;padding:14px 24px;transition:transform .25s,box-shadow .25s,background .25s;letter-spacing:.01em}
+.btn.gold{background:linear-gradient(135deg,#e7c876,#c9962e 55%,#a9781f);color:#10100a;box-shadow:0 10px 30px rgba(201,150,46,.28)}
+.btn.gold:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(201,150,46,.4)}
+.btn.ghost{background:transparent;color:var(--white);border:1px solid rgba(255,255,255,.18)}
+.btn.ghost:hover{border-color:var(--gold);color:var(--gold-2);transform:translateY(-3px)}
+.btn.wa{background:#1f2a24;color:#eafff2;border:1px solid rgba(37,211,102,.4)}
+.btn.wa:hover{background:#25382e;transform:translateY(-3px)}
+.btn.wa svg{width:18px;height:18px;fill:#37e08a}
+
+/* HERO */
+.hero{position:relative;overflow:hidden}
+.hero-inner{display:grid;grid-template-columns:1.05fr .95fr;gap:54px;align-items:center;min-height:calc(100vh - 116px);padding:70px 0}
+.hero-copy{max-width:620px}
+.hero h1{font-family:"Archivo",sans-serif;font-weight:900;font-size:clamp(40px,5.6vw,74px);line-height:.98;letter-spacing:-2.2px;margin:22px 0 14px}
+.hero .slogan{font-family:"Fraunces",serif;font-style:italic;font-weight:500;font-size:clamp(22px,2.7vw,34px);line-height:1.15;margin-bottom:24px;color:var(--gold-3)}
+.hero .lead{font-size:18px;color:var(--gray);max-width:540px;margin-bottom:34px}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+.hero-trust{display:flex;gap:10px;flex-wrap:wrap;margin-top:30px}
+.hero-trust .chip{display:inline-flex;align-items:center;gap:8px;font-family:"Archivo";font-size:13px;font-weight:600;color:#dcdce1;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:9px 15px}
+.hero-trust .chip svg{width:15px;height:15px;fill:none;stroke:var(--gold-2);stroke-width:2.4}
+.hero-visual{position:relative}
+.hero-visual .frame{position:relative;border-radius:24px;overflow:hidden;border:1px solid var(--line-gold);box-shadow:0 40px 90px rgba(0,0,0,.6)}
+.hero-visual img{width:100%;height:540px;object-fit:cover;filter:contrast(1.05) saturate(1.05)}
+.hero-visual .ph-fallback{width:100%;height:540px;background:radial-gradient(120% 120% at 80% 0%,rgba(201,150,46,.28),transparent 55%),linear-gradient(160deg,#1d1d23,#101014)}
+.hero-visual .frame::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(8,8,10,.55))}
+.hero-visual .tagchip{position:absolute;left:22px;bottom:22px;z-index:2;background:rgba(8,8,10,.7);backdrop-filter:blur(8px);border:1px solid var(--line-gold);border-radius:14px;padding:13px 17px}
+.hero-visual .tagchip b{font-family:"Archivo";display:block;font-size:15px}
+.hero-visual .tagchip span{font-size:12.5px;color:var(--gray)}
+.hero-visual .glow{position:absolute;inset:-40px;z-index:-1;background:radial-gradient(closest-side,rgba(201,150,46,.25),transparent);filter:blur(20px)}
+
+/* STATS STRIP */
+.stats{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(255,255,255,.015)}
+.stats .container{display:grid;grid-template-columns:repeat(4,1fr);gap:1px}
+.stats .s{padding:34px 18px;text-align:center;position:relative}
+.stats .s+.s::before{content:"";position:absolute;left:0;top:24px;bottom:24px;width:1px;background:var(--line-2)}
+.stats .s strong{font-family:"Archivo";font-size:clamp(28px,3.4vw,40px);font-weight:800;display:block;letter-spacing:-1px}
+.stats .s span{font-size:12.5px;color:var(--gray-d);text-transform:uppercase;letter-spacing:.14em;font-family:"Archivo";font-weight:600}
+
+section{padding:96px 0;position:relative}
+.section-head{margin-bottom:50px;max-width:780px}
+.section-head.center{margin-left:auto;margin-right:auto;text-align:center}
+.section-head.center .eyebrow{justify-content:center}
+.section-head h2{font-family:"Archivo",sans-serif;font-weight:800;font-size:clamp(32px,4.2vw,52px);line-height:1.02;letter-spacing:-1.6px;margin:16px 0 14px}
+.section-head p{color:var(--gray);font-size:17px}
+
+/* JOBS */
+.jobs{display:grid;grid-template-columns:repeat(2,1fr);gap:30px}
+.job-card{background:linear-gradient(180deg,var(--card-hi),var(--card));border:1px solid var(--line);border-radius:24px;overflow:hidden;transition:transform .35s,border-color .35s,box-shadow .35s;display:flex;flex-direction:column}
+.job-card:hover{transform:translateY(-7px);border-color:var(--line-gold);box-shadow:0 30px 70px rgba(0,0,0,.5)}
+.job-card .ph{position:relative;height:240px;overflow:hidden;background:radial-gradient(120% 120% at 80% 0%,rgba(201,150,46,.22),transparent 55%),linear-gradient(160deg,#1d1d23,#101014)}
+.job-card .ph img{width:100%;height:100%;object-fit:cover;transition:transform .6s;filter:brightness(.82)}
+.job-card:hover .ph img{transform:scale(1.06)}
+.job-card .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(22,22,27,.9))}
+.job-card .ph .cat{position:absolute;top:18px;left:18px;z-index:2;font-family:"Archivo";font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;background:rgba(8,8,10,.62);backdrop-filter:blur(6px);border:1px solid var(--line-gold);color:var(--gold-2);padding:8px 14px;border-radius:999px}
+.job-body{padding:28px;display:flex;flex-direction:column;flex:1}
+.job-body h3{font-family:"Archivo",sans-serif;font-weight:800;font-size:24px;line-height:1.1;letter-spacing:-.6px;margin-bottom:10px}
+.job-body .salary{font-family:"Archivo";font-size:21px;font-weight:800;margin-bottom:20px}
+.job-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line-2);border:1px solid var(--line-2);border-radius:14px;overflow:hidden;margin-bottom:20px}
+.job-grid .cell{background:var(--card);padding:13px 15px}
+.job-grid .cell b{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-d);margin-bottom:3px;font-family:"Archivo"}
+.job-grid .cell span{font-size:14.5px;color:#e6e6ea;font-weight:600}
+.job-perks{list-style:none;margin-bottom:24px;display:grid;gap:9px}
+.job-perks li{display:flex;gap:11px;align-items:flex-start;color:#d6d6dc;font-size:14.5px}
+.job-perks li svg{flex:none;width:18px;height:18px;margin-top:2px;fill:none;stroke:var(--gold-2);stroke-width:2.4}
+.job-body .btn{margin-top:auto;width:100%}
+.empty-jobs{grid-column:1/-1;text-align:center;color:var(--gray);padding:60px 20px;border:1px dashed var(--line-gold);border-radius:20px}
+
+/* FEATURES */
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.feature{background:linear-gradient(180deg,var(--card-hi),var(--card));border:1px solid var(--line);border-radius:20px;padding:30px 28px;transition:transform .3s,border-color .3s}
+.feature:hover{transform:translateY(-5px);border-color:var(--line-gold)}
+.feature .ic{width:50px;height:50px;border-radius:13px;display:grid;place-items:center;background:rgba(201,150,46,.12);border:1px solid var(--line-gold);margin-bottom:18px}
+.feature .ic svg{width:24px;height:24px;fill:none;stroke:var(--gold-2);stroke-width:2}
+.feature h3{font-family:"Archivo";font-weight:700;font-size:19px;margin-bottom:9px;letter-spacing:-.4px}
+.feature p{color:var(--gray);font-size:15px}
+
+/* STEPS */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.step{background:linear-gradient(180deg,var(--card-hi),var(--card));border:1px solid var(--line);border-radius:22px;padding:34px 30px;position:relative;overflow:hidden}
+.step .num{font-family:"Fraunces",serif;font-style:italic;font-size:64px;line-height:1;margin-bottom:18px;opacity:.95}
+.step h3{font-family:"Archivo",sans-serif;font-weight:700;font-size:21px;margin-bottom:10px;letter-spacing:-.4px}
+.step p{color:var(--gray);font-size:15.5px}
+.step::before{content:"";position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,var(--gold),transparent)}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:54px;align-items:center}
+.about-copy p{color:#cfcfd6;font-size:16.5px;margin-bottom:16px}
+.about-copy .lead{font-size:19px;color:var(--white)}
+.about-points{list-style:none;display:grid;gap:14px;margin-top:8px}
+.about-points li{display:flex;gap:13px;align-items:flex-start;font-size:15.5px;color:#dcdce1}
+.about-points li svg{flex:none;width:20px;height:20px;margin-top:2px;fill:none;stroke:var(--gold-2);stroke-width:2.4}
+.about-visual{position:relative;border-radius:22px;overflow:hidden;border:1px solid var(--line-gold);box-shadow:0 30px 70px rgba(0,0,0,.5)}
+.about-visual img{width:100%;height:430px;object-fit:cover;filter:contrast(1.05)}
+.about-visual .ph-fallback{width:100%;height:430px;background:radial-gradient(120% 120% at 80% 0%,rgba(201,150,46,.25),transparent 55%),linear-gradient(160deg,#1d1d23,#101014)}
+
+/* FAQ */
+.faq{max-width:840px;margin:auto;display:grid;gap:14px}
+.faq details{background:linear-gradient(180deg,var(--card-hi),var(--card));border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:border-color .3s}
+.faq details[open]{border-color:var(--line-gold)}
+.faq summary{list-style:none;cursor:pointer;padding:22px 24px;font-family:"Archivo";font-weight:700;font-size:17px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary .pl{flex:none;width:24px;height:24px;position:relative;transition:transform .3s}
+.faq summary .pl::before,.faq summary .pl::after{content:"";position:absolute;background:var(--gold-2);border-radius:2px}
+.faq summary .pl::before{top:11px;left:3px;right:3px;height:2px}
+.faq summary .pl::after{left:11px;top:3px;bottom:3px;width:2px;transition:opacity .3s}
+.faq details[open] summary .pl::after{opacity:0}
+.faq .ans{padding:0 24px 22px;color:var(--gray);font-size:15.5px}
+
+/* APPLY */
+.apply{position:relative}
+.apply-grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:50px;align-items:start}
+.apply-copy .lead{font-size:17.5px;color:var(--gray);margin:18px 0 28px;max-width:440px}
+.contact-list{display:grid;gap:14px;margin-top:30px}
+.contact-list .ci{display:flex;gap:14px;align-items:center;padding:16px 18px;background:var(--card);border:1px solid var(--line);border-radius:14px}
+.contact-list .ci .ic{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;background:rgba(201,150,46,.13);border:1px solid var(--line-gold);flex:none}
+.contact-list .ci .ic svg{width:20px;height:20px;fill:none;stroke:var(--gold-2);stroke-width:2}
+.contact-list .ci b{font-family:"Archivo";font-size:15px;display:block}
+.contact-list .ci span{font-size:13.5px;color:var(--gray)}
+
+form{background:linear-gradient(180deg,var(--card-hi),var(--card));border:1px solid var(--line);border-radius:24px;padding:34px;box-shadow:0 30px 70px rgba(0,0,0,.4)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+label{display:block;font-family:"Archivo";font-weight:600;font-size:13px;letter-spacing:.04em;margin-bottom:8px;color:#dadadf}
+input,select,textarea{width:100%;background:var(--black);border:1px solid var(--line);color:var(--white);border-radius:12px;padding:14px 15px;margin-bottom:18px;font-size:15px;font-family:"Manrope";transition:border-color .2s,box-shadow .2s}
+input::placeholder,textarea::placeholder{color:#5d5d66}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,150,46,.13)}
+select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%23c9962e'%3E%3Cpath d='M7 10L2 4h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
+textarea{min-height:120px;resize:vertical}
+.form-note{font-size:12.5px;color:var(--gray-d);margin-top:4px}
+
+/* FOOTER */
+footer{border-top:1px solid var(--line);padding:64px 0 32px;background:var(--graphite)}
+.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:36px}
+.footer-grid .flogo{height:54px;width:auto;margin-bottom:14px}
+.footer-grid p{color:var(--gray);font-size:15px;max-width:340px}
+.footer-grid .slogan{font-family:"Fraunces",serif;font-style:italic;color:var(--gold-2);margin:6px 0 12px}
+footer h4{font-family:"Archivo";font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:#fff;margin-bottom:16px}
+footer .fl{display:grid;gap:10px}
+footer .fl a,footer .fl span{color:var(--gray);font-size:15px;transition:color .2s}
+footer .fl a:hover{color:var(--gold-2)}
+.copy{margin-top:46px;padding-top:24px;border-top:1px solid var(--line-2);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;color:var(--gray-d);font-size:13px}
+
+.floating-wa{position:fixed;right:22px;bottom:22px;z-index:999;width:60px;height:60px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 14px 36px rgba(37,211,102,.4);transition:transform .25s}
+.floating-wa:hover{transform:scale(1.08)}.floating-wa svg{width:30px;height:30px;fill:#fff}
+
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+
+@media(max-width:980px){
+  .navlinks{display:none}
+  .hero-inner{grid-template-columns:1fr;gap:36px}
+  .hero-visual{order:-1}
+  .hero-visual img,.hero-visual .ph-fallback{height:330px}
+  .stats .container{grid-template-columns:1fr 1fr}
+  .stats .s:nth-child(3)::before,.stats .s+.s::before{display:none}
+  .jobs,.features,.steps,.apply-grid,.about-grid,.footer-grid{grid-template-columns:1fr}
+  .about-visual{order:-1}
+  .nav{height:66px}
 }
-.nav{height:82px;display:flex;align-items:center;justify-content:space-between;gap:28px}
-.brand{display:flex;align-items:center;gap:12px;min-width:max-content}
-.brand-mark{width:48px;height:48px;border-radius:14px;background:#070d18;display:grid;place-items:center;overflow:hidden;box-shadow:0 8px 22px rgba(7,13,24,.12)}
-.brand-mark img{height:42px;width:42px;object-fit:contain;display:block}
-.brand-title{font-weight:900;font-size:22px;letter-spacing:-.8px;color:#101828;line-height:1}
-.brand-title span{color:#d39a26}
-.navlinks{display:flex;gap:30px;font-weight:700;font-size:14px;color:#344054}
-.navlinks a:hover{color:var(--gold-dark)}
-.nav-actions{display:flex;gap:12px;align-items:center}
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:9px;
-  min-height:50px;padding:0 23px;border-radius:13px;font-weight:800;font-size:15px;
-  border:1px solid transparent;transition:.2s ease;cursor:pointer;white-space:nowrap
-}
-.btn-primary{background:var(--gold);color:#111827;box-shadow:0 14px 30px rgba(211,154,38,.22)}
-.btn-primary:hover{background:var(--gold-dark);transform:translateY(-1px)}
-.btn-secondary{background:#fff;color:#111827;border-color:#d8dee8}
-.btn-secondary:hover{border-color:var(--gold);transform:translateY(-1px)}
-.btn-dark{background:var(--navy);color:#fff}
-.btn-dark:hover{background:#18233a;transform:translateY(-1px)}
-.hero{
-  position:relative;overflow:hidden;background:
-  radial-gradient(900px 420px at 78% 10%, rgba(211,154,38,.17), transparent 65%),
-  linear-gradient(135deg,#f4f7fc 0%,#ffffff 56%,#f7efe0 100%);
-}
-.hero .wrap{display:grid;grid-template-columns:.92fr 1.08fr;gap:56px;align-items:center;padding:86px 0 78px}
-.badge{
-  display:inline-flex;align-items:center;gap:10px;background:#fff7e3;border:1px solid #f0cc74;color:#805600;
-  padding:9px 14px;border-radius:999px;font-size:13px;font-weight:800;margin-bottom:22px
-}
-.badge::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--green)}
-h1{font-size:clamp(44px,6.2vw,76px);line-height:.96;letter-spacing:-3.2px;font-weight:900;color:#0b1220;margin-bottom:22px}
-.hero p{font-size:20px;color:#475467;max-width:620px;margin-bottom:26px}
-.hero-checks{display:flex;gap:12px;flex-wrap:wrap;margin:26px 0 32px}
-.hero-checks span{background:#fff;border:1px solid var(--line);border-radius:14px;padding:13px 16px;font-weight:800;box-shadow:0 10px 26px rgba(16,24,40,.05)}
-.hero-checks b{color:var(--gold-dark);margin-right:4px}
-.hero-actions{display:flex;gap:13px;flex-wrap:wrap}
-.hero-media{position:relative}
-.photo-card{background:#fff;padding:14px;border-radius:30px;box-shadow:var(--shadow);border:1px solid rgba(255,255,255,.75)}
-.photo-card img{width:100%;height:520px;object-fit:cover;border-radius:22px;object-position:center}
-.stat-card{position:absolute;left:-28px;bottom:35px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px 22px;box-shadow:var(--shadow)}
-.stat-card strong{display:block;font-size:31px;line-height:1;font-weight:900;color:#0b1220}
-.stat-card span{font-size:13px;color:#667085;font-weight:800}
-.section{padding:86px 0}
-.section.soft{background:var(--soft)}
-.section-head{max-width:740px;margin-bottom:38px}
-.kicker{color:var(--gold-dark);font-weight:900;text-transform:uppercase;letter-spacing:.14em;font-size:12px;margin-bottom:10px;display:block}
-h2{font-size:clamp(32px,4vw,50px);line-height:1.04;letter-spacing:-1.8px;color:#0b1220;margin-bottom:14px}
-.section-head p{font-size:18px;color:#667085}
-.jobs{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
-.job-card{background:#fff;border:1px solid var(--line);border-radius:24px;padding:28px;box-shadow:0 14px 36px rgba(16,24,40,.06);display:flex;flex-direction:column;gap:22px}
-.job-top{display:flex;justify-content:space-between;gap:18px;align-items:flex-start}
-.job-icon{width:58px;height:58px;border-radius:18px;background:#fff4d6;display:grid;place-items:center;font-size:30px;flex:none}
-.pill{font-size:12px;font-weight:900;color:#805600;background:#fff7e3;border:1px solid #f0cc74;padding:7px 10px;border-radius:999px;white-space:nowrap}
-.job-card h3{font-size:26px;line-height:1.14;letter-spacing:-.7px;color:#0b1220}
-.salary{font-size:23px;font-weight:900;color:var(--gold-dark)}
-.job-meta{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.job-meta div{background:#f8fafc;border:1px solid var(--line);border-radius:14px;padding:12px 14px}
-.job-meta small{display:block;color:#667085;font-weight:800;font-size:11px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px}
-.job-meta b{font-size:14px;color:#101828}
-.job-card .btn{width:100%;margin-top:auto}
-.advantages{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
-.adv{background:#fff;border:1px solid var(--line);border-radius:22px;padding:26px;box-shadow:0 14px 30px rgba(16,24,40,.05)}
-.adv .ico{width:44px;height:44px;border-radius:14px;background:#eef4ff;display:grid;place-items:center;font-size:22px;margin-bottom:18px}
-.adv h3{font-size:19px;margin-bottom:8px;color:#0b1220}.adv p{color:#667085;font-size:15px}
-.process{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;counter-reset:step}
-.step{background:var(--navy);color:#fff;border-radius:22px;padding:26px;position:relative;min-height:190px;overflow:hidden}
-.step::before{counter-increment:step;content:"0" counter(step);font-size:54px;font-weight:900;color:rgba(255,255,255,.12);position:absolute;right:18px;top:8px}
-.step h3{font-size:20px;margin-bottom:10px}.step p{color:#cbd5e1;font-size:15px}
-.about-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;align-items:center}
-.about-box{background:var(--navy);color:#fff;border-radius:28px;padding:36px;box-shadow:var(--shadow)}
-.about-box h2{color:#fff}.about-box p{color:#d7e3f4;font-size:17px;margin-bottom:15px}
-.about-list{display:grid;gap:14px}.about-list div{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px 22px}.about-list b{display:block;color:#0b1220;margin-bottom:4px}.about-list span{color:#667085}
-.faq{display:grid;grid-template-columns:1fr 1fr;gap:16px}.faq-item{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px}.faq-item h3{font-size:17px;margin-bottom:6px}.faq-item p{color:#667085;font-size:15px}
-.apply{background:linear-gradient(135deg,var(--navy),#17233a);color:#fff;border-radius:32px;padding:44px;display:grid;grid-template-columns:.9fr 1.1fr;gap:36px;align-items:start}
-.apply h2{color:#fff}.apply p{color:#d7e3f4;font-size:17px}.apply form{background:#fff;border-radius:24px;padding:26px;color:#101828}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-label{display:block;font-size:13px;font-weight:800;margin-bottom:7px;color:#344054}
-input,select,textarea{width:100%;border:1px solid #d8dee8;border-radius:13px;padding:13px 14px;font:inherit;margin-bottom:14px;background:#fff;color:#101828}
-textarea{min-height:110px;resize:vertical}input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 4px rgba(211,154,38,.12)}
-.form-note{font-size:12px;color:#667085;margin-top:8px}.apply button{width:100%}
-.footer{background:#070d18;color:#cbd5e1;padding:48px 0 26px}.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:34px}.footer .brand-title{color:#fff}.footer .footer-brand{margin-bottom:16px}.footer h4{color:#fff;margin-bottom:12px}.footer a,.footer span{display:block;color:#cbd5e1;margin-bottom:8px}.footer a:hover{color:#ffd277}.copy{border-top:1px solid rgba(255,255,255,.1);margin-top:30px;padding-top:20px;text-align:center;color:#94a3b8;font-size:13px}
-.floating-wa{position:fixed;right:22px;bottom:22px;z-index:100;width:58px;height:58px;border-radius:999px;background:#22c55e;color:#fff;display:grid;place-items:center;font-size:25px;box-shadow:0 16px 36px rgba(34,197,94,.35)}
-@media(max-width:980px){.topbar .inner{justify-content:center}.topbar .inner span:first-child{display:none}.navlinks{display:none}.nav{height:72px}.brand-mark{width:44px;height:44px}.brand-title{font-size:20px}.hero .wrap,.about-grid,.apply{grid-template-columns:1fr}.hero .wrap{padding:54px 0}.photo-card img{height:360px}.stat-card{left:18px;bottom:20px}.jobs,.advantages,.process,.faq,.footer-grid{grid-template-columns:1fr}.nav-actions .btn-secondary{display:none}h1{letter-spacing:-2px}.form-row{grid-template-columns:1fr}}
+@media(max-width:520px){.form-row{grid-template-columns:1fr}.job-grid{grid-template-columns:1fr}.stats .container{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
+
 <div class="topbar">
-  <div class="container inner">
-    <span>Recrutare specializată pentru șoferi în Germania</span>
-    <span><b>WhatsApp:</b> +49 170 304 4341</span>
-  </div>
+  <div class="container"><span class="dot"></span> Recrutăm <b>acum</b> pentru Germania — aplici online în câteva minute</div>
 </div>
-<header class="header">
+
+<header>
   <div class="container nav">
-    <a href="index.html" class="brand" aria-label="WeJobs.ro acasă">
-      <span class="brand-mark"><img src="assets/images/logo-wejobs-header.png" alt=""></span>
-      <span class="brand-title">WE<span>JOBS</span>.RO</span>
+    <a href="index.html" class="brand" aria-label="WeJobs.ro">
+      <span class="brand-name"><b>WE</b><span class="gold-text">JOBS</span><span class="ro">.RO</span></span>
     </a>
-    <nav class="navlinks" aria-label="Navigație principală">
+    <nav class="navlinks">
       <a href="#joburi">Joburi</a>
-      <a href="#avantaje">Avantaje</a>
-      <a href="#proces">Proces</a>
+      <a href="#de-ce-noi">De ce noi</a>
+      <a href="#cum-functioneaza">Cum funcționează</a>
       <a href="#despre">Despre</a>
-      <a href="#contact">Contact</a>
+      <a href="#intrebari">Întrebări</a>
     </nav>
-    <div class="nav-actions">
-      <a class="btn btn-secondary" target="_blank" href="https://wa.me/491703044341?text=Bun%C4%83%20ziua!%20Doresc%20detalii%20despre%20joburile%20pentru%20%C8%99oferi%20%C3%AEn%20Germania.">WhatsApp</a>
-      <a class="btn btn-primary" href="#contact">Aplică</a>
-    </div>
+    <a class="btn gold" href="#aplica">Aplică acum</a>
   </div>
 </header>
+
 <main>
 <section class="hero">
-  <div class="container wrap">
-    <div>
-      <span class="badge">Oferte active pentru Germania</span>
-      <h1>Locuri de muncă pentru șoferi în Germania</h1>
-      <p>Recrutăm șoferi categoria B, C și C+E pentru companii verificate. Primești informații clare, suport în limba română și un proces simplu de aplicare.</p>
-      <div class="hero-checks">
-        <span><b>✓</b>Contracte legale</span>
-        <span><b>✓</b>Angajatori verificați</span>
-        <span><b>✓</b>Suport în română</span>
-      </div>
+  <div class="container hero-inner">
+    <div class="hero-copy reveal">
+      <span class="eyebrow">Agenție de recrutare • România → Germania</span>
+      <h1>We<span class="gold-text">Jobs</span>.ro</h1>
+      <p class="slogan">Jobul potrivit începe aici.</p>
+      <p class="lead">Suntem agenția care te conectează cu angajatori verificați din Germania. Posturi cu contract legal, condiții clare și suport în limba română — de la aplicare până la prima zi de muncă.</p>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="#joburi">Vezi joburile</a>
-        <a class="btn btn-secondary" target="_blank" href="https://wa.me/491703044341?text=Bun%C4%83%20ziua!%20Vreau%20s%C4%83%20aplic%20pentru%20un%20job%20de%20%C8%99ofer%20%C3%AEn%20Germania.">Aplică pe WhatsApp</a>
+        <a href="#joburi" class="btn gold">Vezi joburile disponibile</a>
+        <a class="btn ghost" href="#cum-functioneaza">Cum funcționează</a>
+      </div>
+      <div class="hero-trust">
+        <span class="chip"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> Contract legal german</span>
+        <span class="chip"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> Suport în română</span>
+        <span class="chip"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> Angajatori verificați</span>
       </div>
     </div>
-    <div class="hero-media">
-      <div class="photo-card">
-        <img src="assets/images/hero-soferi-germania.webp.png" alt="Șoferi și vehicule de transport în Germania">
-      </div>
-      <div class="stat-card">
-        <strong>2</strong>
-        <span>oferte active acum</span>
-      </div>
-    </div>
-  </div>
-</section>
-<section id="joburi" class="section">
-  <div class="container">
-    <div class="section-head">
-      <span class="kicker">Joburi active</span>
-      <h2>Oferte disponibile acum</h2>
-      <p>Momentan ofertele active sunt pentru proiecte de transport și livrare în Germania. Platforma este construită pentru toate tipurile de șoferi, nu doar pentru un singur partener.</p>
-    </div>
-    <div class="jobs">
-      <article class="job-card">
-        <div class="job-top"><div class="job-icon">🚐</div><span class="pill">Categoria B</span></div>
-        <h3>Șofer Curier Germania</h3>
-        <div class="salary">2850 € brut / lună</div>
-        <div class="job-meta">
-          <div><small>Locații</small><b>Nürnberg / Nittenau</b></div>
-          <div><small>Permis</small><b>Categoria B</b></div>
-          <div><small>Tip job</small><b>Full-time</b></div>
-          <div><small>Țară</small><b>Germania</b></div>
+    <div class="hero-visual reveal">
+      <div class="glow"></div>
+      <div class="frame">
+        <img src="assets/images/hero-soferi-germania.webp.png" alt="Locuri de muncă în Germania" onerror="this.outerHTML='<div class=&quot;ph-fallback&quot;></div>'">
+        <div class="tagchip">
+          <b class="gold-text">Locuri verificate în Germania</b>
+          <span>Condiții transparente, prezentate clar</span>
         </div>
-        <a class="btn btn-dark" href="job-curier-amazon.html">Vezi oferta completă</a>
-      </article>
-      <article class="job-card">
-        <div class="job-top"><div class="job-icon">🚛</div><span class="pill">Categoria C+E</span></div>
-        <h3>Șofer Profesionist C+E Germania</h3>
-        <div class="salary">3000 – 3200 € net</div>
-        <div class="job-meta">
-          <div><small>Locație</small><b>Eggolsheim</b></div>
-          <div><small>Permis</small><b>C+E</b></div>
-          <div><small>Tip job</small><b>Full-time</b></div>
-          <div><small>Țară</small><b>Germania</b></div>
-        </div>
-        <a class="btn btn-dark" href="job-sofer-ce-amazon.html">Vezi oferta completă</a>
-      </article>
-    </div>
-  </div>
-</section>
-<section id="avantaje" class="section soft">
-  <div class="container">
-    <div class="section-head">
-      <span class="kicker">De ce WeJobs</span>
-      <h2>Recrutare simplă, clară și orientată către șoferi</h2>
-      <p>Nu promitem lucruri imposibile. Verificăm oferta, discutăm direct cu tine și îți explicăm pașii înainte să iei o decizie.</p>
-    </div>
-    <div class="advantages">
-      <div class="adv"><div class="ico">✅</div><h3>Oferte verificate</h3><p>Publicăm doar poziții pentru care avem informații clare despre salariu, locație și condiții.</p></div>
-      <div class="adv"><div class="ico">🇷🇴</div><h3>Suport în română</h3><p>Discuți în limba română înainte de aplicare, interviu și plecare.</p></div>
-      <div class="adv"><div class="ico">📄</div><h3>Proces transparent</h3><p>Îți explicăm ce acte sunt necesare, ce presupune jobul și care sunt pașii următori.</p></div>
-      <div class="adv"><div class="ico">🚚</div><h3>Specializare pe șoferi</h3><p>Ne concentrăm pe categoria B, C și C+E, nu pe recrutare generală.</p></div>
-    </div>
-  </div>
-</section>
-<section id="proces" class="section">
-  <div class="container">
-    <div class="section-head">
-      <span class="kicker">Cum funcționează</span>
-      <h2>Aplici rapid, apoi discutăm concret</h2>
-    </div>
-    <div class="process">
-      <div class="step"><h3>Alegi jobul</h3><p>Vezi ofertele active și alegi poziția potrivită pentru permisul și experiența ta.</p></div>
-      <div class="step"><h3>Aplici</h3><p>Completezi formularul sau trimiți mesaj direct pe WhatsApp.</p></div>
-      <div class="step"><h3>Verificăm profilul</h3><p>Discutăm despre experiență, acte, disponibilitate și preferințe.</p></div>
-      <div class="step"><h3>Primești pașii</h3><p>Dacă oferta se potrivește, primești detaliile pentru interviu și angajare.</p></div>
-    </div>
-  </div>
-</section>
-<section id="despre" class="section soft">
-  <div class="container about-grid">
-    <div class="about-box">
-      <span class="kicker">Despre WeJobs</span>
-      <h2>Platformă dedicată șoferilor care caută muncă în Germania</h2>
-      <p>WeJobs.ro este construită pentru candidații care vor informații clare, contact rapid și oferte verificate.</p>
-      <p>Astăzi avem oferte active în zona de livrare și transport, dar platforma este gândită pentru mai multe tipuri de șoferi: B, C, C+E, distribuție, curierat și transport profesionist.</p>
-      <a class="btn btn-primary" href="#contact">Trimite aplicația</a>
-    </div>
-    <div class="about-list">
-      <div><b>Pentru candidați</b><span>Aplicare simplă, suport în română și explicații clare înainte de orice decizie.</span></div>
-      <div><b>Pentru angajatori</b><span>Selecție de candidați interesați de joburi reale în Germania.</span></div>
-      <div><b>Focus clar</b><span>Nu suntem portal generalist. Ne concentrăm pe recrutare pentru șoferi.</span></div>
-    </div>
-  </div>
-</section>
-<section class="section">
-  <div class="container">
-    <div class="section-head">
-      <span class="kicker">Întrebări frecvente</span>
-      <h2>Informații utile înainte să aplici</h2>
-    </div>
-    <div class="faq">
-      <div class="faq-item"><h3>Trebuie să știu germană?</h3><p>Depinde de job. Pentru unele poziții este suficientă comunicarea de bază sau suportul în română/engleză.</p></div>
-      <div class="faq-item"><h3>Există comision pentru candidat?</h3><p>Procesul trebuie să fie clar înainte de aplicare. Nu accepta niciodată costuri ascunse sau promisiuni neconfirmate.</p></div>
-      <div class="faq-item"><h3>Se oferă cazare?</h3><p>Unele oferte pot include cazare sau opțiuni contra cost. Detaliile se confirmă pentru fiecare job.</p></div>
-      <div class="faq-item"><h3>Cât durează recrutarea?</h3><p>După aplicare, revenim pentru verificare. Timpul depinde de disponibilitatea candidatului și de procesul angajatorului.</p></div>
-    </div>
-  </div>
-</section>
-<section id="contact" class="section soft">
-  <div class="container">
-    <div class="apply">
-      <div>
-        <span class="kicker">Aplicare rapidă</span>
-        <h2>Vrei să lucrezi ca șofer în Germania?</h2>
-        <p>Completează formularul sau scrie direct pe WhatsApp. Te contactăm pentru verificarea profilului și pentru detalii despre ofertele active.</p>
-        <br>
-        <a class="btn btn-primary" target="_blank" href="https://wa.me/491703044341?text=Bun%C4%83%20ziua!%20Vreau%20s%C4%83%20aplic%20pentru%20un%20job%20de%20%C8%99ofer%20%C3%AEn%20Germania.">WhatsApp: +49 170 304 4341</a>
       </div>
-      <form action="https://formspree.io/f/mlgkrqjg" method="POST">
+    </div>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="container">
+    <div class="s reveal"><strong class="gold-text" id="meta-count">0</strong><span>Joburi active</span></div>
+    <div class="s reveal"><strong class="gold-text">Germania</strong><span>Țara de destinație</span></div>
+    <div class="s reveal"><strong class="gold-text">RO</strong><span>Suport în română</span></div>
+    <div class="s reveal"><strong class="gold-text">100%</strong><span>Contracte legale</span></div>
+  </div>
+</div>
+
+<section id="joburi">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Posturi active</span>
+      <h2>Joburi <span class="gold-text">disponibile</span></h2>
+      <p>Listăm doar pozițiile pentru care recrutăm acum. Alege postul, vezi oferta completă și aplică în câteva minute.</p>
+    </div>
+    <div class="jobs" id="jobs-container"></div>
+  </div>
+</section>
+
+<section id="de-ce-noi" style="background:rgba(255,255,255,.015);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="container">
+    <div class="section-head center reveal">
+      <span class="eyebrow">De ce WeJobs.ro</span>
+      <h2>O agenție care <span class="gold-text">chiar te susține</span></h2>
+      <p>Nu doar îți găsim un job — te însoțim la fiecare pas, în limba ta.</p>
+    </div>
+    <div class="features">
+      <div class="feature reveal">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+        <h3>Contract legal german</h3>
+        <p>Lucrezi cu forme legale, drepturi clare și un contract de muncă în Germania.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
+        <h3>Angajatori verificați</h3>
+        <p>Colaborăm doar cu firme reale din Germania, cu condiții pe care le confirmăm înainte.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M3 12h18"/><path d="M12 3a15 15 0 010 18"/><path d="M12 3a15 15 0 000 18"/><circle cx="12" cy="12" r="9"/></svg></div>
+        <h3>Suport în limba română</h3>
+        <p>Vorbim românește. Îți explicăm tot, de la aplicare până la pașii din Germania.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M3 7h18v13H3z"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div>
+        <h3>Condiții transparente</h3>
+        <p>Salariu, locație și program scrise clar în fiecare ofertă. Fără surprize.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9z"/></svg></div>
+        <h3>Proces rapid</h3>
+        <p>Aplici online în câteva minute și te contactăm pentru verificare și interviu.</p>
+      </div>
+      <div class="feature reveal">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/></svg></div>
+        <h3>Te însoțim la fiecare pas</h3>
+        <p>De la documente la prima zi de muncă, ești sprijinit de o echipă care răspunde.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cum-functioneaza">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Simplu și transparent</span>
+      <h2>Cum <span class="gold-text">funcționează</span></h2>
+      <p>Un proces clar, în trei pași. Fără conturi, fără pași complicați.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><div class="num gold-text">01</div><h3>Alegi jobul</h3><p>Vezi pozițiile active și deschizi oferta completă, cu salariu și condiții.</p></div>
+      <div class="step reveal"><div class="num gold-text">02</div><h3>Aplici online</h3><p>Completezi formularul sau ne scrii pe WhatsApp. Durează câteva minute.</p></div>
+      <div class="step reveal"><div class="num gold-text">03</div><h3>Te contactăm</h3><p>Revenim în limba română pentru verificare, interviu și pașii următori.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="despre" style="background:rgba(255,255,255,.015);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-copy reveal">
+        <span class="eyebrow">Despre noi</span>
+        <h2 style="font-family:'Archivo';font-weight:800;font-size:clamp(30px,4vw,46px);letter-spacing:-1.4px;line-height:1.04;margin:16px 0 18px;">Recrutare făcută <span class="gold-text">corect</span></h2>
+        <p class="lead">WeJobs.ro este agenția de recrutare care aduce candidați din România mai aproape de locuri de muncă bune în Germania.</p>
+        <p>Punem accent pe lucruri simple, dar importante: oferte reale, condiții scrise clar și comunicare în limba română. Vrem ca decizia ta de a pleca la muncă să fie una sigură și informată.</p>
+        <ul class="about-points">
+          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Oferte verificate, cu detalii reale despre salariu și program</li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Comunicare directă, în română, pe tot parcursul</li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Sprijin la documente și la integrarea în Germania</li>
+        </ul>
+      </div>
+      <div class="about-visual reveal">
+        <img src="assets/images/hero-soferi-germania.webp.png" alt="WeJobs.ro recrutare Germania" onerror="this.outerHTML='<div class=&quot;ph-fallback&quot;></div>'">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="intrebari">
+  <div class="container">
+    <div class="section-head center reveal">
+      <span class="eyebrow">Întrebări frecvente</span>
+      <h2>Ce trebuie să <span class="gold-text">știi</span></h2>
+      <p>Cele mai des întâlnite întrebări de la candidați.</p>
+    </div>
+    <div class="faq reveal">
+      <details><summary>Cum aplic la un job? <span class="pl"></span></summary><div class="ans">Alegi postul dorit, apeși „Aplică" și completezi formularul (nume, telefon, email). Te contactăm noi în limba română. Nu ai nevoie de niciun cont.</div></details>
+      <details><summary>Am nevoie să știu germană? <span class="pl"></span></summary><div class="ans">Depinde de post. La unele poziții cunoștințele de germană sau engleză sunt un avantaj, dar nu mereu obligatorii. Cerințele exacte sunt scrise în fiecare ofertă.</div></details>
+      <details><summary>Contractul este legal? <span class="pl"></span></summary><div class="ans">Da. Posturile pe care le prezentăm sunt cu contract de muncă în Germania, cu forme legale și condiții confirmate înainte.</div></details>
+      <details><summary>Există cazare? <span class="pl"></span></summary><div class="ans">La o parte din posturi cazarea este disponibilă (în unele cazuri contra cost). Detaliile apar în fiecare ofertă și ți le confirmăm la interviu.</div></details>
+      <details><summary>Cât durează procesul? <span class="pl"></span></summary><div class="ans">După ce aplici, te contactăm pentru verificare și interviu. De acolo stabilim împreună pașii următori și data plecării, în funcție de post.</div></details>
+    </div>
+  </div>
+</section>
+
+<section id="aplica" class="apply" style="background:rgba(255,255,255,.015);border-top:1px solid var(--line)">
+  <div class="container">
+    <div class="apply-grid">
+      <div class="apply-copy reveal" id="contact">
+        <span class="eyebrow">Aplicare rapidă</span>
+        <h2 style="font-family:'Archivo';font-weight:800;font-size:clamp(32px,4vw,48px);line-height:1.02;letter-spacing:-1.4px;margin:16px 0 0;">Aplică pentru <span class="gold-text">un job</span></h2>
+        <p class="lead">Completează formularul, iar aplicația ajunge direct la noi. Te contactăm pentru verificare și interviu.</p>
+        <div class="contact-list">
+          <div class="ci"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 5h18v14H3z"/><path d="M3 7l9 6 9-6"/></svg></div><div><b>Aplicare online</b><span>Formular trimis direct echipei noastre</span></div></div>
+          <div class="ci"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div><div><b>Locații în Germania</b><span>Posturi verificate, condiții clare</span></div></div>
+        </div>
+      </div>
+
+      <form id="apply-form" method="POST">
         <div class="form-row">
           <div><label for="nume">Nume complet</label><input id="nume" type="text" name="nume" required placeholder="Ex: Popescu Ion"></div>
           <div><label for="telefon">Telefon</label><input id="telefon" type="tel" name="telefon" required placeholder="Ex: +40..."></div>
         </div>
-        <label for="email">Email</label><input id="email" type="email" name="email" required placeholder="email@exemplu.com">
+        <label for="email">Email</label>
+        <input id="email" type="email" name="email" required placeholder="email@exemplu.com">
         <label for="post">Post dorit</label>
-        <select id="post" name="post_dorit" required>
-          <option value="">Alege postul</option>
-          <option>Șofer Curier Germania - Categoria B</option>
-          <option>Șofer Profesionist C+E Germania</option>
-          <option>Alt tip de job pentru șofer</option>
-        </select>
+        <select id="post" name="post_dorit" required><option value="">Alege postul</option></select>
         <label for="exp">Experiență</label>
         <select id="exp" name="experienta" required>
           <option value="">Alege experiența</option>
           <option>Sub 1 an</option><option>1-2 ani</option><option>2-5 ani</option><option>Peste 5 ani</option>
         </select>
-        <label for="mesaj">Mesaj</label><textarea id="mesaj" name="mesaj" placeholder="Scrie ce permis ai, ce experiență ai și când poți începe..."></textarea>
-        <input type="hidden" name="_subject" value="Aplicație nouă WeJobs.ro - Șofer Germania">
-        <button class="btn btn-primary" type="submit">Trimite aplicația</button>
-        <p class="form-note">Prin trimitere, ești de acord să fii contactat pentru procesul de recrutare.</p>
+        <label for="mesaj">Mesaj</label>
+        <textarea id="mesaj" name="mesaj" placeholder="Scrie câteva detalii despre tine..."></textarea>
+        <input type="hidden" name="aplicat_de_pe" value="Pagina principală (formular general)">
+        <input type="hidden" name="_subject" value="Aplicație nouă WeJobs.ro">
+        <button class="btn gold" type="submit" style="width:100%;">Trimite aplicația</button>
+        <p class="form-note">Prin trimitere, ești de acord să fii contactat de echipa WeJobs.ro.</p>
       </form>
     </div>
   </div>
 </section>
 </main>
-<footer class="footer">
+
+<footer>
   <div class="container">
     <div class="footer-grid">
       <div>
-        <a href="index.html" class="brand footer-brand" aria-label="WeJobs.ro acasă">
-          <span class="brand-mark"><img src="assets/images/logo-wejobs-header.png" alt=""></span>
-          <span class="brand-title">WE<span>JOBS</span>.RO</span>
-        </a>
-        <p>Recrutare specializată pentru șoferi care caută locuri de muncă în Germania.</p>
+        <a href="index.html" class="brand" style="margin-bottom:14px"><span class="brand-name" style="font-size:28px"><b>WE</b><span class="gold-text">JOBS</span><span class="ro">.RO</span></span></a>
+        <p class="slogan">Jobul potrivit începe aici.</p>
+        <p>Agenție de recrutare pentru candidați din România, cu locuri de muncă verificate în Germania și suport în limba română.</p>
       </div>
-      <div><h4>Joburi</h4><a href="job-curier-amazon.html">Șofer Curier Germania</a><a href="job-sofer-ce-amazon.html">Șofer Profesionist C+E</a><a href="#contact">Aplică online</a></div>
-      <div><h4>Contact</h4><a target="_blank" href="https://wa.me/491703044341">WhatsApp: +49 170 304 4341</a><span>Formular online prin WeJobs.ro</span></div>
+      <div>
+        <h4>Navigare</h4>
+        <div class="fl" id="footer-jobs"></div>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <div class="fl">
+          <a target="_blank" id="wa-footer" href="#">Scrie-ne pe WhatsApp</a>
+          <a href="#aplica">Aplică online</a>
+          <span>Suport în limba română</span>
+        </div>
+      </div>
     </div>
-    <div class="copy">© 2026 WeJobs.ro. Toate drepturile rezervate.</div>
+    <div class="copy">
+      <span>© 2026 WeJobs.ro. Toate drepturile rezervate.</span>
+      <span>Recrutare România → Germania</span>
+    </div>
   </div>
 </footer>
-<a class="floating-wa" target="_blank" aria-label="WhatsApp" href="https://wa.me/491703044341?text=Bun%C4%83%20ziua!%20Vreau%20detalii%20despre%20joburile%20pentru%20%C8%99oferi%20%C3%AEn%20Germania.">☎</a>
+
+<a class="floating-wa" id="wa-float" target="_blank" aria-label="WhatsApp" href="#">
+  <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.821 11.821 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.515 5.26l-.999 3.648 3.973-1.041zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+</a>
+
+<!-- Supabase (bază de date) + configurare + strat de date -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="db.js"></script>
+<script>
+  const esc = s => String(s==null?"":s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const checkSvg = '<svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>';
+  const waBase = txt => `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(txt)}`;
+
+  document.getElementById('wa-float').href  = waBase("Bună ziua! Am văzut site-ul WeJobs.ro și doresc detalii despre joburi.");
+  document.getElementById('wa-footer').href = waBase("Bună ziua! Doresc informații despre joburile disponibile pe WeJobs.ro");
+  document.getElementById('apply-form').action = CONFIG.formspree;
+
+  function renderJobs(active){
+    const cont = document.getElementById('jobs-container');
+    if (!active.length){
+      cont.innerHTML = '<div class="empty-jobs">Momentan nu sunt joburi active. Revino curând!</div>';
+    } else {
+      cont.innerHTML = active.map(j => {
+        const f = j.facts || {};
+        const cells = [['Locații',f.locatii],['Permis',f.permis],['Tip job',f.tip],['Țară',f.tara]]
+          .filter(c=>c[1]).map(c=>`<div class="cell"><b>${esc(c[0])}</b><span>${esc(c[1])}</span></div>`).join('');
+        const perks = (j.perks||[]).map(p=>`<li>${checkSvg}${esc(p)}</li>`).join('');
+        const img = j.image ? `<img src="${esc(j.image)}" alt="${esc(j.title)}" onerror="this.style.display='none'">` : '';
+        return `<article class="job-card reveal">
+          <div class="ph">${j.category?`<span class="cat">${esc(j.category)}</span>`:''}${img}</div>
+          <div class="job-body">
+            <h3>${esc(j.title)}</h3>
+            ${j.salary?`<div class="salary gold-text">${esc(j.salary)}</div>`:''}
+            ${cells?`<div class="job-grid">${cells}</div>`:''}
+            ${perks?`<ul class="job-perks">${perks}</ul>`:''}
+            <a class="btn gold" href="job.html?id=${encodeURIComponent(j.id)}">Vezi oferta completă</a>
+          </div>
+        </article>`;
+      }).join('');
+    }
+    document.getElementById('meta-count').textContent = active.length;
+    document.getElementById('footer-jobs').innerHTML =
+      active.map(j=>`<a href="job.html?id=${encodeURIComponent(j.id)}">${esc(j.title)}</a>`).join('')
+      + '<a href="#joburi">Toate joburile</a>';
+    const sel = document.getElementById('post');
+    active.forEach(j=>{ const o=document.createElement('option'); o.value=j.title; o.textContent=j.title; sel.appendChild(o); });
+    const io = new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
+    document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%3*0.06)+'s';io.observe(el);});
+  }
+
+  (async () => {
+    try { renderJobs(await WeJobs.getJobs()); }
+    catch (e) { console.error(e); renderJobs((typeof FALLBACK_JOBS!=='undefined'?FALLBACK_JOBS:[]).filter(j=>j.active!==false)); }
+  })();
+</script>
 </body>
 </html>
