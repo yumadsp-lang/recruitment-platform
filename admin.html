@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Administrare | WeJobs.ro</title>
+<meta name="robots" content="noindex,nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#08080a;--card:#16161b;--card-hi:#1d1d23;--line:rgba(255,255,255,.08);--line-2:rgba(255,255,255,.05);
+  --line-gold:rgba(201,150,46,.34);--gold:#c9962e;--gold-2:#e7c876;--white:#f4f3ef;--gray:#a3a3ab;--gray-d:#6d6d76;
+  --green:#37e08a;--red:#ff6b6b;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Manrope",system-ui,sans-serif;background:var(--black);color:var(--white);line-height:1.6;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(900px 600px at 82% -8%,rgba(201,150,46,.14),transparent 60%),linear-gradient(180deg,#08080a,#0b0b0e 40%,#08080a)}
+a{color:var(--gold-2)}
+.container{width:min(1080px,94%);margin:auto;padding:30px 0 80px}
+.gold-text{background:linear-gradient(100deg,#9a7322,#e7c876 34%,#f8eecb 50%,#c9962e 68%,#8a6418);-webkit-background-clip:text;background-clip:text;color:transparent}
+.eyebrow{font-family:"Archivo";text-transform:uppercase;letter-spacing:.3em;font-size:11px;font-weight:700;color:var(--gold-2)}
+.brand{display:flex;align-items:center;gap:12px}
+.brand img{width:40px;height:40px;object-fit:contain}
+.brand-name{font-family:"Archivo";font-weight:900;font-size:19px;letter-spacing:-.5px}
+.brand-name .ro{font-size:12px;color:var(--gold-2);vertical-align:super}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:26px}
+h1{font-family:"Archivo";font-weight:900;font-size:clamp(26px,4vw,38px);letter-spacing:-1.2px;margin:10px 0 4px}
+.lead{color:var(--gray);max-width:680px}
+.card{background:linear-gradient(180deg,var(--card-hi),var(--card));border:1px solid var(--line);border-radius:18px;padding:24px;margin-bottom:18px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:"Archivo";font-weight:700;font-size:14px;border:0;cursor:pointer;border-radius:10px;padding:12px 20px;transition:transform .2s,box-shadow .2s,background .2s}
+.btn.gold{background:linear-gradient(135deg,#e7c876,#c9962e 55%,#a9781f);color:#10100a;box-shadow:0 8px 24px rgba(201,150,46,.26)}
+.btn.gold:hover{transform:translateY(-2px)}
+.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.18);color:var(--white)}
+.btn.ghost:hover{border-color:var(--gold);color:var(--gold-2)}
+.btn.sm{padding:9px 14px;font-size:13px;border-radius:9px}
+.btn.danger{background:transparent;border:1px solid rgba(255,107,107,.4);color:#ff9a9a}
+.btn.danger:hover{background:rgba(255,107,107,.12)}
+label{display:block;font-family:"Archivo";font-weight:600;font-size:12.5px;letter-spacing:.03em;margin-bottom:7px;color:#dadadf}
+.field{margin-bottom:15px}
+input,textarea{width:100%;background:var(--black);border:1px solid var(--line);color:var(--white);border-radius:10px;padding:12px 14px;font-size:14.5px;font-family:"Manrope"}
+input:focus,textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,150,46,.12)}
+input:disabled{opacity:.55;cursor:not-allowed}
+textarea{min-height:84px;resize:vertical}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.check{display:flex;align-items:center;gap:10px;font-family:"Archivo";font-size:14px;color:#dcdce1}
+.check input{width:auto}
+.hide{display:none!important}
+.msg{padding:12px 15px;border-radius:11px;font-size:14px;margin-bottom:14px}
+.msg.err{background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.4);color:#ffb4b4}
+.msg.ok{background:rgba(55,224,138,.1);border:1px solid rgba(55,224,138,.4);color:#a9f5cf}
+.msg.info{background:rgba(201,150,46,.08);border:1px solid var(--line-gold);color:#f0dca6}
+
+/* login */
+.login-wrap{max-width:420px;margin:8vh auto 0}
+.login-wrap .card{padding:32px}
+
+/* listă joburi */
+.joblist{display:grid;gap:12px}
+.jobrow{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.jobrow .info{flex:1;min-width:0}
+.jobrow .info b{font-family:"Archivo";font-size:15.5px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jobrow .info span{font-size:13px;color:var(--gray)}
+.pill{font-family:"Archivo";font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:5px 11px;border-radius:999px;white-space:nowrap}
+.pill.on{background:rgba(55,224,138,.13);border:1px solid rgba(55,224,138,.4);color:#9af5c9}
+.pill.off{background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--gray)}
+.jobrow .acts{display:flex;gap:8px;flex-wrap:wrap}
+.steps{counter-reset:s;display:grid;gap:11px;margin-top:8px}
+.steps li{list-style:none;display:flex;gap:13px;align-items:flex-start;color:#d4d4da;font-size:14.5px}
+.steps li::before{counter-increment:s;content:counter(s);flex:none;width:25px;height:25px;border-radius:50%;display:grid;place-items:center;font-family:"Archivo";font-weight:800;font-size:12.5px;background:rgba(201,150,46,.13);border:1px solid var(--line-gold);color:var(--gold-2)}
+code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7px;border-radius:6px;font-size:13px}
+.sectiontitle{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.sectiontitle h2{font-family:"Archivo";font-weight:800;font-size:22px;letter-spacing:-.6px}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:#1f2a24;border:1px solid rgba(37,211,102,.5);color:#eafff2;padding:13px 22px;border-radius:12px;font-family:"Archivo";font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:.3s;z-index:50}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:640px){.grid2,.grid4{grid-template-columns:1fr}.jobrow{flex-wrap:wrap}}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="topbar">
+    <div class="brand">
+      <img src="assets/images/logo-wejobs-header.png" alt="WeJobs.ro" onerror="this.style.display='none'">
+      <span class="brand-name"><b>WE</b><span class="gold-text">JOBS</span><span class="ro">.RO</span></span>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center">
+      <a class="btn ghost sm" href="index.html" target="_blank">Vezi site-ul ↗</a>
+      <button class="btn ghost sm hide" id="logout-btn" onclick="doLogout()">Deconectare</button>
+    </div>
+  </div>
+
+  <!-- ECRAN: SUPABASE NECONFIGURAT -->
+  <div id="screen-setup" class="hide">
+    <span class="eyebrow">Configurare necesară</span>
+    <h1>Aproape <span class="gold-text">gata</span></h1>
+    <p class="lead">Panoul de administrare are nevoie de o bază de date Supabase (gratuită). Durează ~5 minute, o singură dată.</p>
+    <div class="card" style="margin-top:18px">
+      <ol class="steps">
+        <li>Creează cont gratuit pe <a href="https://supabase.com" target="_blank">supabase.com</a> și apasă „New project".</li>
+        <li>În <b>SQL Editor</b>, lipește tot conținutul fișierului <code>supabase-setup.sql</code> și apasă <b>Run</b>.</li>
+        <li>Mergi la <b>Project Settings → API</b> și copiază <b>Project URL</b> și cheia <b>anon public</b>.</li>
+        <li>Deschide <code>config.js</code> și pune-le la <code>supabaseUrl</code> și <code>supabaseKey</code>.</li>
+        <li>Mergi la <b>Authentication → Users → Add user</b> și creează-ți contul tău (email + parolă).</li>
+        <li>Reîncarcă această pagină și loghează-te.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- ECRAN: LOGARE -->
+  <div id="screen-login" class="hide">
+    <div class="login-wrap">
+      <div class="card">
+        <span class="eyebrow">Acces administrator</span>
+        <h1 style="font-size:26px;margin:8px 0 18px">Conectare</h1>
+        <div id="login-msg"></div>
+        <div class="field"><label>Email</label><input id="login-email" type="email" autocomplete="username" placeholder="email@exemplu.com"></div>
+        <div class="field"><label>Parolă</label><input id="login-pass" type="password" autocomplete="current-password" placeholder="••••••••"></div>
+        <button class="btn gold" style="width:100%" onclick="doLogin()">Conectare</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ECRAN: PANOU -->
+  <div id="screen-dash" class="hide">
+    <span class="eyebrow">Panou administrare</span>
+    <h1>Joburile <span class="gold-text">tale</span></h1>
+    <p class="lead">Adaugă, modifică, ascunde sau șterge joburi. Modificările apar instant pe site.</p>
+
+    <div id="dash-msg" style="margin-top:16px"></div>
+
+    <!-- LISTA -->
+    <div id="view-list">
+      <div class="sectiontitle" style="margin-top:18px">
+        <h2>Toate joburile</h2>
+        <button class="btn gold" onclick="openEditor()">+ Job nou</button>
+      </div>
+      <div class="joblist" id="joblist"></div>
+    </div>
+
+    <!-- EDITOR -->
+    <div id="view-editor" class="hide">
+      <div class="sectiontitle" style="margin-top:18px">
+        <h2 id="editor-title">Job nou</h2>
+        <button class="btn ghost" onclick="closeEditor()">← Înapoi la listă</button>
+      </div>
+      <div id="editor-msg"></div>
+
+      <div class="card">
+        <div class="field"><label>Titlul jobului *</label><input id="f-title" placeholder="Ex: Șofer TIR Internațional"></div>
+        <div class="grid2">
+          <div class="field"><label>ID (link) — se generează automat la job nou</label><input id="f-id" placeholder="ex: sofer-tir-international"></div>
+          <div class="field"><label>Categorie / etichetă</label><input id="f-category" placeholder="Ex: Categoria C+E"></div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label>Salariu</label><input id="f-salary" placeholder="Ex: 2800 € net / lună"></div>
+          <div class="field"><label>Poză (nume fișier sau link) — opțional</label><input id="f-image" placeholder="Ex: camion.png"></div>
+        </div>
+        <div class="grid2">
+          <label class="check"><input type="checkbox" id="f-active" checked> Job activ (vizibil pe site)</label>
+          <div class="field"><label>Ordine (mic = mai sus)</label><input id="f-sort" type="number" value="0"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <label style="margin-bottom:14px">Detalii rapide (cele 4 căsuțe)</label>
+        <div class="grid4">
+          <div class="field"><label>Locații</label><input id="f-locatii" placeholder="München"></div>
+          <div class="field"><label>Permis</label><input id="f-permis" placeholder="C+E"></div>
+          <div class="field"><label>Tip job</label><input id="f-tip" placeholder="Full-time"></div>
+          <div class="field"><label>Țară</label><input id="f-tara" placeholder="Germania"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="field"><label>3 beneficii scurte (pe card) — un rând fiecare</label><textarea id="f-perks" placeholder="Contract legal&#10;Cazare disponibilă&#10;Program stabil"></textarea></div>
+        <div class="field"><label>Descriere (paragraf)</label><textarea id="f-intro" placeholder="Câteva fraze despre job..."></textarea></div>
+        <div class="field"><label>Responsabilități — un rând fiecare</label><textarea id="f-responsibilities"></textarea></div>
+        <div class="field"><label>Cerințe — un rând fiecare</label><textarea id="f-requirements"></textarea></div>
+        <div class="field"><label>Ce oferim — un rând fiecare</label><textarea id="f-offer"></textarea></div>
+      </div>
+
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <button class="btn gold" onclick="saveJob()">💾 Salvează jobul</button>
+        <button class="btn ghost" onclick="closeEditor()">Anulează</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast">Salvat ✓</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="db.js"></script>
+<script>
+  const $ = id => document.getElementById(id);
+  const show = id => $(id).classList.remove('hide');
+  const hide = id => $(id).classList.add('hide');
+  const lines = v => v.split('\n').map(s=>s.trim()).filter(Boolean);
+  const toLines = a => (a||[]).join('\n');
+  const slug = s => s.toLowerCase().replace(/ă|â/g,'a').replace(/î/g,'i').replace(/ș|ş/g,'s').replace(/ț|ţ/g,'t').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+  function msg(el,type,text){ $(el).innerHTML = text ? `<div class="msg ${type}">${text}</div>` : ''; }
+  function toast(t){ const el=$('toast'); el.textContent=t; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),1900); }
+
+  let editingId = null; // null = job nou
+
+  // ---- pornire ----
+  (async () => {
+    if (!WeJobs.isConfigured()) { show('screen-setup'); return; }
+    const session = await WeJobs.getSession();
+    if (session) enterDashboard(); else show('screen-login');
+  })();
+
+  // ID auto din titlu doar la job nou
+  $('f-title').addEventListener('input', ()=>{ if(editingId===null) $('f-id').value = slug($('f-title').value); });
+
+  async function doLogin(){
+    msg('login-msg','',''); 
+    const email=$('login-email').value.trim(), pass=$('login-pass').value;
+    if(!email||!pass){ msg('login-msg','err','Completează emailul și parola.'); return; }
+    try{ await WeJobs.signIn(email,pass); enterDashboard(); }
+    catch(e){ msg('login-msg','err','Date de conectare greșite. Încearcă din nou.'); }
+  }
+  async function doLogout(){ await WeJobs.signOut(); location.reload(); }
+
+  async function enterDashboard(){
+    hide('screen-login'); hide('screen-setup'); show('screen-dash'); show('logout-btn');
+    await refreshList();
+  }
+
+  async function refreshList(){
+    msg('dash-msg','','');
+    let jobs=[];
+    try{ jobs = await WeJobs.getAllJobs(); }
+    catch(e){ msg('dash-msg','err','Nu am putut încărca joburile. Verifică setarea Supabase și că ești logat.'); return; }
+    const el=$('joblist');
+    if(!jobs.length){ el.innerHTML='<div class="msg info">Nu există încă niciun job. Apasă „+ Job nou".</div>'; return; }
+    el.innerHTML = jobs.map(j=>`
+      <div class="jobrow">
+        <span class="pill ${j.active?'on':'off'}">${j.active?'Activ':'Ascuns'}</span>
+        <div class="info"><b>${escapeHtml(j.title)}</b><span>${escapeHtml([j.category,j.salary].filter(Boolean).join(' • ')||j.id)}</span></div>
+        <div class="acts">
+          <button class="btn ghost sm" onclick="editJob('${encodeURIComponent(j.id)}')">Editează</button>
+          <button class="btn ghost sm" onclick="toggleActive('${encodeURIComponent(j.id)}')">${j.active?'Ascunde':'Activează'}</button>
+          <button class="btn danger sm" onclick="removeJob('${encodeURIComponent(j.id)}')">Șterge</button>
+        </div>
+      </div>`).join('');
+  }
+  function escapeHtml(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+  // cache local pentru editare
+  let cache = [];
+  async function loadCache(){ cache = await WeJobs.getAllJobs(); }
+
+  function openEditor(job){
+    editingId = job ? job.id : null;
+    $('editor-title').textContent = job ? 'Editează: '+job.title : 'Job nou';
+    $('f-id').disabled = !!job; // ID-ul nu se schimbă la editare
+    $('f-title').value = job?job.title||'':'';
+    $('f-id').value = job?job.id||'':'';
+    $('f-category').value = job?job.category||'':'';
+    $('f-salary').value = job?job.salary||'':'';
+    $('f-image').value = job?job.image||'':'';
+    $('f-active').checked = job?job.active!==false:true;
+    $('f-sort').value = job?(job.sort||0):0;
+    const f = (job&&job.facts)||{};
+    $('f-locatii').value=f.locatii||''; $('f-permis').value=f.permis||''; $('f-tip').value=f.tip||''; $('f-tara').value=f.tara||'';
+    $('f-perks').value = toLines(job&&job.perks);
+    $('f-intro').value = job?job.intro||'':'';
+    $('f-responsibilities').value = toLines(job&&job.responsibilities);
+    $('f-requirements').value = toLines(job&&job.requirements);
+    $('f-offer').value = toLines(job&&job.offer);
+    msg('editor-msg','','');
+    hide('view-list'); show('view-editor'); window.scrollTo({top:0,behavior:'smooth'});
+  }
+  function closeEditor(){ hide('view-editor'); show('view-list'); }
+
+  async function editJob(encId){
+    const id=decodeURIComponent(encId);
+    if(!cache.length){ try{ await loadCache(); }catch(e){} }
+    const job = cache.find(j=>j.id===id);
+    if(job) openEditor(job); else { try{ const j=await WeJobs.getJob(id); openEditor(j); }catch(e){ msg('dash-msg','err','Nu am găsit jobul.'); } }
+  }
+
+  async function saveJob(){
+    const title=$('f-title').value.trim();
+    if(!title){ msg('editor-msg','err','Scrie cel puțin titlul jobului.'); return; }
+    let id = ($('f-id').value.trim() || slug(title));
+    const job = {
+      id, active: $('f-active').checked, title,
+      category: $('f-category').value.trim(), salary: $('f-salary').value.trim(),
+      image: $('f-image').value.trim(),
+      facts: { locatii:$('f-locatii').value.trim(), permis:$('f-permis').value.trim(), tip:$('f-tip').value.trim(), tara:$('f-tara').value.trim() },
+      perks: lines($('f-perks').value), intro: $('f-intro').value.trim(),
+      responsibilities: lines($('f-responsibilities').value),
+      requirements: lines($('f-requirements').value),
+      offer: lines($('f-offer').value),
+      sort: parseInt($('f-sort').value,10)||0
+    };
+    try{
+      await WeJobs.saveJob(job);
+      await loadCache(); await refreshList();
+      closeEditor(); toast('Job salvat ✓');
+    }catch(e){ msg('editor-msg','err','Eroare la salvare: '+(e.message||e)); }
+  }
+
+  async function toggleActive(encId){
+    const id=decodeURIComponent(encId);
+    try{
+      if(!cache.length) await loadCache();
+      const job = cache.find(j=>j.id===id); if(!job) return;
+      job.active = !job.active;
+      await WeJobs.saveJob(job);
+      await loadCache(); await refreshList();
+      toast(job.active?'Job activat ✓':'Job ascuns ✓');
+    }catch(e){ msg('dash-msg','err','Eroare: '+(e.message||e)); }
+  }
+
+  async function removeJob(encId){
+    const id=decodeURIComponent(encId);
+    if(!confirm('Sigur ștergi acest job? Acțiunea nu poate fi anulată.')) return;
+    try{ await WeJobs.deleteJob(id); await loadCache(); await refreshList(); toast('Job șters ✓'); }
+    catch(e){ msg('dash-msg','err','Eroare la ștergere: '+(e.message||e)); }
+  }
+</script>
+</body>
+</html>
