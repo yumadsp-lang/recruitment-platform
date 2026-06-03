@@ -42,6 +42,12 @@ label{display:block;font-family:"Archivo";font-weight:600;font-size:12.5px;lette
 input,textarea{width:100%;background:var(--black);border:1px solid var(--line);color:var(--white);border-radius:10px;padding:12px 14px;font-size:14.5px;font-family:"Manrope"}
 input:focus,textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,150,46,.12)}
 input:disabled{opacity:.55;cursor:not-allowed}
+.img-row{display:flex;gap:16px;align-items:flex-start}
+.img-preview{flex:none;width:120px;height:90px;border-radius:12px;border:1px solid var(--line);background:linear-gradient(160deg,#1d1d23,#101014);overflow:hidden;display:grid;place-items:center}
+.img-preview img{width:100%;height:100%;object-fit:cover}
+.img-preview span{font-family:"Archivo";font-size:11px;color:var(--gray-d);letter-spacing:.05em}
+.img-status{font-size:12.5px;color:var(--gray);margin-top:8px;min-height:16px}
+.img-status.err{color:#ffb4b4}.img-status.ok{color:#9af5c9}
 textarea{min-height:84px;resize:vertical}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
@@ -155,7 +161,21 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
         </div>
         <div class="grid2">
           <div class="field"><label>Salariu</label><input id="f-salary" placeholder="Ex: 2800 € net / lună"></div>
-          <div class="field"><label>Poză (nume fișier sau link) — opțional</label><input id="f-image" placeholder="Ex: camion.png"></div>
+          <div class="field" style="grid-column:1/-1">
+            <label>Poză job — încarci direct de pe calculator/telefon</label>
+            <div class="img-row">
+              <div class="img-preview" id="img-preview"><span>Fără poză</span></div>
+              <div style="flex:1;min-width:0">
+                <input type="file" id="f-image-file" accept="image/*" style="display:none">
+                <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:9px">
+                  <button type="button" class="btn gold sm" id="img-pick">📷 Încarcă poză</button>
+                  <button type="button" class="btn ghost sm" id="img-clear">Fără poză</button>
+                </div>
+                <input id="f-image" placeholder="...sau lipește o cale/URL (opțional)">
+                <div class="img-status" id="img-status"></div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="grid2">
           <label class="check"><input type="checkbox" id="f-active" checked> Job activ (vizibil pe site)</label>
@@ -217,6 +237,32 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
   // ID auto din titlu doar la job nou
   $('f-title').addEventListener('input', ()=>{ if(editingId===null) $('f-id').value = slug($('f-title').value); });
 
+  // --- Încărcare poză ---
+  function setImagePreview(url){
+    const box = $('img-preview');
+    if(url){ box.innerHTML = '<img src="'+url+'" alt="" onerror="this.parentNode.innerHTML=\'<span>poză indisponibilă</span>\'">'; }
+    else { box.innerHTML = '<span>Fără poză</span>'; }
+  }
+  $('img-pick').addEventListener('click', ()=> $('f-image-file').click());
+  $('img-clear').addEventListener('click', ()=>{ $('f-image').value=''; setImagePreview(''); $('img-status').textContent=''; $('img-status').className='img-status'; });
+  $('f-image').addEventListener('input', ()=> setImagePreview($('f-image').value.trim()));
+  $('f-image-file').addEventListener('change', async (e)=>{
+    const file = e.target.files && e.target.files[0];
+    if(!file) return;
+    const st = $('img-status');
+    if(file.size > 8*1024*1024){ st.className='img-status err'; st.textContent='Poza e prea mare (peste 8 MB). Alege una mai mică.'; e.target.value=''; return; }
+    st.className='img-status'; st.textContent='Se încarcă poza...';
+    try{
+      const url = await WeJobs.uploadImage(file);
+      $('f-image').value = url;
+      setImagePreview(url);
+      st.className='img-status ok'; st.textContent='Poză încărcată ✓';
+    }catch(err){
+      st.className='img-status err';
+      st.textContent='Eroare la încărcare: ' + (err.message||err) + ' (ai rulat supabase-storage.sql?)';
+    }finally{ e.target.value=''; }
+  });
+
   async function doLogin(){
     msg('login-msg','',''); 
     const email=$('login-email').value.trim(), pass=$('login-pass').value;
@@ -264,6 +310,7 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
     $('f-category').value = job?job.category||'':'';
     $('f-salary').value = job?job.salary||'':'';
     $('f-image').value = job?job.image||'':'';
+    setImagePreview(job?job.image:'');
     $('f-active').checked = job?job.active!==false:true;
     $('f-sort').value = job?(job.sort||0):0;
     const f = (job&&job.facts)||{};
