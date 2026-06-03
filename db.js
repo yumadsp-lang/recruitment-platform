@@ -84,6 +84,19 @@
       if (error) throw error;
     },
 
+    // Încarcă o poză în Storage și întoarce URL-ul public
+    async uploadImage(file) {
+      if (!this.isConfigured()) throw new Error("Supabase nu este configurat.");
+      const ext = (file.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z0-9]/g, "");
+      const path = "jobs/" + Date.now() + "-" + Math.random().toString(36).slice(2, 8) + "." + ext;
+      const { error } = await client.storage.from("job-images").upload(path, file, {
+        upsert: false, contentType: file.type || "image/jpeg"
+      });
+      if (error) throw error;
+      const { data } = client.storage.from("job-images").getPublicUrl(path);
+      return data.publicUrl;
+    },
+
     // ---- AUTENTIFICARE ----
     async signIn(email, password) {
       if (!this.isConfigured()) throw new Error("Supabase nu este configurat.");
