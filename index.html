@@ -44,8 +44,11 @@ img{display:block;max-width:100%}
   backdrop-filter:blur(16px);border-bottom:1px solid var(--line)
 }
 .nav{height:82px;display:flex;align-items:center;justify-content:space-between;gap:28px}
-.brand{display:flex;align-items:center;gap:13px;min-width:max-content}
-.brand img{height:58px;width:auto;object-fit:contain}
+.brand{display:flex;align-items:center;gap:12px;min-width:max-content}
+.brand-mark{width:48px;height:48px;border-radius:14px;background:#070d18;display:grid;place-items:center;overflow:hidden;box-shadow:0 8px 22px rgba(7,13,24,.12)}
+.brand-mark img{height:42px;width:42px;object-fit:contain;display:block}
+.brand-title{font-weight:900;font-size:22px;letter-spacing:-.8px;color:#101828;line-height:1}
+.brand-title span{color:#d39a26}
 .navlinks{display:flex;gap:30px;font-weight:700;font-size:14px;color:#344054}
 .navlinks a:hover{color:var(--gold-dark)}
 .nav-actions{display:flex;gap:12px;align-items:center}
@@ -121,9 +124,9 @@ label{display:block;font-size:13px;font-weight:800;margin-bottom:7px;color:#3440
 input,select,textarea{width:100%;border:1px solid #d8dee8;border-radius:13px;padding:13px 14px;font:inherit;margin-bottom:14px;background:#fff;color:#101828}
 textarea{min-height:110px;resize:vertical}input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 4px rgba(211,154,38,.12)}
 .form-note{font-size:12px;color:#667085;margin-top:8px}.apply button{width:100%}
-.footer{background:#070d18;color:#cbd5e1;padding:48px 0 26px}.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:34px}.footer img{height:54px;width:auto;margin-bottom:16px}.footer h4{color:#fff;margin-bottom:12px}.footer a,.footer span{display:block;color:#cbd5e1;margin-bottom:8px}.footer a:hover{color:#ffd277}.copy{border-top:1px solid rgba(255,255,255,.1);margin-top:30px;padding-top:20px;text-align:center;color:#94a3b8;font-size:13px}
+.footer{background:#070d18;color:#cbd5e1;padding:48px 0 26px}.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:34px}.footer .brand-title{color:#fff}.footer .footer-brand{margin-bottom:16px}.footer h4{color:#fff;margin-bottom:12px}.footer a,.footer span{display:block;color:#cbd5e1;margin-bottom:8px}.footer a:hover{color:#ffd277}.copy{border-top:1px solid rgba(255,255,255,.1);margin-top:30px;padding-top:20px;text-align:center;color:#94a3b8;font-size:13px}
 .floating-wa{position:fixed;right:22px;bottom:22px;z-index:100;width:58px;height:58px;border-radius:999px;background:#22c55e;color:#fff;display:grid;place-items:center;font-size:25px;box-shadow:0 16px 36px rgba(34,197,94,.35)}
-@media(max-width:980px){.topbar .inner{justify-content:center}.topbar .inner span:first-child{display:none}.navlinks{display:none}.nav{height:72px}.brand img{height:50px}.hero .wrap,.about-grid,.apply{grid-template-columns:1fr}.hero .wrap{padding:54px 0}.photo-card img{height:360px}.stat-card{left:18px;bottom:20px}.jobs,.advantages,.process,.faq,.footer-grid{grid-template-columns:1fr}.nav-actions .btn-secondary{display:none}h1{letter-spacing:-2px}.form-row{grid-template-columns:1fr}}
+@media(max-width:980px){.topbar .inner{justify-content:center}.topbar .inner span:first-child{display:none}.navlinks{display:none}.nav{height:72px}.brand-mark{width:44px;height:44px}.brand-title{font-size:20px}.hero .wrap,.about-grid,.apply{grid-template-columns:1fr}.hero .wrap{padding:54px 0}.photo-card img{height:360px}.stat-card{left:18px;bottom:20px}.jobs,.advantages,.process,.faq,.footer-grid{grid-template-columns:1fr}.nav-actions .btn-secondary{display:none}h1{letter-spacing:-2px}.form-row{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -136,7 +139,8 @@ textarea{min-height:110px;resize:vertical}input:focus,select:focus,textarea:focu
 <header class="header">
   <div class="container nav">
     <a href="index.html" class="brand" aria-label="WeJobs.ro acasă">
-      <img src="assets/images/logo-wejobs.png" alt="WeJobs.ro">
+      <span class="brand-mark"><img src="assets/images/logo-wejobs.png" alt=""></span>
+      <span class="brand-title">WE<span>JOBS</span>.RO</span>
     </a>
     <nav class="navlinks" aria-label="Navigație principală">
       <a href="#joburi">Joburi</a>
@@ -170,7 +174,7 @@ textarea{min-height:110px;resize:vertical}input:focus,select:focus,textarea:focu
     </div>
     <div class="hero-media">
       <div class="photo-card">
-        <img src="assets/images/hero-soferi-germania.webp" alt="Șoferi și vehicule de transport în Germania">
+        <img src="assets/images/hero-soferi-germania.webp.png" alt="Șoferi și vehicule de transport în Germania">
       </div>
       <div class="stat-card">
         <strong>2</strong>
@@ -313,7 +317,13 @@ textarea{min-height:110px;resize:vertical}input:focus,select:focus,textarea:focu
 <footer class="footer">
   <div class="container">
     <div class="footer-grid">
-      <div><img src="assets/images/logo-wejobs.png" alt="WeJobs.ro"><p>Recrutare specializată pentru șoferi care caută locuri de muncă în Germania.</p></div>
+      <div>
+        <a href="index.html" class="brand footer-brand" aria-label="WeJobs.ro acasă">
+          <span class="brand-mark"><img src="assets/images/logo-wejobs.png" alt=""></span>
+          <span class="brand-title">WE<span>JOBS</span>.RO</span>
+        </a>
+        <p>Recrutare specializată pentru șoferi care caută locuri de muncă în Germania.</p>
+      </div>
       <div><h4>Joburi</h4><a href="job-curier-amazon.html">Șofer Curier Germania</a><a href="job-sofer-ce-amazon.html">Șofer Profesionist C+E</a><a href="#contact">Aplică online</a></div>
       <div><h4>Contact</h4><a target="_blank" href="https://wa.me/491703044341">WhatsApp: +49 170 304 4341</a><span>Formular online prin WeJobs.ro</span></div>
     </div>
