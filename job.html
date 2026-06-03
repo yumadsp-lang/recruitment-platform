@@ -131,14 +131,14 @@ footer .fl a:hover{color:var(--gold-2)}
 
 <header>
   <div class="container nav">
-    <a href="index.html" class="brand">
+    <a href="/" class="brand">
       <span class="brand-name"><b>WE</b><span class="gold-text">JOBS</span><span class="ro">.RO</span></span>
     </a>
     <nav class="navlinks">
-      <a href="index.html">Acasă</a>
-      <a href="index.html#joburi">Joburi</a>
-      <a href="index.html#aplica">Aplică</a>
-      <a href="index.html#intrebari">Întrebări</a>
+      <a href="/">Acasă</a>
+      <a href="/#joburi">Joburi</a>
+      <a href="/#aplica">Aplică</a>
+      <a href="/#intrebari">Întrebări</a>
     </nav>
     <a class="btn gold" href="#aplica">Aplică acum</a>
   </div>
@@ -150,7 +150,7 @@ footer .fl a:hover{color:var(--gold-2)}
   <div class="container">
     <div class="footer-grid">
       <div>
-        <a href="index.html" class="brand" style="margin-bottom:6px;">
+        <a href="/" class="brand" style="margin-bottom:6px;">
           <span class="brand-name"><b>WE</b><span class="gold-text">JOBS</span><span class="ro">.RO</span></span>
         </a>
         <p class="slogan">Jobul potrivit începe aici.</p>
@@ -161,13 +161,13 @@ footer .fl a:hover{color:var(--gold-2)}
         <h4>Contact</h4>
         <div class="fl">
           <a target="_blank" id="wa-footer" href="#">Scrie-ne pe WhatsApp</a>
-          <a href="legal.html#impressum">Impressum</a>
-          <a href="legal.html">Confidențialitate (GDPR)</a>
+          <a href="/legal#impressum">Impressum</a>
+          <a href="/legal">Confidențialitate (GDPR)</a>
           <span>Suport în limba română</span>
         </div>
       </div>
     </div>
-    <div class="copy">© 2026 WeJobs.ro. Toate drepturile rezervate. · <a href="legal.html#impressum" style="color:inherit">Impressum</a> · <a href="legal.html" style="color:inherit">Confidențialitate (GDPR)</a></div>
+    <div class="copy">© 2026 WeJobs.ro. Toate drepturile rezervate. · <a href="/legal#impressum" style="color:inherit">Impressum</a> · <a href="/legal" style="color:inherit">Confidențialitate (GDPR)</a></div>
   </div>
 </footer>
 
@@ -191,8 +191,8 @@ footer .fl a:hover{color:var(--gold-2)}
 
   // Footer
   document.getElementById('footer-jobs').innerHTML =
-    all.map(j=>`<a href="job.html?id=${encodeURIComponent(j.id)}">${esc(j.title)}</a>`).join('')
-    + '<a href="index.html#aplica">Aplică online</a>';
+    all.map(j=>`<a href="/job?id=${encodeURIComponent(j.id)}">${esc(j.title)}</a>`).join('')
+    + '<a href="/#aplica">Aplică online</a>';
 
   const root = document.getElementById('job-root');
 
@@ -202,7 +202,7 @@ footer .fl a:hover{color:var(--gold-2)}
       <span class="eyebrow">Ofertă indisponibilă</span>
       <h1>Acest job nu <span class="gold-text">există</span> sau nu mai este activ</h1>
       <p>Poate a fost ocupat. Vezi joburile disponibile acum.</p>
-      <a class="btn gold" href="index.html#joburi">Vezi joburile disponibile</a>
+      <a class="btn gold" href="/#joburi">Vezi joburile disponibile</a>
     </div></div>`;
   } else {
     document.title = job.title + " – " + (job.salary || "") + " | WeJobs.ro";
@@ -212,7 +212,7 @@ footer .fl a:hover{color:var(--gold-2)}
 
     // SEO: descriere + canonical + Open Graph (dinamic)
     const desc = (job.intro || `${job.title} – ${job.salary||''}. Aplică online prin WeJobs.ro.`).slice(0,160);
-    const pageUrl = "https://wejobs.ro/job.html?id=" + encodeURIComponent(job.id);
+    const pageUrl = "https://wejobs.ro//job?id=" + encodeURIComponent(job.id);
     let md=document.querySelector('meta[name="description"]'); if(!md){md=document.createElement('meta');md.setAttribute('name','description');document.head.appendChild(md);} md.setAttribute('content', desc);
     let lc=document.querySelector('link[rel="canonical"]'); if(!lc){lc=document.createElement('link');lc.setAttribute('rel','canonical');document.head.appendChild(lc);} lc.setAttribute('href', pageUrl);
 
@@ -246,8 +246,8 @@ footer .fl a:hover{color:var(--gold-2)}
       <section class="job-hero">
         <div class="bg">${heroBg}</div>
         <div class="container job-hero-inner">
-          <a href="index.html#joburi" class="btn ghost back-btn">← Înapoi la joburi</a>
-          <div class="breadcrumb"><a href="index.html">Acasă</a> / <a href="index.html#joburi">Joburi</a> / ${esc(job.title)}</div>
+          <a href="/#joburi" class="btn ghost back-btn">← Înapoi la joburi</a>
+          <div class="breadcrumb"><a href="/">Acasă</a> / <a href="/#joburi">Joburi</a> / ${esc(job.title)}</div>
           ${job.category?`<span class="cat">${esc(job.category)}</span>`:''}
           <h1>${esc(job.title)}</h1>
           ${job.salary?`<div class="salary-big gold-text">${esc(job.salary)}</div>`:''}
@@ -307,7 +307,7 @@ footer .fl a:hover{color:var(--gold-2)}
               <textarea id="mesaj" name="mesaj" placeholder="Scrie câteva detalii despre tine..."></textarea>
               <input type="hidden" name="aplicat_de_pe" value="Pagina jobului: ${esc(job.title)}">
               <input type="hidden" name="_subject" value="Aplicație nouă WeJobs.ro - ${esc(job.title)}">
-              <label class="consent"><input type="checkbox" name="consimtamant" required> Sunt de acord cu prelucrarea datelor mele conform <a href="legal.html" target="_blank">Politicii de confidențialitate</a>.</label>
+              <label class="consent"><input type="checkbox" name="consimtamant" required> Sunt de acord cu prelucrarea datelor mele conform <a href="/legal" target="_blank">Politicii de confidențialitate</a>.</label>
               <button class="btn gold" type="submit" style="width:100%;">Trimite aplicația</button>
               <p class="form-note">Aplicația ajunge direct la echipa WeJobs.ro. Nu îți cerem date bancare.</p>
             </form>
