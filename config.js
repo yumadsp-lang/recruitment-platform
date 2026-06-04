@@ -3,7 +3,7 @@ const CONFIG = {
   formspree: "https://formspree.io/f/mlgkrqjg",
   supabaseUrl: "https://cmpagnbvympkrtcjnefz.supabase.co",
   supabaseKey: "sb_publishable_B66wSpD1Xd2a7PkCUAZBQQ_qYY6650Q",
-  categories: ["Șoferi", "Construcții", "Depozit & Logistică", "Producție", "HoReCa", "Agricultură", "Curățenie", "Îngrijire & Medical"]
+  categories: ["Șoferi Cat. B", "Șoferi Cat. C", "Șoferi Cat. C+E", "Construcții", "Depozit & Logistică", "Producție", "HoReCa", "Agricultură", "Curățenie", "Îngrijire & Medical"]
 };
 
 const FALLBACK_JOBS = [
