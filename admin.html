@@ -97,24 +97,12 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
     </div>
   </div>
 
-  <!-- ECRAN: SUPABASE NECONFIGURAT -->
   <div id="screen-setup" class="hide">
-    <span class="eyebrow">Configurare necesară</span>
-    <h1>Aproape <span class="gold-text">gata</span></h1>
-    <p class="lead">Panoul de administrare are nevoie de o bază de date Supabase (gratuită). Durează ~5 minute, o singură dată.</p>
-    <div class="card" style="margin-top:18px">
-      <ol class="steps">
-        <li>Creează cont gratuit pe <a href="https://supabase.com" target="_blank">supabase.com</a> și apasă „New project".</li>
-        <li>În <b>SQL Editor</b>, lipește tot conținutul fișierului <code>supabase-setup.sql</code> și apasă <b>Run</b>.</li>
-        <li>Mergi la <b>Project Settings → API</b> și copiază <b>Project URL</b> și cheia <b>anon public</b>.</li>
-        <li>Deschide <code>config.js</code> și pune-le la <code>supabaseUrl</code> și <code>supabaseKey</code>.</li>
-        <li>Mergi la <b>Authentication → Users → Add user</b> și creează-ți contul tău (email + parolă).</li>
-        <li>Reîncarcă această pagină și loghează-te.</li>
-      </ol>
-    </div>
+    <span class="eyebrow">Configurare</span>
+    <h1>Conexiune <span class="gold-text">indisponibilă</span></h1>
+    <p class="lead">Panoul nu se poate conecta momentan. Reîncarcă pagina; dacă problema persistă, încearcă mai târziu.</p>
   </div>
 
-  <!-- ECRAN: LOGARE -->
   <div id="screen-login" class="hide">
     <div class="login-wrap">
       <div class="card">
@@ -128,7 +116,6 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
     </div>
   </div>
 
-  <!-- ECRAN: PANOU -->
   <div id="screen-dash" class="hide">
     <span class="eyebrow">Panou administrare</span>
     <h1>Joburile <span class="gold-text">tale</span></h1>
@@ -136,7 +123,6 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
 
     <div id="dash-msg" style="margin-top:16px"></div>
 
-    <!-- LISTA -->
     <div id="view-list">
       <div class="sectiontitle" style="margin-top:18px">
         <h2>Toate joburile</h2>
@@ -145,7 +131,6 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
       <div class="joblist" id="joblist"></div>
     </div>
 
-    <!-- EDITOR -->
     <div id="view-editor" class="hide">
       <div class="sectiontitle" style="margin-top:18px">
         <h2 id="editor-title">Job nou</h2>
@@ -225,19 +210,16 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
   function msg(el,type,text){ $(el).innerHTML = text ? `<div class="msg ${type}">${text}</div>` : ''; }
   function toast(t){ const el=$('toast'); el.textContent=t; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),1900); }
 
-  let editingId = null; // null = job nou
+  let editingId = null;
 
-  // ---- pornire ----
   (async () => {
     if (!WeJobs.isConfigured()) { show('screen-setup'); return; }
     const session = await WeJobs.getSession();
     if (session) enterDashboard(); else show('screen-login');
   })();
 
-  // ID auto din titlu doar la job nou
   $('f-title').addEventListener('input', ()=>{ if(editingId===null) $('f-id').value = slug($('f-title').value); });
 
-  // --- Încărcare poză ---
   function setImagePreview(url){
     const box = $('img-preview');
     if(url){ box.innerHTML = '<img src="'+url+'" alt="" onerror="this.parentNode.innerHTML=\'<span>poză indisponibilă</span>\'">'; }
@@ -259,7 +241,7 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
       st.className='img-status ok'; st.textContent='Poză încărcată ✓';
     }catch(err){
       st.className='img-status err';
-      st.textContent='Eroare la încărcare: ' + (err.message||err) + ' (ai rulat supabase-storage.sql?)';
+      st.textContent='Eroare la încărcarea pozei. Încearcă din nou.';
     }finally{ e.target.value=''; }
   });
 
@@ -297,14 +279,13 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
   }
   function escapeHtml(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 
-  // cache local pentru editare
   let cache = [];
   async function loadCache(){ cache = await WeJobs.getAllJobs(); }
 
   function openEditor(job){
     editingId = job ? job.id : null;
     $('editor-title').textContent = job ? 'Editează: '+job.title : 'Job nou';
-    $('f-id').disabled = !!job; // ID-ul nu se schimbă la editare
+    $('f-id').disabled = !!job;
     $('f-title').value = job?job.title||'':'';
     $('f-id').value = job?job.id||'':'';
     $('f-category').value = job?job.category||'':'';
