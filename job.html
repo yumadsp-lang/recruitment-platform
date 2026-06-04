@@ -144,7 +144,7 @@ footer .fl a:hover{color:var(--gold-2)}
   </div>
 </header>
 
-<main id="job-root"><!-- conținutul jobului se generează din jobs.js --></main>
+<main id="job-root"></main>
 
 <footer>
   <div class="container">
@@ -180,7 +180,6 @@ footer .fl a:hover{color:var(--gold-2)}
   const params = new URLSearchParams(location.search);
   const id = params.get('id');
 
-  // WhatsApp generic în footer
   document.getElementById('wa-footer').href = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent("Bună ziua! Doresc informații despre joburile WeJobs.ro")}`;
 
   (async () => {
@@ -189,7 +188,6 @@ footer .fl a:hover{color:var(--gold-2)}
   try { job = await WeJobs.getJob(id); } catch(e){ console.error(e); }
   if (!job) job = all.find(j => j.id === id) || null;
 
-  // Footer
   document.getElementById('footer-jobs').innerHTML =
     all.map(j=>`<a href="/job?id=${encodeURIComponent(j.id)}">${esc(j.title)}</a>`).join('')
     + '<a href="/#aplica">Aplică online</a>';
@@ -210,13 +208,11 @@ footer .fl a:hover{color:var(--gold-2)}
     const waText = `Bună ziua! Doresc să aplic pentru poziția ${job.title}.`;
     const waLink = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(waText)}`;
 
-    // SEO: descriere + canonical + Open Graph (dinamic)
     const desc = (job.intro || `${job.title} – ${job.salary||''}. Aplică online prin WeJobs.ro.`).slice(0,160);
     const pageUrl = "https://wejobs.ro//job?id=" + encodeURIComponent(job.id);
     let md=document.querySelector('meta[name="description"]'); if(!md){md=document.createElement('meta');md.setAttribute('name','description');document.head.appendChild(md);} md.setAttribute('content', desc);
     let lc=document.querySelector('link[rel="canonical"]'); if(!lc){lc=document.createElement('link');lc.setAttribute('rel','canonical');document.head.appendChild(lc);} lc.setAttribute('href', pageUrl);
 
-    // Schema.org JobPosting (pentru Google Jobs)
     const jp = {
       "@context":"https://schema.org","@type":"JobPosting",
       "title": job.title,
