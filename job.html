@@ -205,7 +205,9 @@ footer .fl a:hover{color:var(--gold-2)}
   } else {
     document.title = job.title + " – " + (job.salary || "") + " | WeJobs.ro";
     const f = job.facts || {};
-    const waText = `Bună ziua! Doresc să aplic pentru poziția ${job.title}.`;
+    const waText = `Bună ziua! Doresc să aplic pentru postul: ${job.title}` +
+      (job.salary ? ` (${job.salary})` : '') +
+      `.\nLink ofertă: https://wejobs.ro/job?id=${encodeURIComponent(job.id)}`;
     const waLink = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(waText)}`;
 
     const desc = (job.intro || `${job.title} – ${job.salary||''}. Aplică online prin WeJobs.ro.`).slice(0,160);
