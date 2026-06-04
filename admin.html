@@ -222,7 +222,10 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
     <div id="tab-reviews" class="hide">
       <div class="sectiontitle" style="margin-top:18px">
         <h2>Recenzii</h2>
-        <button class="btn gold" onclick="toggleReviewForm()">+ Adaugă recenzie</button>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn ghost" onclick="loadReviews()">↻ Reîmprospătează</button>
+          <button class="btn gold" onclick="toggleReviewForm()">+ Adaugă recenzie</button>
+        </div>
       </div>
       <div id="review-add" class="card hide" style="margin-bottom:18px">
         <div class="grid2">
