@@ -97,6 +97,47 @@
       if (!this.isConfigured()) return null;
       const { data } = await client.auth.getSession();
       return data ? data.session : null;
+    },
+
+    async getApprovedReviews() {
+      if (!this.isConfigured()) return [];
+      const { data, error } = await client.from("reviews").select("*")
+        .eq("approved", true).order("created_at", { ascending: false });
+      if (error) { console.error(error); return []; }
+      return data || [];
+    },
+    async submitReview(r) {
+      if (!this.isConfigured()) throw new Error("Conexiune indisponibilă.");
+      const { error } = await client.from("reviews").insert({
+        name: r.name, role: r.role || null, rating: r.rating || null,
+        message: r.message, approved: false
+      });
+      if (error) throw error;
+    },
+    async adminAddReview(r) {
+      if (!this.isConfigured()) throw new Error("Conexiune indisponibilă.");
+      const { error } = await client.from("reviews").insert({
+        name: r.name, role: r.role || null, rating: r.rating || null,
+        message: r.message, approved: r.approved !== false
+      });
+      if (error) throw error;
+    },
+    async getAllReviews() {
+      if (!this.isConfigured()) throw new Error("Conexiune indisponibilă.");
+      const { data, error } = await client.from("reviews").select("*")
+        .order("approved", { ascending: true }).order("created_at", { ascending: false });
+      if (error) throw error;
+      return data || [];
+    },
+    async setReviewApproved(id, approved) {
+      if (!this.isConfigured()) throw new Error("Conexiune indisponibilă.");
+      const { error } = await client.from("reviews").update({ approved }).eq("id", id);
+      if (error) throw error;
+    },
+    async deleteReview(id) {
+      if (!this.isConfigured()) throw new Error("Conexiune indisponibilă.");
+      const { error } = await client.from("reviews").delete().eq("id", id);
+      if (error) throw error;
     }
   };
 
