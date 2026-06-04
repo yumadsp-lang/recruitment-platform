@@ -79,9 +79,30 @@ textarea{min-height:84px;resize:vertical}
 code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7px;border-radius:6px;font-size:13px}
 .sectiontitle{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}
 .sectiontitle h2{font-family:"Archivo";font-weight:800;font-size:22px;letter-spacing:-.6px}
+.tabs{display:flex;gap:8px;margin-top:18px;border-bottom:1px solid var(--line)}
+.tab{background:none;border:0;border-bottom:2px solid transparent;color:var(--gray);font-family:"Archivo";font-weight:700;font-size:15px;padding:12px 6px;cursor:pointer;margin-bottom:-1px;display:inline-flex;align-items:center;gap:8px}
+.tab.active{color:var(--gold-2);border-bottom-color:var(--gold)}
+.badge{display:none;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--gold);color:#10100a;font-size:12px;font-weight:800;align-items:center;justify-content:center}
+.badge.show{display:inline-flex}
 .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:#1f2a24;border:1px solid rgba(37,211,102,.5);color:#eafff2;padding:13px 22px;border-radius:12px;font-family:"Archivo";font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:.3s;z-index:50}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-@media(max-width:640px){.grid2,.grid4{grid-template-columns:1fr}.jobrow{flex-wrap:wrap}}
+@media(max-width:640px){
+  .container{padding:20px 0 60px}
+  .grid2,.grid4{grid-template-columns:1fr}
+  .jobrow{flex-wrap:wrap;align-items:flex-start;gap:10px}
+  .jobrow .pill{order:1}
+  .jobrow .info{order:2;flex:1 1 100%}
+  .jobrow .info b{white-space:normal}
+  .jobrow .acts{order:3;flex:1 1 100%}
+  .jobrow .acts .btn{flex:1;text-align:center;justify-content:center}
+  .tab{font-size:14px;padding:11px 4px}
+  .tabs{gap:4px}
+  h1{font-size:27px !important}
+  .img-row{flex-direction:column}
+  .img-preview{width:100%;height:160px}
+  .login-wrap{margin-top:5vh}
+  textarea{min-height:120px}
+}
 </style>
 </head>
 <body>
@@ -118,11 +139,16 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
 
   <div id="screen-dash" class="hide">
     <span class="eyebrow">Panou administrare</span>
-    <h1>Joburile <span class="gold-text">tale</span></h1>
-    <p class="lead">Adaugă, modifică, ascunde sau șterge joburi. Modificările apar instant pe site.</p>
+    <h1>Panoul <span class="gold-text">tău</span></h1>
+
+    <div class="tabs" id="dash-tabs">
+      <button class="tab active" data-tab="jobs" onclick="switchTab('jobs')">Joburi</button>
+      <button class="tab" data-tab="reviews" onclick="switchTab('reviews')">Recenzii <span class="badge" id="rev-badge"></span></button>
+    </div>
 
     <div id="dash-msg" style="margin-top:16px"></div>
 
+    <div id="tab-jobs">
     <div id="view-list">
       <div class="sectiontitle" style="margin-top:18px">
         <h2>Toate joburile</h2>
@@ -191,6 +217,43 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
         <button class="btn ghost" onclick="closeEditor()">Anulează</button>
       </div>
     </div>
+    </div>
+
+    <div id="tab-reviews" class="hide">
+      <div class="sectiontitle" style="margin-top:18px">
+        <h2>Recenzii</h2>
+        <button class="btn gold" onclick="toggleReviewForm()">+ Adaugă recenzie</button>
+      </div>
+      <div id="review-add" class="card hide" style="margin-bottom:18px">
+        <div class="grid2">
+          <div class="field"><label>Nume *</label><input id="ra-name" placeholder="Ex: Andrei P."></div>
+          <div class="field"><label>Post / oraș (opțional)</label><input id="ra-role" placeholder="Ex: Șofer curier, Nürnberg"></div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label>Notă (stele)</label>
+            <select id="ra-rating">
+              <option value="5">★★★★★ (5)</option>
+              <option value="4">★★★★ (4)</option>
+              <option value="3">★★★ (3)</option>
+              <option value="">Fără notă</option>
+            </select>
+          </div>
+          <div class="field"><label>Stare</label>
+            <select id="ra-approved">
+              <option value="true">Publicată (apare pe site)</option>
+              <option value="false">În așteptare</option>
+            </select>
+          </div>
+        </div>
+        <div class="field"><label>Părerea *</label><textarea id="ra-message" placeholder="Textul recenziei..."></textarea></div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <button class="btn gold" onclick="saveReview()">💾 Salvează recenzia</button>
+          <button class="btn ghost" onclick="toggleReviewForm(true)">Anulează</button>
+        </div>
+      </div>
+      <p class="lead" style="margin-bottom:16px">Aprobă recenziile pe care vrei să le afișezi pe site. Cele neaprobate nu apar nicăieri public.</p>
+      <div class="joblist" id="reviewlist"></div>
+    </div>
   </div>
 
 </div>
@@ -257,6 +320,64 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
   async function enterDashboard(){
     hide('screen-login'); hide('screen-setup'); show('screen-dash'); show('logout-btn');
     await refreshList();
+    loadReviews();
+  }
+
+  function switchTab(t){
+    document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active', b.dataset.tab===t));
+    $('tab-jobs').classList.toggle('hide', t!=='jobs');
+    $('tab-reviews').classList.toggle('hide', t!=='reviews');
+    if(t==='reviews') loadReviews();
+  }
+
+  function toggleReviewForm(forceClose){
+    const f=$('review-add');
+    if(forceClose){ f.classList.add('hide'); return; }
+    f.classList.toggle('hide');
+  }
+  async function saveReview(){
+    const name=$('ra-name').value.trim();
+    const message=$('ra-message').value.trim();
+    if(!name||!message){ msg('dash-msg','err','Completează numele și textul recenziei.'); return; }
+    const r={ name, role:$('ra-role').value.trim(), rating:parseInt($('ra-rating').value)||null,
+      message, approved: $('ra-approved').value==='true' };
+    try{
+      await WeJobs.adminAddReview(r);
+      $('ra-name').value=''; $('ra-role').value=''; $('ra-message').value=''; $('ra-rating').value='5'; $('ra-approved').value='true';
+      toggleReviewForm(true); await loadReviews(); toast('Recenzie adăugată ✓');
+    }catch(e){ msg('dash-msg','err','Eroare: '+(e.message||e)); }
+  }
+
+  async function loadReviews(){
+    let revs=[];
+    try{ revs = await WeJobs.getAllReviews(); }
+    catch(e){ $('reviewlist').innerHTML='<div class="msg info">Recenziile nu sunt disponibile. Rulează scriptul de recenzii în baza de date.</div>'; return; }
+    const pending = revs.filter(r=>!r.approved).length;
+    const badge=$('rev-badge');
+    if(pending>0){ badge.textContent=pending; badge.classList.add('show'); } else { badge.classList.remove('show'); }
+    const el=$('reviewlist');
+    if(!revs.length){ el.innerHTML='<div class="msg info">Nu există încă recenzii.</div>'; return; }
+    el.innerHTML = revs.map(r=>`
+      <div class="jobrow">
+        <span class="pill ${r.approved?'on':'off'}">${r.approved?'Publicată':'În așteptare'}</span>
+        <div class="info">
+          <b>${escapeHtml(r.name)}${r.rating?' · '+'★'.repeat(r.rating):''}</b>
+          <span>${escapeHtml(r.message)}</span>
+        </div>
+        <div class="acts">
+          <button class="btn ghost sm" onclick="approveReview('${r.id}', ${r.approved?'false':'true'})">${r.approved?'Ascunde':'Aprobă'}</button>
+          <button class="btn danger sm" onclick="removeReview('${r.id}')">Șterge</button>
+        </div>
+      </div>`).join('');
+  }
+  async function approveReview(id, approve){
+    try{ await WeJobs.setReviewApproved(id, approve==='true'||approve===true); await loadReviews(); toast(approve==='true'||approve===true?'Recenzie publicată ✓':'Recenzie ascunsă ✓'); }
+    catch(e){ msg('dash-msg','err','Eroare: '+(e.message||e)); }
+  }
+  async function removeReview(id){
+    if(!confirm('Sigur ștergi această recenzie? Acțiunea nu poate fi anulată.')) return;
+    try{ await WeJobs.deleteReview(id); await loadReviews(); toast('Recenzie ștearsă ✓'); }
+    catch(e){ msg('dash-msg','err','Eroare: '+(e.message||e)); }
   }
 
   async function refreshList(){
