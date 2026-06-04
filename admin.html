@@ -168,7 +168,7 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
         <div class="field"><label>Titlul jobului *</label><input id="f-title" placeholder="Ex: Șofer TIR Internațional"></div>
         <div class="grid2">
           <div class="field"><label>ID (link) — se generează automat la job nou</label><input id="f-id" placeholder="ex: sofer-tir-international"></div>
-          <div class="field"><label>Categorie / etichetă</label><input id="f-category" placeholder="Ex: Categoria C+E"></div>
+          <div class="field"><label>Categorie (apare pe card și filtrează joburile)</label><select id="f-category"></select></div>
         </div>
         <div class="grid2">
           <div class="field"><label>Salariu</label><input id="f-salary" placeholder="Ex: 2800 € net / lună"></div>
@@ -403,6 +403,15 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
   }
   function escapeHtml(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 
+  function fillCategorySelect(selected){
+    const sel = $('f-category');
+    const cats = (CONFIG.categories || []).slice();
+    if(selected && !cats.includes(selected)) cats.unshift(selected);
+    sel.innerHTML = '<option value="">— alege categoria —</option>' +
+      cats.map(c=>`<option value="${escapeHtml(c)}"${c===selected?' selected':''}>${escapeHtml(c)}</option>`).join('');
+    sel.value = selected || '';
+  }
+
   let cache = [];
   async function loadCache(){ cache = await WeJobs.getAllJobs(); }
 
@@ -412,7 +421,7 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
     $('f-id').disabled = !!job;
     $('f-title').value = job?job.title||'':'';
     $('f-id').value = job?job.id||'':'';
-    $('f-category').value = job?job.category||'':'';
+    fillCategorySelect(job?job.category||'':'');
     $('f-salary').value = job?job.salary||'':'';
     $('f-image').value = job?job.image||'':'';
     setImagePreview(job?job.image:'');
