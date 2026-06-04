@@ -1,9 +1,3 @@
-/* =========================================================================
-   WEJOBS.RO — STRAT DE DATE
-   Vorbește cu Supabase. Dacă Supabase nu e configurat în config.js,
-   folosește joburile de rezervă (FALLBACK_JOBS) — site-ul tot merge.
-   NU trebuie să modifici nimic aici.
-   ========================================================================= */
 (function () {
   const configured = !!(CONFIG.supabaseUrl && CONFIG.supabaseKey);
   let client = null;
@@ -12,7 +6,6 @@
     client = window.supabase.createClient(CONFIG.supabaseUrl, CONFIG.supabaseKey);
   }
 
-  // Normalizează un rând din baza de date la forma folosită de pagini
   function normalize(row) {
     return {
       id: row.id,
@@ -34,7 +27,6 @@
   const WeJobs = {
     isConfigured() { return configured && !!client; },
 
-    // ---- PUBLIC: doar joburi active, sortate ----
     async getJobs() {
       if (!this.isConfigured()) {
         return FALLBACK_JOBS.filter(j => j.active !== false);
@@ -56,9 +48,8 @@
       return normalize(data);
     },
 
-    // ---- ADMIN (necesită logare) ----
-    async getAllJobs() { // include și joburile ascunse
-      if (!this.isConfigured()) throw new Error("Supabase nu este configurat.");
+    async getAllJobs() {
+      if (!this.isConfigured()) throw new Error("Conexiune indisponibilă.");
       const { data, error } = await client
         .from("jobs").select("*")
         .order("sort", { ascending: true }).order("created_at", { ascending: false });
@@ -66,8 +57,8 @@
       return (data || []).map(normalize);
     },
 
-    async saveJob(job) { // insert sau update (upsert după id)
-      if (!this.isConfigured()) throw new Error("Supabase nu este configurat.");
+    async saveJob(job) {
+      if (!this.isConfigured()) throw new Error("Conexiune indisponibilă.");
       const payload = {
         id: job.id, active: job.active, title: job.title, category: job.category,
         salary: job.salary, image: job.image, facts: job.facts, perks: job.perks,
@@ -79,14 +70,13 @@
     },
 
     async deleteJob(id) {
-      if (!this.isConfigured()) throw new Error("Supabase nu este configurat.");
+      if (!this.isConfigured()) throw new Error("Conexiune indisponibilă.");
       const { error } = await client.from("jobs").delete().eq("id", id);
       if (error) throw error;
     },
 
-    // Încarcă o poză în Storage și întoarce URL-ul public
     async uploadImage(file) {
-      if (!this.isConfigured()) throw new Error("Supabase nu este configurat.");
+      if (!this.isConfigured()) throw new Error("Conexiune indisponibilă.");
       const ext = (file.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z0-9]/g, "");
       const path = "jobs/" + Date.now() + "-" + Math.random().toString(36).slice(2, 8) + "." + ext;
       const { error } = await client.storage.from("job-images").upload(path, file, {
@@ -97,9 +87,8 @@
       return data.publicUrl;
     },
 
-    // ---- AUTENTIFICARE ----
     async signIn(email, password) {
-      if (!this.isConfigured()) throw new Error("Supabase nu este configurat.");
+      if (!this.isConfigured()) throw new Error("Conexiune indisponibilă.");
       const { error } = await client.auth.signInWithPassword({ email, password });
       if (error) throw error;
     },
