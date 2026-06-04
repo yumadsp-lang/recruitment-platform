@@ -197,6 +197,12 @@ section{padding:96px 0;position:relative}
 .filter-chip:hover{border-color:var(--line-gold)}
 .filter-chip.active{background:linear-gradient(135deg,#e7c876,#c9962e);border-color:transparent;color:#10100a}
 .reviews-count{text-align:center;color:var(--gray);font-size:14px;margin:-14px 0 24px}
+.avg-rating{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
+.avg-rating .stars-wrap{position:relative;display:inline-block;font-size:22px;line-height:1}
+.avg-rating .stars-bg{color:#3a3a42}
+.avg-rating .stars-fg{position:absolute;left:0;top:0;overflow:hidden;white-space:nowrap;color:var(--gold-2)}
+.avg-rating b{font-family:"Archivo";font-size:20px;color:#fff}
+.avg-rating .muted{color:var(--gray);font-size:14px}
 .reviews-scroll{max-height:560px;overflow-y:auto;margin-bottom:42px;padding:4px}
 .reviews-scroll::-webkit-scrollbar{width:8px}
 .reviews-scroll::-webkit-scrollbar-thumb{background:rgba(201,150,46,.4);border-radius:8px}
@@ -352,7 +358,7 @@ footer .fl a:hover{color:var(--gold-2)}
         <a class="btn ghost" href="#cum-functioneaza">Cum funcționează</a>
       </div>
       <div class="hero-trust">
-        <span class="chip"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> Contract legal german</span>
+        <span class="chip"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> Contract direct cu angajatorul</span>
         <span class="chip"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> Aplicare gratuită</span>
         <span class="chip"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> Angajatori verificați</span>
       </div>
@@ -401,8 +407,8 @@ footer .fl a:hover{color:var(--gold-2)}
     <div class="features">
       <div class="feature reveal">
         <div class="ic"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
-        <h3>Contract legal german</h3>
-        <p>Lucrezi cu forme legale, drepturi clare și un contract de muncă legal în UE.</p>
+        <h3>Contract direct cu angajatorul</h3>
+        <p>Lucrezi legal, cu forme în regulă și un contract de muncă încheiat direct cu angajatorul.</p>
       </div>
       <div class="feature reveal">
         <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
@@ -463,7 +469,7 @@ footer .fl a:hover{color:var(--gold-2)}
         </ul>
       </div>
       <div class="about-panel reveal">
-        <div class="ap-row"><div class="ap-ic"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div><div><b>Contract legal</b><span>Angajare cu forme legale și drepturi clare</span></div></div>
+        <div class="ap-row"><div class="ap-ic"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div><div><b>Contract legal direct cu angajatorul</b><span>Forme în regulă și drepturi clare</span></div></div>
         <div class="ap-row"><div class="ap-ic"><svg viewBox="0 0 24 24"><path d="M12 8v5l3 2"/><circle cx="12" cy="12" r="9"/></svg></div><div><b>Răspuns prompt</b><span>Te contactăm rapid după ce aplici</span></div></div>
         <div class="ap-row"><div class="ap-ic"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div><div><b>Angajatori verificați</b><span>Colaborăm doar cu parteneri de încredere</span></div></div>
         <div class="ap-row"><div class="ap-ic"><svg viewBox="0 0 24 24"><path d="M3 7h18v13H3z"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div><div><b>Condiții transparente</b><span>Afli salariul și programul din start</span></div></div>
@@ -695,7 +701,19 @@ footer .fl a:hover{color:var(--gold-2)}
   function renderReviews(list){
     const grid = document.getElementById('reviews-grid');
     const count = document.getElementById('reviews-count');
-    if(count) count.textContent = list.length ? (list.length + (list.length===1?' părere publicată':' păreri publicate')) : '';
+    if(count){
+      const rated = list.filter(r=>+r.rating>0);
+      if(rated.length){
+        const avg = rated.reduce((s,r)=>s+(+r.rating),0)/rated.length;
+        const pct = (avg/5*100).toFixed(1);
+        count.innerHTML = `<div class="avg-rating">
+          <span class="stars-wrap"><span class="stars-bg">★★★★★</span><span class="stars-fg" style="width:${pct}%">★★★★★</span></span>
+          <b>${avg.toFixed(1)}</b><span class="muted">din 5 · ${list.length} ${list.length===1?'părere':'păreri'}</span>
+        </div>`;
+      } else {
+        count.innerHTML = list.length ? `<div class="avg-rating"><span class="muted">${list.length} ${list.length===1?'părere publicată':'păreri publicate'}</span></div>` : '';
+      }
+    }
     if(!list.length){ grid.innerHTML = '<div class="reviews-empty">Încă nu sunt păreri publicate. Fii primul care lasă una!</div>'; return; }
     grid.innerHTML = list.map(r=>`
       <article class="review-card reveal">
