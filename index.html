@@ -33,6 +33,10 @@
   "image": "https://wejobs.ro/assets/images/hero-soferi-germania.webp.png",
   "description": "Agenție de recrutare care conectează candidați din România cu locuri de muncă verificate în Uniunea Europeană, cu contract legal.",
   "areaServed": ["România", "Uniunea Europeană"],
+  "sameAs": [
+    "https://www.facebook.com/profile.php?id=61584767938916",
+    "https://www.tiktok.com/@wejobs.ro"
+  ],
   "knowsLanguage": ["ro", "de"],
   "telephone": "+49 170 304 4341",
   "email": "opsinsighthub@gmail.com",
@@ -275,6 +279,17 @@ footer h4{font-family:"Archivo";font-size:14px;letter-spacing:.12em;text-transfo
 footer .fl{display:grid;gap:10px}
 footer .fl a,footer .fl span{color:var(--gray);font-size:15px;transition:color .2s}
 footer .fl a:hover{color:var(--gold-2)}
+.socials{display:flex;gap:12px;margin-top:18px}
+.socials a{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;background:var(--card);border:1px solid var(--line);transition:.2s}
+.socials a:hover{border-color:var(--gold);transform:translateY(-2px)}
+.socials svg{width:20px;height:20px;fill:var(--gold-2)}
+.companii{padding:0 0 96px}
+.companii-box{display:grid;grid-template-columns:1.5fr 1fr;gap:34px;align-items:center;background:linear-gradient(135deg,rgba(201,150,46,.14),rgba(201,150,46,.04));border:1px solid var(--line-gold);border-radius:26px;padding:44px}
+.companii-box h2{font-family:"Archivo";font-weight:800;font-size:clamp(26px,3vw,38px);letter-spacing:-1px;line-height:1.06;margin:14px 0 14px}
+.companii-box p{color:var(--gray);font-size:16px}
+.companii-actions{display:flex;flex-direction:column;gap:12px}
+.companii-actions .btn{width:100%;justify-content:center}
+@media(max-width:780px){.companii-box{grid-template-columns:1fr;padding:30px}}
 .copy{margin-top:46px;padding-top:24px;border-top:1px solid var(--line-2);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;color:var(--gray-d);font-size:13px}
 
 .floating-wa{position:fixed;right:22px;bottom:22px;z-index:999;width:60px;height:60px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 14px 36px rgba(37,211,102,.4);transition:transform .25s}
@@ -323,7 +338,7 @@ footer .fl a:hover{color:var(--gold-2)}
 <header>
   <div class="container nav">
     <a href="/" class="brand" aria-label="WeJobs.ro">
-      <span class="brand-name"><b>WE</b><span class="gold-text">JOBS</span><span class="ro">.RO</span></span>
+      <span class="brand-name" translate="no"><b>WE</b><span class="gold-text">JOBS</span><span class="ro">.RO</span></span>
     </a>
     <nav class="navlinks">
       <a href="#joburi">Joburi</a>
@@ -573,15 +588,39 @@ footer .fl a:hover{color:var(--gold-2)}
     </div>
   </div>
 </section>
+
+<section id="companii" class="companii">
+  <div class="container">
+    <div class="companii-box reveal">
+      <div>
+        <span class="eyebrow">Pentru companii</span>
+        <h2>Ești angajator și cauți <span class="gold-text">forță de muncă?</span></h2>
+        <p>Colaborăm cu firme din Uniunea Europeană care au nevoie de personal serios din România. Spune-ne ce posturi ai de acoperit și revenim cu o propunere de colaborare.</p>
+      </div>
+      <div class="companii-actions">
+        <a class="btn gold" id="companii-wa" target="_blank" href="#">Discută pe WhatsApp</a>
+        <a class="btn ghost" href="mailto:support@wejobs.ro?subject=Colaborare%20WeJobs.ro">Scrie-ne pe e-mail</a>
+      </div>
+    </div>
+  </div>
+</section>
 </main>
 
 <footer>
   <div class="container">
     <div class="footer-grid">
       <div>
-        <a href="/" class="brand" style="margin-bottom:14px"><span class="brand-name" style="font-size:28px"><b>WE</b><span class="gold-text">JOBS</span><span class="ro">.RO</span></span></a>
+        <a href="/" class="brand" style="margin-bottom:14px"><span class="brand-name" translate="no" style="font-size:28px"><b>WE</b><span class="gold-text">JOBS</span><span class="ro">.RO</span></span></a>
         <p class="slogan">Jobul potrivit începe aici.</p>
         <p>Agenție de recrutare pentru candidați din România, cu locuri de muncă verificate în Uniunea Europeană.</p>
+        <div class="socials">
+          <a href="https://www.facebook.com/profile.php?id=61584767938916" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 10-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0022 12z"/></svg>
+          </a>
+          <a href="https://www.tiktok.com/@wejobs.ro" target="_blank" rel="noopener" aria-label="TikTok">
+            <svg viewBox="0 0 24 24"><path d="M16.5 5.5a4.5 4.5 0 003.5 1.7v3a7.5 7.5 0 01-3.8-1.04v6.3a5.46 5.46 0 11-5.46-5.46c.2 0 .4.01.6.04v3.06a2.5 2.5 0 102.36 2.5V2h2.8a4.5 4.5 0 00.4 3.5z"/></svg>
+          </a>
+        </div>
       </div>
       <div>
         <h4>Navigare</h4>
@@ -592,6 +631,7 @@ footer .fl a:hover{color:var(--gold-2)}
         <div class="fl">
           <a target="_blank" id="wa-footer" href="#">Scrie-ne pe WhatsApp</a>
           <a href="#aplica">Aplică online</a>
+          <a href="#companii">Pentru companii</a>
           <a href="/legal#impressum">Impressum</a>
           <a href="/legal">Confidențialitate (GDPR)</a>
           <span>Răspundem prompt la aplicări</span>
@@ -614,6 +654,7 @@ footer .fl a:hover{color:var(--gold-2)}
   const waBase = txt => `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(txt)}`;
 
   document.getElementById('wa-footer').href = waBase("Bună ziua! Doresc informații despre joburile disponibile pe WeJobs.ro");
+  document.getElementById('companii-wa').href = waBase("Bună ziua! Reprezint o companie și sunt interesat(ă) de o colaborare cu WeJobs.ro.");
   document.getElementById('apply-form').action = CONFIG.formspree;
 
   const burger = document.getElementById('burger');
