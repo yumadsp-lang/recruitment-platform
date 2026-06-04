@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>WeJobs.ro | Agenție de recrutare România → Uniunea Europeană</title>
-<meta name="description" content="WeJobs.ro – agenție de recrutare. Locuri de muncă verificate în Uniunea Europeană pentru candidați din România, cu contract legal și suport în limba română. Aplică online în câteva minute." />
+<meta name="description" content="WeJobs.ro – agenție de recrutare. Locuri de muncă verificate în Uniunea Europeană pentru candidați din România, cu contract legal. Aplică online în câteva minute." />
 <meta name="keywords" content="locuri de munca UE, joburi Uniunea Europeana, recrutare Europa romani, locuri de munca strainatate, sofer Amazon, sofer C+E, agentie recrutare, contract legal UE" />
 <meta name="robots" content="index, follow" />
 <meta name="author" content="WeJobs.ro" />
@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="WeJobs.ro" />
 <meta property="og:locale" content="ro_RO" />
 <meta property="og:title" content="WeJobs.ro | Agenție de recrutare România → Uniunea Europeană" />
-<meta property="og:description" content="Locuri de muncă verificate în Uniunea Europeană pentru candidați din România. Contract legal, suport în limba română. Aplică online în câteva minute." />
+<meta property="og:description" content="Locuri de muncă verificate în Uniunea Europeană pentru candidați din România. Contract legal. Aplică online în câteva minute." />
 <meta property="og:url" content="https://wejobs.ro/" />
 <meta property="og:image" content="https://wejobs.ro/assets/images/hero-soferi-germania.webp.png" />
 <meta name="twitter:card" content="summary_large_image" />
@@ -31,7 +31,7 @@
   "url": "https://wejobs.ro/",
   "logo": "https://wejobs.ro/assets/images/logo-wejobs-header.png",
   "image": "https://wejobs.ro/assets/images/hero-soferi-germania.webp.png",
-  "description": "Agenție de recrutare care conectează candidați din România cu locuri de muncă verificate în Uniunea Europeană, cu contract legal și suport în limba română.",
+  "description": "Agenție de recrutare care conectează candidați din România cu locuri de muncă verificate în Uniunea Europeană, cu contract legal.",
   "areaServed": ["România", "Uniunea Europeană"],
   "knowsLanguage": ["ro", "de"],
   "telephone": "+49 170 304 4341",
@@ -192,6 +192,22 @@ section{padding:96px 0;position:relative}
 .about-panel .ap-ic svg{width:22px;height:22px;fill:none;stroke:var(--gold-2);stroke-width:2}
 .about-panel b{font-family:"Archivo";font-size:16px;display:block}
 .about-panel span{font-size:13.5px;color:var(--gray)}
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:42px}
+.review-card{background:linear-gradient(180deg,var(--card-hi),var(--card));border:1px solid var(--line);border-radius:20px;padding:26px;display:flex;flex-direction:column;gap:14px;transition:transform .3s,border-color .3s}
+.review-card:hover{transform:translateY(-5px);border-color:var(--line-gold)}
+.review-card .stars{color:var(--gold-2);font-size:15px;letter-spacing:3px}
+.review-card .msg{color:#d6d6dc;font-size:15px;font-style:italic;flex:1;line-height:1.6}
+.review-card .who{display:flex;align-items:center;gap:12px;border-top:1px solid var(--line-2);padding-top:15px}
+.review-card .av{flex:none;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-family:"Archivo";font-weight:800;color:#10100a;background:linear-gradient(135deg,#e7c876,#c9962e)}
+.review-card .who b{font-family:"Archivo";font-size:15px;display:block;line-height:1.2}
+.review-card .who span{font-size:13px;color:var(--gray)}
+.reviews-empty{grid-column:1/-1;text-align:center;color:var(--gray-d);padding:24px;font-size:15px}
+.review-cta{max-width:680px;margin:auto;background:linear-gradient(180deg,var(--card-hi),var(--card));border:1px solid var(--line-gold);border-radius:22px;padding:32px;box-shadow:0 30px 70px rgba(0,0,0,.4)}
+.review-cta h3{font-family:"Archivo";font-weight:800;font-size:22px;margin-bottom:6px}
+.review-cta > p{color:var(--gray);margin-bottom:20px;font-size:15px}
+.stars-pick{display:flex;gap:6px;font-size:30px;color:#3a3a42;cursor:pointer;margin-bottom:18px;width:max-content}
+.stars-pick span{transition:color .15s;line-height:1}
+.stars-pick span.on{color:var(--gold-2)}
 
 /* FAQ */
 .faq{max-width:840px;margin:auto;display:grid;gap:14px}
@@ -259,7 +275,7 @@ footer .fl a:hover{color:var(--gold-2)}
   .stats .container{grid-template-columns:1fr 1fr}
   .stats .s{padding:26px 14px}
   .stats .s:nth-child(3)::before,.stats .s+.s::before{display:none}
-  .jobs,.features,.steps,.apply-grid,.about-grid,.footer-grid{grid-template-columns:1fr}
+  .jobs,.features,.steps,.apply-grid,.about-grid,.footer-grid,.reviews-grid{grid-template-columns:1fr}
   .about-visual{order:-1}
   .nav{height:64px}
   .section-head{margin-bottom:34px}
@@ -295,6 +311,7 @@ footer .fl a:hover{color:var(--gold-2)}
       <a href="#de-ce-noi">De ce noi</a>
       <a href="#cum-functioneaza">Cum funcționează</a>
       <a href="#despre">Despre</a>
+      <a href="#pareri">Păreri</a>
       <a href="#intrebari">Întrebări</a>
     </nav>
     <a class="btn gold hide-mobile" href="#aplica">Aplică acum</a>
@@ -307,7 +324,8 @@ footer .fl a:hover{color:var(--gold-2)}
     <a href="#de-ce-noi">De ce noi</a>
     <a href="#cum-functioneaza">Cum funcționează</a>
     <a href="#despre">Despre</a>
-    <a href="#intrebari">Întrebări</a>
+    <a href="#pareri">Păreri</a>
+      <a href="#intrebari">Întrebări</a>
     <a class="btn gold" href="#aplica">Aplică acum</a>
   </div>
 </header>
@@ -319,14 +337,14 @@ footer .fl a:hover{color:var(--gold-2)}
       <span class="eyebrow">Agenție de recrutare • România → Uniunea Europeană</span>
       <h1>We<span class="gold-text">Jobs</span>.ro</h1>
       <p class="slogan">Jobul potrivit începe aici.</p>
-      <p class="lead">Suntem agenția care te conectează cu angajatori verificați din Uniunea Europeană. Posturi cu contract legal, condiții clare și suport în limba română — de la aplicare până la prima zi de muncă.</p>
+      <p class="lead">Suntem agenția care te conectează cu angajatori verificați din Uniunea Europeană. Posturi cu contract legal și condiții clare — de la aplicare până la prima zi de muncă.</p>
       <div class="hero-actions">
         <a href="#joburi" class="btn gold">Vezi joburile disponibile</a>
         <a class="btn ghost" href="#cum-functioneaza">Cum funcționează</a>
       </div>
       <div class="hero-trust">
-        <span class="chip"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> Contract legal </span>
-        <span class="chip"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> Suport în română</span>
+        <span class="chip"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> Contract legal german</span>
+        <span class="chip"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> Aplicare gratuită</span>
         <span class="chip"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> Angajatori verificați</span>
       </div>
     </div>
@@ -347,7 +365,7 @@ footer .fl a:hover{color:var(--gold-2)}
   <div class="container">
     <div class="s reveal"><strong class="gold-text" id="meta-count">0</strong><span>Joburi active</span></div>
     <div class="s reveal"><strong class="gold-text">UE</strong><span>Zona de lucru</span></div>
-    <div class="s reveal"><strong class="gold-text">RO</strong><span>Suport în română</span></div>
+    <div class="s reveal"><strong class="gold-text">Gratuit</strong><span>Aplicare pentru candidați</span></div>
     <div class="s reveal"><strong class="gold-text">100%</strong><span>Contracte legale</span></div>
   </div>
 </div>
@@ -373,7 +391,7 @@ footer .fl a:hover{color:var(--gold-2)}
     <div class="features">
       <div class="feature reveal">
         <div class="ic"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
-        <h3>Contract legal </h3>
+        <h3>Contract legal german</h3>
         <p>Lucrezi cu forme legale, drepturi clare și un contract de muncă legal în UE.</p>
       </div>
       <div class="feature reveal">
@@ -383,8 +401,8 @@ footer .fl a:hover{color:var(--gold-2)}
       </div>
       <div class="feature reveal">
         <div class="ic"><svg viewBox="0 0 24 24"><path d="M3 12h18"/><path d="M12 3a15 15 0 010 18"/><path d="M12 3a15 15 0 000 18"/><circle cx="12" cy="12" r="9"/></svg></div>
-        <h3>Suport în limba română</h3>
-        <p>Vorbim românește. Îți explicăm tot, de la aplicare până la pașii de la destinație.</p>
+        <h3>Fără costuri ascunse</h3>
+        <p>Aplicarea pe site este gratuită, iar orice condiție ți-o spunem clar, din start.</p>
       </div>
       <div class="feature reveal">
         <div class="ic"><svg viewBox="0 0 24 24"><path d="M3 7h18v13H3z"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div>
@@ -415,7 +433,7 @@ footer .fl a:hover{color:var(--gold-2)}
     <div class="steps">
       <div class="step reveal"><div class="num gold-text">01</div><h3>Alegi jobul</h3><p>Vezi pozițiile active și deschizi oferta completă, cu salariu și condiții.</p></div>
       <div class="step reveal"><div class="num gold-text">02</div><h3>Aplici online</h3><p>Completezi formularul sau ne scrii pe WhatsApp. Durează câteva minute.</p></div>
-      <div class="step reveal"><div class="num gold-text">03</div><h3>Te contactăm</h3><p>Revenim în limba română pentru verificare, interviu și pașii următori.</p></div>
+      <div class="step reveal"><div class="num gold-text">03</div><h3>Te contactăm</h3><p>Te contactăm pentru verificare, interviu și pașii următori.</p></div>
     </div>
   </div>
 </section>
@@ -425,21 +443,50 @@ footer .fl a:hover{color:var(--gold-2)}
     <div class="about-grid">
       <div class="about-copy reveal">
         <span class="eyebrow">Despre noi</span>
-        <h2 style="font-family:'Archivo';font-weight:800;font-size:clamp(30px,4vw,46px);letter-spacing:-1.4px;line-height:1.04;margin:16px 0 18px;">Recrutare făcută <span class="gold-text">corect</span></h2>
-        <p class="lead">WeJobs.ro este agenția de recrutare care aduce candidați din România mai aproape de locuri de muncă bune în Uniunea Europeană.</p>
-        <p>Punem accent pe lucruri simple, dar importante: oferte reale, condiții scrise clar și comunicare în limba română. Vrem ca decizia ta de a pleca la muncă să fie una sigură și informată.</p>
+        <h2 style="font-family:'Archivo';font-weight:800;font-size:clamp(30px,4vw,46px);letter-spacing:-1.4px;line-height:1.04;margin:16px 0 18px;">Alături de tine la <span class="gold-text">fiecare pas</span></h2>
+        <p class="lead">Plecarea la muncă în străinătate e un pas important — și nu trebuie să-l faci singur. Te ajutăm să găsești un loc de muncă potrivit în Uniunea Europeană și rămânem alături de tine pe tot parcursul.</p>
+        <p>Lucrăm transparent și pe înțelesul tău: îți prezentăm clar salariul, condițiile și ce presupune fiecare post, ca să știi exact la ce să te aștepți. Iar când ai o întrebare, primești răspuns rapid și clar.</p>
         <ul class="about-points">
-          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Oferte verificate, cu detalii reale despre salariu și program</li>
-          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Comunicare directă, în română, pe tot parcursul</li>
-          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Sprijin la documente și la integrarea în țara de destinație</li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Oferte verificate, cu salariu și condiții prezentate clar</li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Comunicare directă, de la prima discuție</li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Te ajutăm cu actele și cu primii pași la destinație</li>
         </ul>
       </div>
       <div class="about-panel reveal">
-        <div class="ap-row"><div class="ap-ic"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div><div><b>Contract legal</b><span>Forme legale și drepturi clare</span></div></div>
-        <div class="ap-row"><div class="ap-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 010 18M12 3a15 15 0 000 18"/></svg></div><div><b>Suport în limba română</b><span>Comunicăm românește, pas cu pas</span></div></div>
-        <div class="ap-row"><div class="ap-ic"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div><div><b>Angajatori verificați</b><span>Doar firme reale din UE</span></div></div>
-        <div class="ap-row"><div class="ap-ic"><svg viewBox="0 0 24 24"><path d="M3 7h18v13H3z"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div><div><b>Condiții transparente</b><span>Salariu și program scrise clar</span></div></div>
+        <div class="ap-row"><div class="ap-ic"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div><div><b>Contract legal</b><span>Angajare cu forme legale și drepturi clare</span></div></div>
+        <div class="ap-row"><div class="ap-ic"><svg viewBox="0 0 24 24"><path d="M12 8v5l3 2"/><circle cx="12" cy="12" r="9"/></svg></div><div><b>Răspuns prompt</b><span>Te contactăm rapid după ce aplici</span></div></div>
+        <div class="ap-row"><div class="ap-ic"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div><div><b>Angajatori verificați</b><span>Colaborăm doar cu parteneri de încredere</span></div></div>
+        <div class="ap-row"><div class="ap-ic"><svg viewBox="0 0 24 24"><path d="M3 7h18v13H3z"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div><div><b>Condiții transparente</b><span>Afli salariul și programul din start</span></div></div>
       </div>
+    </div>
+  </div>
+</section>
+
+<section id="pareri">
+  <div class="container">
+    <div class="section-head center reveal">
+      <span class="eyebrow">Păreri</span>
+      <h2>Ce spun <span class="gold-text">candidații</span></h2>
+      <p>Experiențe împărtășite de oameni care au aplicat prin WeJobs.ro.</p>
+    </div>
+    <div class="reviews-grid" id="reviews-grid"></div>
+    <div class="review-cta reveal">
+      <h3>Ai lucrat cu noi? Lasă o părere</h3>
+      <p>Părerea ta ne ajută și îi ajută pe alții. Apare pe site după ce o verificăm.</p>
+      <form id="review-form">
+        <div class="form-row">
+          <div><label for="r-name">Numele tău</label><input id="r-name" type="text" name="name" required placeholder="Ex: Andrei P."></div>
+          <div><label for="r-role">Postul / orașul (opțional)</label><input id="r-role" type="text" name="role" placeholder="Ex: Șofer curier, Nürnberg"></div>
+        </div>
+        <label>Cât de mulțumit ești?</label>
+        <div class="stars-pick" id="stars-pick" role="radiogroup" aria-label="Notă">
+          <span data-v="1">★</span><span data-v="2">★</span><span data-v="3">★</span><span data-v="4">★</span><span data-v="5">★</span>
+        </div>
+        <label for="r-message">Părerea ta</label>
+        <textarea id="r-message" name="message" required placeholder="Scrie pe scurt cum a fost experiența ta..."></textarea>
+        <button class="btn gold" type="submit" style="width:100%;">Trimite părerea</button>
+        <p class="form-note" id="review-status"></p>
+      </form>
     </div>
   </div>
 </section>
@@ -452,7 +499,7 @@ footer .fl a:hover{color:var(--gold-2)}
       <p>Cele mai des întâlnite întrebări de la candidați.</p>
     </div>
     <div class="faq reveal">
-      <details><summary>Cum aplic la un job? <span class="pl"></span></summary><div class="ans">Alegi postul dorit, apeși „Aplică" și completezi formularul (nume, telefon, e-mail și, dacă vrei, câteva detalii despre experiență). Aplicația ajunge direct la noi și te contactăm în limba română. Nu ai nevoie de niciun cont.</div></details>
+      <details><summary>Cum aplic la un job? <span class="pl"></span></summary><div class="ans">Alegi postul dorit, apeși „Aplică" și completezi formularul (nume, telefon, e-mail și, dacă vrei, câteva detalii despre experiență). Aplicația ajunge direct la noi și te contactăm pentru pașii următori. Nu ai nevoie de niciun cont.</div></details>
       <details><summary>Trebuie să plătesc ceva pentru a aplica? <span class="pl"></span></summary><div class="ans">Aplicarea pe site este gratuită. Orice detalii despre condiții (inclusiv eventuale costuri de cazare sau transport, acolo unde există) ți le comunicăm clar și din timp, înainte să iei o decizie. Nu îți cerem date bancare sau plăți prin formularul de aplicare.</div></details>
       <details><summary>Am nevoie să știu limba germană? <span class="pl"></span></summary><div class="ans">Depinde de post. La unele poziții (ex. curierat) nu este obligatoriu, dar cunoștințe de bază de germană sau engleză sunt un avantaj. Cerințele exacte de limbă sunt scrise în fiecare ofertă în parte.</div></details>
       <details><summary>Contractul de muncă este legal? <span class="pl"></span></summary><div class="ans">Da. Posturile pe care le prezentăm sunt cu contract de muncă legal în UE, cu forme legale, asigurări și drepturi conform legislației locale. Condițiile sunt confirmate înainte de plecare.</div></details>
@@ -511,7 +558,7 @@ footer .fl a:hover{color:var(--gold-2)}
       <div>
         <a href="/" class="brand" style="margin-bottom:14px"><span class="brand-name" style="font-size:28px"><b>WE</b><span class="gold-text">JOBS</span><span class="ro">.RO</span></span></a>
         <p class="slogan">Jobul potrivit începe aici.</p>
-        <p>Agenție de recrutare pentru candidați din România, cu locuri de muncă verificate în Uniunea Europeană și suport în limba română.</p>
+        <p>Agenție de recrutare pentru candidați din România, cu locuri de muncă verificate în Uniunea Europeană.</p>
       </div>
       <div>
         <h4>Navigare</h4>
@@ -524,7 +571,7 @@ footer .fl a:hover{color:var(--gold-2)}
           <a href="#aplica">Aplică online</a>
           <a href="/legal#impressum">Impressum</a>
           <a href="/legal">Confidențialitate (GDPR)</a>
-          <span>Suport în limba română</span>
+          <span>Răspundem prompt la aplicări</span>
         </div>
       </div>
     </div>
@@ -610,6 +657,57 @@ footer .fl a:hover{color:var(--gold-2)}
     try { renderJobs(await WeJobs.getJobs()); }
     catch (e) { console.error(e); renderJobs((typeof FALLBACK_JOBS!=='undefined'?FALLBACK_JOBS:[]).filter(j=>j.active!==false)); }
   })();
+
+  function starRow(n){ n=Math.max(0,Math.min(5,parseInt(n)||0)); return '★'.repeat(n)+'☆'.repeat(5-n); }
+  function initials(name){ return (name||'?').trim().split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase(); }
+
+  function renderReviews(list){
+    const grid = document.getElementById('reviews-grid');
+    if(!list.length){ grid.innerHTML = '<div class="reviews-empty">Încă nu sunt păreri publicate. Fii primul care lasă una!</div>'; return; }
+    grid.innerHTML = list.map(r=>`
+      <article class="review-card reveal">
+        ${r.rating?`<div class="stars">${starRow(r.rating)}</div>`:''}
+        <p class="msg">„${esc(r.message)}"</p>
+        <div class="who">
+          <div class="av">${esc(initials(r.name))}</div>
+          <div><b>${esc(r.name)}</b>${r.role?`<span>${esc(r.role)}</span>`:''}</div>
+        </div>
+      </article>`).join('');
+    const io = new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
+    grid.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%3*0.06)+'s';io.observe(el);});
+  }
+  (async()=>{ try{ renderReviews(await WeJobs.getApprovedReviews()); }catch(e){ console.error(e); renderReviews([]); } })();
+
+  let pickedRating = 0;
+  const starsPick = document.getElementById('stars-pick');
+  if (starsPick){
+    const stars = Array.from(starsPick.querySelectorAll('span'));
+    const paint = n => stars.forEach(s=>s.classList.toggle('on', (+s.dataset.v)<=n));
+    stars.forEach(s=>{
+      s.addEventListener('mouseenter', ()=>paint(+s.dataset.v));
+      s.addEventListener('click', ()=>{ pickedRating = +s.dataset.v; paint(pickedRating); });
+    });
+    starsPick.addEventListener('mouseleave', ()=>paint(pickedRating));
+  }
+
+  const reviewForm = document.getElementById('review-form');
+  if (reviewForm){
+    reviewForm.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const status = document.getElementById('review-status');
+      const name = document.getElementById('r-name').value.trim();
+      const role = document.getElementById('r-role').value.trim();
+      const message = document.getElementById('r-message').value.trim();
+      if(!name || !message){ status.textContent = 'Completează numele și părerea.'; return; }
+      status.textContent = 'Se trimite...';
+      try{
+        await WeJobs.submitReview({ name, role, rating: pickedRating, message });
+        reviewForm.reset(); pickedRating = 0;
+        if (starsPick) starsPick.querySelectorAll('span').forEach(s=>s.classList.remove('on'));
+        status.textContent = 'Mulțumim! Părerea ta va apărea pe site după ce o verificăm.';
+      }catch(err){ status.textContent = 'Nu am putut trimite părerea. Încearcă din nou.'; }
+    });
+  }
 </script>
 </body>
 </html>
