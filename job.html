@@ -128,7 +128,19 @@ footer .fl a:hover{color:var(--gold-2)}
 .notfound p{color:var(--gray);font-size:17px;margin-bottom:28px}
 
 @media(max-width:980px){.navlinks{display:none}.job-layout{grid-template-columns:1fr;gap:34px}.sidebar{position:static}.footer-grid{grid-template-columns:1fr}.nav{height:72px}}
-@media(max-width:520px){.form-row{grid-template-columns:1fr}.facts{grid-template-columns:1fr}}
+@media(max-width:520px){
+  .form-row{grid-template-columns:1fr}
+  .job-hero-inner{padding:38px 0 42px}
+  .job-hero h1{font-size:26px;letter-spacing:-1px;line-height:1.06}
+  .job-hero .salary-big{font-size:22px;margin-top:12px}
+  .job-hero .cat{margin-bottom:12px;font-size:11px;padding:6px 12px}
+  .back-btn{margin-bottom:14px}
+  .breadcrumb{margin-bottom:14px;font-size:12px}
+  .facts{display:flex;grid-template-columns:none;gap:10px;background:transparent;border:0;border-radius:0;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-bottom:30px;padding-bottom:4px}
+  .facts::-webkit-scrollbar{display:none}
+  .facts .f{flex:0 0 56%;scroll-snap-align:start;border:1px solid var(--line-2);border-radius:14px;padding:13px 15px}
+  .facts .f span{font-size:15px}
+}
 </style>
 </head>
 <body>
@@ -241,7 +253,7 @@ footer .fl a:hover{color:var(--gold-2)}
     if (job.salary) jp.baseSalary = {"@type":"MonetaryAmount","currency":"EUR","value":{"@type":"QuantitativeValue","unitText":"MONTH"}};
     const s=document.createElement('script'); s.type='application/ld+json'; s.textContent=JSON.stringify(jp); document.head.appendChild(s);
 
-    const factCells = [['Salariu',job.salary],['Locații',f.locatii],['Permis',f.permis],['Tip job',f.tip],['Țară',f.tara]]
+    const factCells = [['Locații',f.locatii],['Permis',f.permis],['Tip job',f.tip],['Țară',f.tara]]
       .filter(c=>c[1]).map(c=>`<div class="f"><b>${esc(c[0])}</b><span>${esc(c[1])}</span></div>`).join('');
 
     const list = (title, arr) => (arr && arr.length)
