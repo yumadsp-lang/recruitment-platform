@@ -145,7 +145,7 @@ section{padding:96px 0;position:relative}
 .jobs{display:flex;gap:30px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:4px 4px 8px}
 .jobs::-webkit-scrollbar{display:none}
 .jobs>.job-card{flex:0 0 calc(50% - 15px);scroll-snap-align:start}
-@media(max-width:980px){.jobs>.job-card{flex:0 0 calc(100% - 4px)}}
+@media(max-width:980px){.jobs>.job-card{flex:0 0 86%}}
 .jobs-dots{display:flex;justify-content:center;gap:10px;margin-top:22px}
 .jobs-dots button{width:9px;height:9px;padding:0;border:0;border-radius:50%;background:var(--gold-2);opacity:.3;cursor:pointer;transition:opacity .3s,transform .3s}
 .jobs-dots button.active{opacity:1;transform:scale(1.3)}
@@ -703,10 +703,11 @@ footer .fl a:hover{color:var(--gold-2)}
     dotsBox.style.display='flex';
     const step=()=>Math.abs((cards[1]?.offsetLeft||0)-cards[0].offsetLeft)||cards[0].offsetWidth;
     const index=()=>Math.round(track.scrollLeft/step());
-    const setDots=i=>{i=Number.isInteger(i)?i:index();[...dotsBox.children].forEach((d,k)=>d.classList.toggle('active',k===i));};
-    const goTo=(i,s=true)=>{track._prog=true;track.scrollTo({left:i*step(),behavior:s?'smooth':'auto'});clearTimeout(track._pg);track._pg=setTimeout(()=>track._prog=false,700);setDots(i);};
-    const next=()=>goTo((index()+1)%cards.length);
-    const start=()=>{clearInterval(track._t);track._t=setInterval(next,3000);};
+    const atEnd=()=>track.scrollLeft+track.clientWidth>=track.scrollWidth-4;
+    const setDots=i=>{i=Number.isInteger(i)?i:index();i=Math.min(i,dotsBox.children.length-1);[...dotsBox.children].forEach((d,k)=>d.classList.toggle('active',k===i));};
+    const goTo=(i,s=true)=>{track._prog=true;track.scrollTo({left:i*step(),behavior:s?'smooth':'auto'});clearTimeout(track._pg);track._pg=setTimeout(()=>track._prog=false,800);setDots(i);};
+    const next=()=>{ if(atEnd()) goTo(0); else goTo(index()+1); };   // la ultimul -> revine la primul
+    const start=()=>{clearInterval(track._t);track._t=setInterval(next,5000);};  // 5 secunde
     const stop=()=>{clearInterval(track._t);track._t=null;};
     const pause=()=>{stop();clearTimeout(track._r);track._r=setTimeout(start,4000);};
     track._pause=pause;track._stop=stop;track._start=start;track._setDots=setDots;
