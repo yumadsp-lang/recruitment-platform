@@ -1,33 +1,62 @@
-<?xml version="1.0" encoding="UTF-8"?>
+// api/sitemap.js
+// Generează sitemap.xml LA CERERE, direct din Supabase — mereu sincron cu joburile active.
+// Elimină problema vechiului sitemap.xml static, care rămânea cu joburi șterse
+// sau nu includea joburile noi adăugate din panoul de administrare.
+//
+// IMPORTANT: șterge fișierul static sitemap.xml din rădăcina proiectului după ce
+// adaugi acest fișier (vezi README-SEO-FIX.md) — altfel Vercel va continua să
+// serveasă fișierul static vechi, în loc de această funcție.
+
+const SUPABASE_URL = "https://cmpagnbvympkrtcjnefz.supabase.co";
+const SUPABASE_KEY = "sb_publishable_B66wSpD1Xd2a7PkCUAZBQQ_qYY6650Q";
+const SITE = "https://wejobs.ro";
+
+async function getActiveJobs() {
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/jobs?select=id,created_at&active=eq.true&order=sort.asc,created_at.desc`,
+      { headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` } }
+    );
+    if (!res.ok) throw new Error("Supabase HTTP " + res.status);
+    return res.json();
+  } catch (e) {
+    console.error("Supabase getActiveJobs failed:", e.message);
+    // fallback minim, ca site-ul să nu rămână fără sitemap dacă Supabase e jos
+    return [{ id: "sofer-curier-amazon" }, { id: "sofer-ce-amazon" }];
+  }
+}
+
+function xmlEscape(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+module.exports = async (req, res) => {
+  const jobs = await getActiveJobs();
+  const today = new Date().toISOString().slice(0, 10);
+
+  const urls = [
+    { loc: `${SITE}/`, lastmod: today, changefreq: "daily", priority: "1.0" },
+    ...jobs.map(j => ({
+      loc: `${SITE}/job?id=${encodeURIComponent(j.id)}`,
+      lastmod: j.created_at ? String(j.created_at).slice(0, 10) : today,
+      changefreq: "weekly",
+      priority: "0.8"
+    })),
+    { loc: `${SITE}/legal`, lastmod: today, changefreq: "yearly", priority: "0.3" }
+  ];
+
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://wejobs.ro/</loc>
-    <lastmod>2026-06-06</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://wejobs.ro/job?id=sofer-curier-amazon-germania-nittenau</loc>
-    <lastmod>2026-06-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://wejobs.ro/job?id=sofer-curier-amazon</loc>
-    <lastmod>2026-06-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://wejobs.ro/job?id=sofer-ce-amazon</loc>
-    <lastmod>2026-06-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://wejobs.ro/legal</loc>
-    <lastmod>2026-06-06</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
+${urls.map(u => `  <url>
+    <loc>${xmlEscape(u.loc)}</loc>
+    <lastmod>${u.lastmod}</lastmod>
+    <changefreq>${u.changefreq}</changefreq>
+    <priority>${u.priority}</priority>
+  </url>`).join("\n")}
 </urlset>
+`;
+
+  res.setHeader("Content-Type", "application/xml; charset=utf-8");
+  res.setHeader("Cache-Control", "public, max-age=0, s-maxage=300, stale-while-revalidate=3600");
+  res.status(200).end(xml);
+};
