@@ -1,20 +1,97 @@
-<!DOCTYPE html>
-<html lang="ro">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Ofertă job | WeJobs.ro</title>
-<meta name="description" content="Ofertă de muncă verificată în Uniunea Europeană prin WeJobs.ro. Aplică online în câteva minute." />
-<meta name="robots" content="index, follow" />
-<meta property="og:type" content="article" />
-<meta property="og:site_name" content="WeJobs.ro" />
-<meta property="og:locale" content="ro_RO" />
-<meta property="og:image" content="https://wejobs.ro/assets/images/hero-soferi-germania.webp.png" />
-<link rel="icon" type="image/png" href="assets/images/logo-wejobs-header.png" />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Fraunces:ital,opsz,wght@1,9..144,400..600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
+// api/job.js
+// Randează SERVER-SIDE pagina unui job (înlocuiește vechiul job.html static).
+// Mută aici exact logica din config.js / db.js / job.html, dar rulată pe server,
+// înainte de a trimite HTML-ul către browser/Googlebot.
+//
+// IMPORTANT: după ce adaugi acest fișier, șterge (sau redenumește) job.html din
+// rădăcina proiectului — altfel Vercel va continua să serveasă fișierul static
+// gol în loc de această funcție (vezi explicația din README-SEO-FIX.md).
+
+const SUPABASE_URL = "https://cmpagnbvympkrtcjnefz.supabase.co";
+const SUPABASE_KEY = "sb_publishable_B66wSpD1Xd2a7PkCUAZBQQ_qYY6650Q";
+const WHATSAPP = "491703044341";
+const SITE = "https://wejobs.ro";
+
+// Folosit doar dacă Supabase nu răspunde (siguranță, ca în config.js vechi)
+const FALLBACK_JOBS = [
+  {
+    id: "sofer-curier-amazon",
+    active: true,
+    title: "Șofer Curier Amazon Germania",
+    category: "Categoria B",
+    salary: "2850 € brut / lună",
+    image: "assets/images/hero-soferi-germania.webp.png",
+    facts: { locatii: "Nürnberg / Nittenau", permis: "Categoria B", tip: "Full-time", tara: "Germania" },
+    perks: ["Contract legal de muncă", "Cazare disponibilă contra cost", "Program de lucru stabil"],
+    intro: "Căutăm șoferi de curierat pentru livrarea coletelor Amazon în zona Nürnberg / Nittenau. Postul este cu contract legal de muncă, program stabil și echipă care te sprijină de la sosire.",
+    responsibilities: ["Livrarea coletelor Amazon către clienți", "Respectarea rutelor și termenelor de livrare", "Utilizarea aplicației de livrare", "Păstrarea autovehiculului curat și în stare bună"],
+    requirements: ["Permis categoria B valabil", "Seriozitate și punctualitate", "Cunoștințe minime de germană sau engleză (un plus)"],
+    offer: ["2850 € brut / lună", "Contract legal de muncă", "Cazare disponibilă contra cost", "Program de lucru stabil"]
+  },
+  {
+    id: "sofer-ce-amazon",
+    active: true,
+    title: "Șofer Profesionist C+E Amazon Germania",
+    category: "Categoria C+E",
+    salary: "3000 – 3200 € net",
+    image: "assets/images/hero-soferi-germania.webp.png",
+    facts: { locatii: "Germania / Eggolsheim", permis: "C+E", tip: "Full-time", tara: "Germania" },
+    perks: ["Contract de muncă direct", "Bonus de performanță săptămânal", "Camioane moderne, program planificat"],
+    intro: "Recrutăm șoferi profesioniști categoria C+E pentru transport, cu plecare din zona Eggolsheim. Camioane moderne, program planificat și contract de muncă direct.",
+    responsibilities: ["Transport rutier de mărfuri pe rute planificate", "Respectarea timpilor de condus și a regulamentelor", "Întreținerea de bază și verificarea zilnică a vehiculului"],
+    requirements: ["Permis categoria C+E valabil", "Card tahograf și atestat profesional", "Experiență anterioară (un plus)"],
+    offer: ["3000 – 3200 € net", "Contract de muncă direct", "Bonus de performanță săptămânal", "Camioane moderne, program planificat"]
+  }
+];
+
+function esc(s) {
+  return String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+async function sbSelect(query) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${query}`, {
+    headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
+  });
+  if (!res.ok) throw new Error("Supabase HTTP " + res.status);
+  return res.json();
+}
+
+async function getAllActiveJobs() {
+  try {
+    return await sbSelect("jobs?select=*&active=eq.true&order=sort.asc,created_at.desc");
+  } catch (e) {
+    console.error("Supabase getAllActiveJobs failed:", e.message);
+    return FALLBACK_JOBS;
+  }
+}
+
+async function getJobById(id) {
+  try {
+    const rows = await sbSelect(`jobs?select=*&id=eq.${encodeURIComponent(id)}`);
+    const row = rows[0];
+    if (row && row.active !== false) return row;
+    return null;
+  } catch (e) {
+    console.error("Supabase getJobById failed:", e.message);
+    return FALLBACK_JOBS.find(j => j.id === id) || null;
+  }
+}
+
+// Extrage cifre dintr-un string de salariu ("2850 € brut / lună" / "3000 – 3200 € net")
+// ca să construim un baseSalary VALID pentru schema.org (Google cere o valoare numerică reală).
+function parseSalaryNumbers(str) {
+  if (!str) return null;
+  const nums = (str.match(/\d[\d.,]*/g) || [])
+    .map(n => parseFloat(n.replace(/\./g, "").replace(",", ".")))
+    .filter(n => !isNaN(n) && n > 100); // ignorăm cifre mici irelevante
+  if (!nums.length) return null;
+  if (nums.length === 1) return { value: nums[0] };
+  return { minValue: Math.min(...nums), maxValue: Math.max(...nums) };
+}
+
+const CHECK_SVG = '<svg viewBox="0 0 24 24" style="width:20px;height:20px;flex:none;margin-top:1px;fill:none;stroke:#e7c876;stroke-width:2.4"><path d="M5 13l4 4L19 7"/></svg>';
+
+const PAGE_CSS = `
 :root{
   --black:#08080a;--graphite:#0e0e11;--surface:#131317;--card:#16161b;--card-hi:#1d1d23;
   --line:rgba(255,255,255,.08);--line-2:rgba(255,255,255,.05);--line-gold:rgba(201,150,46,.34);
@@ -31,7 +108,6 @@ img{max-width:100%;display:block}
 .gold-text{background:linear-gradient(100deg,#9a7322,#e7c876 34%,#f8eecb 50%,#c9962e 68%,#8a6418);-webkit-background-clip:text;background-clip:text;color:transparent}
 .eyebrow{font-family:"Archivo",sans-serif;text-transform:uppercase;letter-spacing:.32em;font-size:12px;font-weight:700;color:var(--gold-2);display:inline-flex;align-items:center;gap:12px}
 .eyebrow::before{content:"";width:34px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
-
 header{position:sticky;top:0;z-index:100;background:rgba(8,8,10,.72);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
 .nav{height:84px;display:flex;align-items:center;justify-content:space-between;gap:20px}
 .brand{display:flex;align-items:center;gap:13px}
@@ -50,7 +126,6 @@ header{position:sticky;top:0;z-index:100;background:rgba(8,8,10,.72);backdrop-fi
 .btn.wa{background:#1f2a24;color:#eafff2;border:1px solid rgba(37,211,102,.4)}
 .btn.wa:hover{background:#25382e;transform:translateY(-3px)}
 .btn.wa svg{width:18px;height:18px;fill:#37e08a}
-
 .job-hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
 .job-hero .bg{position:absolute;inset:0;z-index:-1;background:radial-gradient(120% 120% at 75% 0%,rgba(201,150,46,.18),transparent 55%),linear-gradient(160deg,#16161b,#0b0b0e)}
 .job-hero .bg img{width:100%;height:100%;object-fit:cover;filter:brightness(.4) contrast(1.05)}
@@ -63,19 +138,16 @@ header{position:sticky;top:0;z-index:100;background:rgba(8,8,10,.72);backdrop-fi
 .job-hero h1{font-family:"Archivo",sans-serif;font-weight:900;font-size:clamp(38px,5.4vw,68px);line-height:.97;letter-spacing:-2px;max-width:780px}
 .job-hero .salary-big{font-family:"Archivo";font-weight:800;font-size:clamp(26px,3.4vw,40px);margin-top:18px}
 .job-hero .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:30px}
-
 .job-layout{display:grid;grid-template-columns:1fr 380px;gap:42px;padding:80px 0;align-items:start}
 .prose h2{font-family:"Archivo",sans-serif;font-weight:800;font-size:30px;letter-spacing:-1px;margin:0 0 18px}
 .prose .block{margin-bottom:42px}
 .prose p{color:#d4d4da;font-size:16.5px;margin-bottom:8px}
 .checklist{list-style:none;display:grid;gap:12px;margin-top:6px}
 .checklist li{display:flex;gap:13px;align-items:flex-start;color:#dcdce1;font-size:16px;background:var(--card);border:1px solid var(--line);border-radius:13px;padding:14px 16px}
-.checklist li svg{flex:none;width:20px;height:20px;margin-top:1px;fill:none;stroke:var(--gold-2);stroke-width:2.4}
 .facts{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line-2);border:1px solid var(--line-2);border-radius:16px;overflow:hidden;margin-bottom:38px}
 .facts .f{background:var(--card);padding:18px 18px}
 .facts .f b{display:block;font-family:"Archivo";font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gray-d);margin-bottom:5px}
 .facts .f span{font-size:16px;font-weight:600;color:#ececf0}
-
 .sidebar{position:sticky;top:104px;display:grid;gap:18px}
 .apply-card{background:linear-gradient(180deg,var(--card-hi),var(--card));border:1px solid var(--line-gold);border-radius:22px;padding:26px;box-shadow:0 30px 70px rgba(0,0,0,.45)}
 .apply-card h3{font-family:"Archivo";font-weight:800;font-size:20px;margin-bottom:6px}
@@ -86,7 +158,6 @@ header{position:sticky;top:0;z-index:100;background:rgba(8,8,10,.72);backdrop-fi
 .apply-card .row b{font-family:"Archivo";font-weight:700}
 .apply-card .acts{display:grid;gap:11px;margin-top:20px}
 .apply-card .btn{width:100%}
-
 .apply-section{padding:30px 0 96px}
 .form-wrap{background:linear-gradient(180deg,var(--card-hi),var(--card));border:1px solid var(--line);border-radius:24px;padding:38px;max-width:760px;margin:auto;box-shadow:0 30px 70px rgba(0,0,0,.4)}
 .form-wrap .eyebrow{margin-bottom:14px}
@@ -104,7 +175,6 @@ textarea{min-height:120px;resize:vertical}
 .consent{display:flex;gap:10px;align-items:flex-start;font-family:"Manrope";font-weight:500;font-size:13px;color:var(--gray);margin:0 0 18px}
 .consent input{width:auto;margin:3px 0 0}
 .consent a{color:var(--gold-2);text-decoration:underline}
-
 footer{border-top:1px solid var(--line);padding:64px 0 32px;background:var(--graphite)}
 .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:36px}
 .footer-grid p{color:var(--gray);font-size:15px;max-width:320px}
@@ -118,15 +188,11 @@ footer .fl a:hover{color:var(--gold-2)}
 .socials a:hover{border-color:var(--gold);transform:translateY(-2px)}
 .socials svg{width:20px;height:20px;fill:var(--gold-2)}
 .copy{margin-top:46px;padding-top:24px;border-top:1px solid var(--line-2);text-align:center;color:var(--gray-d);font-size:13px}
-
-.floating-wa{position:fixed;right:22px;bottom:22px;z-index:999;width:60px;height:60px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 14px 36px rgba(37,211,102,.4);transition:transform .25s}
-.floating-wa:hover{transform:scale(1.08)}.floating-wa svg{width:30px;height:30px;fill:#fff}
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
 .reveal.in{opacity:1;transform:none}
 .notfound{padding:140px 0;text-align:center}
 .notfound h1{font-family:"Archivo";font-weight:900;font-size:clamp(34px,5vw,56px);letter-spacing:-1.5px;margin-bottom:14px}
 .notfound p{color:var(--gray);font-size:17px;margin-bottom:28px}
-
 @media(max-width:980px){.navlinks{display:none}.job-layout{grid-template-columns:1fr;gap:34px}.sidebar{position:static}.footer-grid{grid-template-columns:1fr}.nav{height:72px}}
 @media(max-width:520px){
   .form-row{grid-template-columns:1fr}
@@ -141,11 +207,10 @@ footer .fl a:hover{color:var(--gold-2)}
   .facts .f{flex:0 0 56%;scroll-snap-align:start;border:1px solid var(--line-2);border-radius:14px;padding:13px 15px}
   .facts .f span{font-size:15px}
 }
-</style>
-</head>
-<body>
+`;
 
-<header>
+function headerHtml() {
+  return `<header>
   <div class="container nav">
     <a href="/" class="brand">
       <span class="brand-name" translate="no"><b>WE</b><span class="gold-text">JOBS</span><span class="ro">.RO</span></span>
@@ -158,11 +223,14 @@ footer .fl a:hover{color:var(--gold-2)}
     </nav>
     <a class="btn gold" href="#aplica">Aplică acum</a>
   </div>
-</header>
+</header>`;
+}
 
-<main id="job-root"></main>
-
-<footer>
+function footerHtml(allJobs) {
+  const footerJobs = allJobs.map(j => `<a href="/job?id=${encodeURIComponent(j.id)}">${esc(j.title)}</a>`).join("")
+    + '<a href="/#aplica">Aplică online</a>';
+  const waHref = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent("Bună ziua! Doresc informații despre joburile WeJobs.ro")}`;
+  return `<footer>
   <div class="container">
     <div class="footer-grid">
       <div>
@@ -180,11 +248,11 @@ footer .fl a:hover{color:var(--gold-2)}
           </a>
         </div>
       </div>
-      <div><h4>Joburi</h4><div class="fl" id="footer-jobs"></div></div>
+      <div><h4>Joburi</h4><div class="fl" id="footer-jobs">${footerJobs}</div></div>
       <div>
         <h4>Contact</h4>
         <div class="fl">
-          <a target="_blank" id="wa-footer" href="#">Scrie-ne pe WhatsApp</a>
+          <a target="_blank" href="${waHref}">Scrie-ne pe WhatsApp</a>
           <a href="/#companii">Pentru companii</a>
           <a href="/legal#impressum">Impressum</a>
           <a href="/legal">Confidențialitate (GDPR)</a>
@@ -194,154 +262,212 @@ footer .fl a:hover{color:var(--gold-2)}
     </div>
     <div class="copy">© 2026 WeJobs.ro. Toate drepturile rezervate. · <a href="/legal#impressum" style="color:inherit">Impressum</a> · <a href="/legal" style="color:inherit">Confidențialitate (GDPR)</a></div>
   </div>
-</footer>
+</footer>`;
+}
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="config.js"></script>
-<script src="db.js"></script>
-<script>
-  const esc = s => String(s==null?"":s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const checkSvg = '<svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>';
-  const params = new URLSearchParams(location.search);
-  const id = params.get('id');
+const BOTTOM_SCRIPT = `<script>
+  var io = new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(function(el,i){el.style.transitionDelay=(i%3*0.06)+'s';io.observe(el);});
+</script>`;
 
-  document.getElementById('wa-footer').href = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent("Bună ziua! Doresc informații despre joburile WeJobs.ro")}`;
-
-  (async () => {
-  let all = [], job = null;
-  try { all = await WeJobs.getJobs(); } catch(e){ console.error(e); all = (typeof FALLBACK_JOBS!=='undefined'?FALLBACK_JOBS:[]).filter(j=>j.active!==false); }
-  try { job = await WeJobs.getJob(id); } catch(e){ console.error(e); }
-  if (!job) job = all.find(j => j.id === id) || null;
-
-  document.getElementById('footer-jobs').innerHTML =
-    all.map(j=>`<a href="/job?id=${encodeURIComponent(j.id)}">${esc(j.title)}</a>`).join('')
-    + '<a href="/#aplica">Aplică online</a>';
-
-  const root = document.getElementById('job-root');
-
-  if (!job){
-    document.title = "Job indisponibil | WeJobs.ro";
-    root.innerHTML = `<div class="container"><div class="notfound">
+function renderNotFoundPage() {
+  return `<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Job indisponibil | WeJobs.ro</title>
+<meta name="robots" content="noindex, follow" />
+<link rel="icon" type="image/png" href="/assets/images/logo-wejobs-header.png" />
+<style>${PAGE_CSS}</style>
+</head>
+<body>
+${headerHtml()}
+<main>
+  <div class="container">
+    <div class="notfound">
       <span class="eyebrow">Ofertă indisponibilă</span>
       <h1>Acest job nu <span class="gold-text">există</span> sau nu mai este activ</h1>
       <p>Poate a fost ocupat. Vezi joburile disponibile acum.</p>
       <a class="btn gold" href="/#joburi">Vezi joburile disponibile</a>
-    </div></div>`;
-  } else {
-    document.title = job.title + " – " + (job.salary || "") + " | WeJobs.ro";
-    const f = job.facts || {};
-    const waText = `Bună ziua! Doresc să aplic pentru postul: ${job.title}` +
-      (job.salary ? ` (${job.salary})` : '') +
-      `.\nLink ofertă: https://wejobs.ro/job?id=${encodeURIComponent(job.id)}`;
-    const waLink = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(waText)}`;
+    </div>
+  </div>
+</main>
+${footerHtml([])}
+</body>
+</html>`;
+}
 
-    const desc = (job.intro || `${job.title} – ${job.salary||''}. Aplică online prin WeJobs.ro.`).slice(0,160);
-    const pageUrl = "https://wejobs.ro//job?id=" + encodeURIComponent(job.id);
-    let md=document.querySelector('meta[name="description"]'); if(!md){md=document.createElement('meta');md.setAttribute('name','description');document.head.appendChild(md);} md.setAttribute('content', desc);
-    let lc=document.querySelector('link[rel="canonical"]'); if(!lc){lc=document.createElement('link');lc.setAttribute('rel','canonical');document.head.appendChild(lc);} lc.setAttribute('href', pageUrl);
+function renderJobPage(job, allJobs, requestedId) {
+  const f = job.facts || {};
+  const canonicalUrl = `${SITE}/job?id=${encodeURIComponent(job.id)}`;
+  const title = `${job.title} – ${job.salary || ""} | WeJobs.ro`;
+  const description = (job.intro || `${job.title} – ${job.salary || ""}. Aplică online prin WeJobs.ro.`).slice(0, 160);
+  const ogImage = job.image ? `${SITE}/${job.image}` : `${SITE}/assets/images/hero-soferi-germania.webp.png`;
 
-    const jp = {
-      "@context":"https://schema.org","@type":"JobPosting",
-      "title": job.title,
-      "description": "<p>" + esc(job.intro || job.title) + "</p>",
-      "datePosted": new Date().toISOString().slice(0,10),
-      "employmentType": "FULL_TIME",
-      "hiringOrganization": {"@type":"Organization","name":"WeJobs.ro","sameAs":"https://wejobs.ro"},
-      "jobLocation": {"@type":"Place","address":{"@type":"PostalAddress","addressLocality": f.locatii || "Germania","addressCountry": "DE"}},
-      "directApply": true
+  const waText = `Bună ziua! Doresc să aplic pentru postul: ${job.title}` +
+    (job.salary ? ` (${job.salary})` : "") +
+    `.\nLink ofertă: ${canonicalUrl}`;
+  const waLink = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(waText)}`;
+
+  const factCells = [["Locații", f.locatii], ["Permis", f.permis], ["Tip job", f.tip], ["Țară", f.tara]]
+    .filter(c => c[1]).map(c => `<div class="f"><b>${esc(c[0])}</b><span>${esc(c[1])}</span></div>`).join("");
+
+  const list = (heading, arr) => (arr && arr.length)
+    ? `<div class="block"><h2>${esc(heading)}</h2><ul class="checklist">${arr.map(x => `<li>${CHECK_SVG}${esc(x)}</li>`).join("")}</ul></div>`
+    : "";
+  const intro = job.intro ? `<div class="block"><h2>Despre acest job</h2><p>${esc(job.intro)}</p></div>` : "";
+
+  const sideRows = [["Salariu", job.salary], ["Locații", f.locatii], ["Permis", f.permis], ["Tip job", f.tip]]
+    .filter(r => r[1]).map((r, i) => `<div class="row"><span>${esc(r[0])}</span><b ${i === 0 ? 'class="gold-text"' : ""}>${esc(r[1])}</b></div>`).join("");
+
+  const heroBg = job.image ? `<img src="${esc(job.image)}" alt="${esc(job.title)}">` : "";
+
+  // --- JSON-LD JobPosting (corect, cu salariu numeric real) ---
+  const datePosted = job.created_at ? String(job.created_at).slice(0, 10) : new Date().toISOString().slice(0, 10);
+  const validThrough = new Date(new Date(datePosted).getTime() + 60 * 24 * 3600 * 1000).toISOString().slice(0, 10);
+  const salaryNums = parseSalaryNumbers(job.salary);
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "JobPosting",
+    title: job.title,
+    description: (job.intro || job.title),
+    datePosted,
+    validThrough,
+    employmentType: "FULL_TIME",
+    hiringOrganization: { "@type": "Organization", name: "WeJobs.ro", sameAs: SITE },
+    jobLocation: { "@type": "Place", address: { "@type": "PostalAddress", addressLocality: f.locatii || "Germania", addressCountry: "DE" } },
+    directApply: true
+  };
+  if (salaryNums) {
+    jsonLd.baseSalary = {
+      "@type": "MonetaryAmount",
+      currency: "EUR",
+      value: { "@type": "QuantitativeValue", unitText: "MONTH", ...salaryNums }
     };
-    if (job.salary) jp.baseSalary = {"@type":"MonetaryAmount","currency":"EUR","value":{"@type":"QuantitativeValue","unitText":"MONTH"}};
-    const s=document.createElement('script'); s.type='application/ld+json'; s.textContent=JSON.stringify(jp); document.head.appendChild(s);
-
-    const factCells = [['Locații',f.locatii],['Permis',f.permis],['Tip job',f.tip],['Țară',f.tara]]
-      .filter(c=>c[1]).map(c=>`<div class="f"><b>${esc(c[0])}</b><span>${esc(c[1])}</span></div>`).join('');
-
-    const list = (title, arr) => (arr && arr.length)
-      ? `<div class="block"><h2>${esc(title)}</h2><ul class="checklist">${arr.map(x=>`<li>${checkSvg}${esc(x)}</li>`).join('')}</ul></div>` : '';
-    const intro = job.intro ? `<div class="block"><h2>Despre acest job</h2><p>${esc(job.intro)}</p></div>` : '';
-
-    const sideRows = [['Salariu',job.salary],['Locații',f.locatii],['Permis',f.permis],['Tip job',f.tip]]
-      .filter(r=>r[1]).map((r,i)=>`<div class="row"><span>${esc(r[0])}</span><b ${i===0?'class="gold-text"':''}>${esc(r[1])}</b></div>`).join('');
-
-    const heroBg = job.image ? `<img src="${esc(job.image)}" alt="${esc(job.title)}" onerror="this.style.display='none'">` : '';
-
-    root.innerHTML = `
-      <section class="job-hero">
-        <div class="bg">${heroBg}</div>
-        <div class="container job-hero-inner">
-          <a href="/#joburi" class="btn ghost back-btn">← Înapoi la joburi</a>
-          <div class="breadcrumb"><a href="/">Acasă</a> / <a href="/#joburi">Joburi</a> / ${esc(job.title)}</div>
-          ${job.category?`<span class="cat">${esc(job.category)}</span>`:''}
-          <h1>${esc(job.title)}</h1>
-          ${job.salary?`<div class="salary-big gold-text">${esc(job.salary)}</div>`:''}
-          <div class="hero-actions">
-            <a href="#aplica" class="btn gold">Aplică acum</a>
-          </div>
-        </div>
-      </section>
-
-      <div class="container">
-        <div class="job-layout">
-          <div class="prose reveal">
-            ${factCells?`<div class="facts">${factCells}</div>`:''}
-            ${intro}
-            ${list('Responsabilități', job.responsibilities)}
-            ${list('Cerințe', job.requirements)}
-            ${list('Ce oferim', job.offer)}
-          </div>
-          <aside class="sidebar reveal">
-            <div class="apply-card">
-              <h3>Aplică acum</h3>
-              <p class="sub">Te contactăm prompt.</p>
-              ${sideRows}
-              <div class="acts">
-                <a href="#aplica" class="btn gold">Aplică prin formular</a>
-                <a class="btn wa" target="_blank" href="${waLink}">
-                  <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.821 11.821 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.515 5.26l-.999 3.648 3.973-1.041z"/></svg>
-                  WhatsApp
-                </a>
-              </div>
-            </div>
-          </aside>
-        </div>
-      </div>
-
-      <section id="aplica" class="apply-section">
-        <div class="container">
-          <div class="form-wrap reveal">
-            <span class="eyebrow">Aplicare</span>
-            <h2>Aplică pentru <span class="gold-text">${esc(job.title)}</span></h2>
-            <p>Completează formularul, iar aplicația ajunge direct la echipa WeJobs.ro.</p>
-            <form action="${esc(CONFIG.formspree)}" method="POST">
-              <div class="form-row">
-                <div><label for="nume">Nume complet</label><input id="nume" type="text" name="nume" required placeholder="Ex: Popescu Ion"></div>
-                <div><label for="telefon">Telefon</label><input id="telefon" type="tel" name="telefon" required placeholder="Ex: +40..."></div>
-              </div>
-              <label for="email">Email</label>
-              <input id="email" type="email" name="email" required placeholder="email@exemplu.com">
-              <label for="post">Post dorit</label>
-              <input id="post" class="readonly-field" type="text" name="post_dorit" value="${esc(job.title)}" readonly>
-              <label for="exp">Experiență</label>
-              <select id="exp" name="experienta" required>
-                <option value="">Alege experiența</option>
-                <option>Sub 1 an</option><option>1-2 ani</option><option>2-5 ani</option><option>Peste 5 ani</option>
-              </select>
-              <label for="mesaj">Mesaj</label>
-              <textarea id="mesaj" name="mesaj" placeholder="Scrie câteva detalii despre tine..."></textarea>
-              <input type="hidden" name="aplicat_de_pe" value="Pagina jobului: ${esc(job.title)}">
-              <input type="hidden" name="_subject" value="Aplicație nouă WeJobs.ro - ${esc(job.title)}">
-              <label class="consent"><input type="checkbox" name="consimtamant" required> Sunt de acord cu prelucrarea datelor mele conform <a href="/legal" target="_blank">Politicii de confidențialitate</a>.</label>
-              <button class="btn gold" type="submit" style="width:100%;">Trimite aplicația</button>
-              <p class="form-note">Aplicația ajunge direct la echipa WeJobs.ro. Nu îți cerem date bancare.</p>
-            </form>
-          </div>
-        </div>
-      </section>`;
   }
 
-  const io = new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
-  document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%3*0.06)+'s';io.observe(el);});
-  })();
-</script>
+  return `<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>${esc(title)}</title>
+<meta name="description" content="${esc(description)}" />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="${canonicalUrl}" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="WeJobs.ro" />
+<meta property="og:locale" content="ro_RO" />
+<meta property="og:title" content="${esc(title)}" />
+<meta property="og:description" content="${esc(description)}" />
+<meta property="og:url" content="${canonicalUrl}" />
+<meta property="og:image" content="${esc(ogImage)}" />
+<link rel="icon" type="image/png" href="/assets/images/logo-wejobs-header.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Fraunces:ital,opsz,wght@1,9..144,400..600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
+<style>${PAGE_CSS}</style>
+</head>
+<body>
+${headerHtml()}
+<main>
+  <section class="job-hero">
+    <div class="bg">${heroBg}</div>
+    <div class="container job-hero-inner">
+      <a href="/#joburi" class="btn ghost back-btn">← Înapoi la joburi</a>
+      <div class="breadcrumb"><a href="/">Acasă</a> / <a href="/#joburi">Joburi</a> / ${esc(job.title)}</div>
+      ${job.category ? `<span class="cat">${esc(job.category)}</span>` : ""}
+      <h1>${esc(job.title)}</h1>
+      ${job.salary ? `<div class="salary-big gold-text">${esc(job.salary)}</div>` : ""}
+      <div class="hero-actions">
+        <a href="#aplica" class="btn gold">Aplică acum</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="job-layout">
+      <div class="prose reveal">
+        ${factCells ? `<div class="facts">${factCells}</div>` : ""}
+        ${intro}
+        ${list("Responsabilități", job.responsibilities)}
+        ${list("Cerințe", job.requirements)}
+        ${list("Ce oferim", job.offer)}
+      </div>
+      <aside class="sidebar reveal">
+        <div class="apply-card">
+          <h3>Aplică acum</h3>
+          <p class="sub">Te contactăm prompt.</p>
+          ${sideRows}
+          <div class="acts">
+            <a href="#aplica" class="btn gold">Aplică prin formular</a>
+            <a class="btn wa" target="_blank" href="${waLink}">
+              <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.821 11.821 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.515 5.26l-.999 3.648 3.973-1.041z"/></svg>
+              WhatsApp
+            </a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <section id="aplica" class="apply-section">
+    <div class="container">
+      <div class="form-wrap reveal">
+        <span class="eyebrow">Aplicare</span>
+        <h2>Aplică pentru <span class="gold-text">${esc(job.title)}</span></h2>
+        <p>Completează formularul, iar aplicația ajunge direct la echipa WeJobs.ro.</p>
+        <form action="https://formspree.io/f/mlgkrqjg" method="POST">
+          <div class="form-row">
+            <div><label for="nume">Nume complet</label><input id="nume" type="text" name="nume" required placeholder="Ex: Popescu Ion"></div>
+            <div><label for="telefon">Telefon</label><input id="telefon" type="tel" name="telefon" required placeholder="Ex: +40..."></div>
+          </div>
+          <label for="email">Email</label>
+          <input id="email" type="email" name="email" required placeholder="email@exemplu.com">
+          <label for="post">Post dorit</label>
+          <input id="post" class="readonly-field" type="text" name="post_dorit" value="${esc(job.title)}" readonly>
+          <label for="exp">Experiență</label>
+          <select id="exp" name="experienta" required>
+            <option value="">Alege experiența</option>
+            <option>Sub 1 an</option><option>1-2 ani</option><option>2-5 ani</option><option>Peste 5 ani</option>
+          </select>
+          <label for="mesaj">Mesaj</label>
+          <textarea id="mesaj" name="mesaj" placeholder="Scrie câteva detalii despre tine..."></textarea>
+          <input type="hidden" name="aplicat_de_pe" value="Pagina jobului: ${esc(job.title)}">
+          <input type="hidden" name="_subject" value="Aplicație nouă WeJobs.ro - ${esc(job.title)}">
+          <label class="consent"><input type="checkbox" name="consimtamant" required> Sunt de acord cu prelucrarea datelor mele conform <a href="/legal" target="_blank">Politicii de confidențialitate</a>.</label>
+          <button class="btn gold" type="submit" style="width:100%;">Trimite aplicația</button>
+          <p class="form-note">Aplicația ajunge direct la echipa WeJobs.ro. Nu îți cerem date bancare.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+${footerHtml(allJobs)}
+${BOTTOM_SCRIPT}
 </body>
-</html>
+</html>`;
+}
+
+module.exports = async (req, res) => {
+  const id = (req.query.id || "").toString();
+
+  const [job, allJobs] = await Promise.all([getJobById(id), getAllActiveJobs()]);
+
+  res.setHeader("Content-Type", "text/html; charset=utf-8");
+  // Cache scurt la edge-ul Vercel: rapid pentru vizitatori/Googlebot,
+  // dar se actualizează la max. 60s după ce salvezi un job nou în admin.
+  res.setHeader("Cache-Control", "public, max-age=0, s-maxage=60, stale-while-revalidate=300");
+
+  if (!job) {
+    res.status(404);
+    res.end(renderNotFoundPage());
+    return;
+  }
+
+  res.status(200);
+  res.end(renderJobPage(job, allJobs, id));
+};
