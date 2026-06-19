@@ -761,28 +761,34 @@ footer .fl a:hover{color:var(--gold-2)}
 
   function renderJobs(active){
     const cont = document.getElementById('jobs-container');
+    ensureJobModal();
+    const defaultCats = ["Șoferi Cat. B","Șoferi Cat. C","Șoferi Cat. C+E","Construcții","Depozit & Logistică","Producție","HoReCa","Agricultură","Curățenie","Îngrijire & Medical"];
+    const cats = (typeof CONFIG!=='undefined' && Array.isArray(CONFIG.categories) && CONFIG.categories.length) ? CONFIG.categories : defaultCats;
+    const byCat = {};
+    active.forEach(j=>{ const c=(j.category||'Altele'); (byCat[c]=byCat[c]||[]).push(j); });
+    const ordered = cats.slice();
+    Object.keys(byCat).forEach(c=>{ if(ordered.indexOf(c)===-1) ordered.push(c); });
+
     if (!active.length){
       cont.innerHTML = '<div class="empty-jobs">Momentan nu sunt joburi active. Revino curând!</div>';
     } else {
-      cont.innerHTML = active.map(j => {
-        const f = j.facts || {};
-        const cells = [['Locații',f.locatii],['Permis',f.permis],['Tip job',f.tip],['Țară',f.tara]]
-          .filter(c=>c[1]).map(c=>`<div class="cell"><b>${esc(c[0])}</b><span>${esc(c[1])}</span></div>`).join('');
-        const perks = (j.perks||[]).map(p=>`<li>${checkSvg}${esc(p)}</li>`).join('');
-        const img = j.image ? `<img src="${esc(j.image)}" alt="${esc(j.title)}" onerror="this.style.display='none'">` : '';
-        return `<article class="job-card reveal" data-cat="${esc(j.category||'')}">
-          <div class="ph">${j.category?`<span class="cat">${esc(j.category)}</span>`:''}${img}</div>
-          <div class="job-body">
-            <h3>${esc(j.title)}</h3>
-            ${j.salary?`<div class="salary gold-text">${esc(j.salary)}</div>`:''}
-            ${cells?`<div class="job-grid">${cells}</div>`:''}
-            ${perks?`<ul class="job-perks">${perks}</ul>`:''}
-            <a class="btn gold" href="/job?id=${encodeURIComponent(j.id)}">Vezi oferta completă</a>
-          </div>
-        </article>`;
+      cont.innerHTML = ordered.map(cat=>{
+        const items = byCat[cat] || [];
+        const inner = items.length ? items.map(jobCardHTML).join('') : emptyRowHTML(cat);
+        return `<div class="cat-row reveal">
+          <div class="row-head"><h3>${esc(cat)}</h3><span class="cnt">${items.length}</span></div>
+          <div class="strip-wrap"><div class="edge l"></div><div class="edge r"></div><div class="strip">${inner}</div></div>
+        </div>`;
       }).join('');
+      cont.querySelectorAll('.jcard[data-id]').forEach(card=>{
+        card.addEventListener('click', ()=> openJobModal(active.find(j=>String(j.id)===card.dataset.id)));
+      });
+      cont.querySelectorAll('.empty-card .save').forEach(b=> b.addEventListener('click',()=>{ location.hash='#aplica'; }));
     }
-    renderFilters(active);
+    const fb=document.getElementById('job-filters'); if(fb) fb.style.display='none';
+    const sh=document.getElementById('swipe-hint'); if(sh) sh.style.display='none';
+    const ec=document.getElementById('empty-cat'); if(ec) ec.style.display='none';
+
     document.getElementById('meta-count').textContent = active.length;
     document.getElementById('footer-jobs').innerHTML =
       active.map(j=>`<a href="/job?id=${encodeURIComponent(j.id)}">${esc(j.title)}</a>`).join('')
@@ -793,35 +799,68 @@ footer .fl a:hover{color:var(--gold-2)}
     document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%3*0.06)+'s';io.observe(el);});
   }
 
-  function renderFilters(active){
-    const bar = document.getElementById('job-filters');
-    const empty = document.getElementById('empty-cat');
-    if(!bar) return;
-    const defaultCats = ["Șoferi Cat. B","Șoferi Cat. C","Șoferi Cat. C+E","Construcții","Depozit & Logistică","Producție","HoReCa","Agricultură","Curățenie","Îngrijire & Medical"];
-    const cats = (typeof CONFIG!=='undefined' && Array.isArray(CONFIG.categories) && CONFIG.categories.length) ? CONFIG.categories : defaultCats;
-    bar.innerHTML = `<label class="filter-select-wrap">
-      <span>Filtrează după categorie</span>
-      <select id="cat-select">
-        <option value="">Toate categoriile</option>
-        ${cats.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('')}
-      </select>
-    </label>`;
-    const sel = document.getElementById('cat-select');
-    sel.addEventListener('change', ()=>{
-      const f = sel.value;
-      let visible = 0;
-      document.querySelectorAll('#jobs-container .job-card').forEach(card=>{
-        const show = (!f || card.dataset.cat === f);
-        card.style.display = show ? '' : 'none';
-        if(show) visible++;
-      });
-      if(empty){
-        if(f && visible===0){
-          empty.textContent = 'Ne pare rău, nu avem oferte disponibile pentru această categorie momentan.';
-          empty.style.display = 'block';
-        } else { empty.style.display = 'none'; }
-      }
-    });
+  function vehSVG(cat){
+    var c=(cat||'').toLowerCase();
+    var truck='<svg class="wj-veh" viewBox="0 0 400 200"><rect x="36" y="56" width="206" height="86" rx="8"/><path d="M246 78 h46 l28 34 v30 h-74 z"/><path d="M256 86 h32 l20 24 h-52 z"/><line x1="22" y1="172" x2="382" y2="172"/><circle cx="92" cy="152" r="17"/><circle cx="138" cy="152" r="17"/><circle cx="292" cy="152" r="17"/></svg>';
+    var van='<svg class="wj-veh" viewBox="0 0 400 200"><path d="M44 64 h168 v78 h-168 z"/><path d="M212 86 h52 l44 28 v28 h-96 z"/><path d="M222 92 h32 l30 20 h-62 z"/><line x1="22" y1="172" x2="382" y2="172"/><circle cx="108" cy="152" r="17"/><circle cx="270" cy="152" r="17"/><rect x="74" y="88" width="38" height="34"/><line x1="74" y1="105" x2="112" y2="105"/><line x1="93" y1="88" x2="93" y2="122"/></svg>';
+    return (c.indexOf('c+e')>-1) ? truck : van;
+  }
+
+  function jobCardHTML(j){
+    var f=j.facts||{};
+    var loc=f.locatii||f.tara||'';
+    var badges=(j.perks||[]).slice(0,2).map(function(p){return '<span class="wj-badge">'+checkSvg+esc(p)+'</span>';}).join('');
+    return '<div class="jcard" data-id="'+esc(j.id)+'">'
+      +(j.category?'<span class="wj-tag">'+esc(j.category)+'</span>':'')
+      +'<h4>'+esc(j.title)+'</h4>'
+      +(j.salary?'<div class="wj-salary gold-text">'+esc(j.salary)+'</div>':'')
+      +(loc?'<div class="wj-loc">'+esc(loc)+'</div>':'')
+      +(badges?'<div class="wj-badges">'+badges+'</div>':'')
+      +'<div class="wj-cta">Atinge pentru detalii <span class="arr">&rarr;</span></div>'
+      +'</div>';
+  }
+
+  function emptyRowHTML(cat){
+    return '<div class="empty-card">'
+      +'<div class="ec-ico">\u2605</div>'
+      +'<div class="ec-txt"><h4>Momentan nu avem locuri \u00een \u201e'+esc(cat)+'\u201d</h4>'
+      +'<p>Recrut\u0103m constant \u2014 revino cur\u00e2nd sau las\u0103-ne datele s\u0103 te anun\u021b\u0103m primii.</p>'
+      +'<button type="button" class="save">Anun\u021b\u0103-m\u0103 c\u00e2nd apar</button></div></div>';
+  }
+
+  function ensureJobModal(){
+    if(document.getElementById('wj-modal')) return;
+    var m=document.createElement('div');
+    m.className='wj-modal'; m.id='wj-modal';
+    m.innerHTML='<div class="wj-modal-bg"></div>'
+      +'<div class="wj-modal-card"><button type="button" class="wj-modal-close" aria-label="Inchide">\u00d7</button>'
+      +'<div class="wj-photo" id="wj-photo"></div><div class="wj-inner" id="wj-inner"></div></div>';
+    document.body.appendChild(m);
+    var close=function(){ m.classList.remove('open'); };
+    m.querySelector('.wj-modal-bg').addEventListener('click',close);
+    m.querySelector('.wj-modal-close').addEventListener('click',close);
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  }
+
+  function openJobModal(j){
+    if(!j) return;
+    ensureJobModal();
+    var f=j.facts||{};
+    var loc=f.locatii||f.tara||'';
+    var img=j.image ? '<img class="wj-photo-img" src="'+esc(j.image)+'" alt="'+esc(j.title)+'" onerror="this.style.display=\'none\'">' : '';
+    document.getElementById('wj-photo').innerHTML = vehSVG(j.category) + img
+      + (j.category?'<span class="wj-ph-tag">'+esc(j.category)+'</span>':'')
+      + '<span class="wj-ph-wm">WeJobs.ro</span>';
+    var pts=(j.perks&&j.perks.length?j.perks:[f.permis,f.tip,f.tara].filter(Boolean)).slice(0,3);
+    document.getElementById('wj-inner').innerHTML=
+      '<h3>'+esc(j.title)+'</h3>'
+      +(j.salary?'<div class="wj-m-salary gold-text">'+esc(j.salary)+'</div>':'')
+      +(loc?'<div class="wj-m-loc">'+esc(loc)+'</div>':'')
+      +'<div class="wj-m-sec">Pe scurt</div>'
+      +'<ul class="wj-m-list">'+pts.map(function(p){return '<li>'+checkSvg+'<span>'+esc(p)+'</span></li>';}).join('')+'</ul>'
+      +'<div class="wj-m-actions"><a class="wj-m-full" href="/job?id='+encodeURIComponent(j.id)+'">Vezi oferta complet\u0103 <span>&rarr;</span></a>'
+      +'<div class="wj-m-sub">Vezi toate detaliile \u0219i aplici direct pe pagina ofertei</div></div>';
+    document.getElementById('wj-modal').classList.add('open');
   }
 
   (async () => {
@@ -1019,6 +1058,78 @@ footer .fl a:hover{color:var(--gold-2)}
 }
 @media (prefers-reduced-motion: reduce){ .nav .brand-name{animation:none!important;
   filter:drop-shadow(0 0 5px rgba(231,200,118,.5))} }
+
+/* ===== Jobs category pills (filter upgrade) ===== */
+#job-filters.job-filters{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:0 0 26px;padding:0}
+.cat-pill{display:inline-flex;align-items:center;gap:8px;font-family:"Archivo",sans-serif;font-weight:700;font-size:14px;color:#dcdce1;background:rgba(255,255,255,.04);border:1px solid var(--line,rgba(255,255,255,.1));border-radius:999px;padding:10px 17px;cursor:pointer;transition:.25s;line-height:1}
+.cat-pill:hover{border-color:rgba(201,150,46,.5);color:var(--gold-2,#e7c876)}
+.cat-pill.active{background:linear-gradient(100deg,#caa23a,#f3dd97);color:#181206;border-color:transparent;box-shadow:0 10px 26px rgba(201,150,46,.3)}
+.cat-pill .cnt{font-size:12px;font-weight:800;min-width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;border-radius:999px;background:rgba(255,255,255,.09);padding:0 6px}
+.cat-pill.active .cnt{background:rgba(0,0,0,.2)}
+.cat-pill.is-empty{opacity:.5}
+.cat-pill.is-empty .cnt{background:rgba(255,255,255,.05)}
+#empty-cat.empty-cat{max-width:520px;margin:8px auto 0;text-align:center;padding:46px 26px;background:linear-gradient(180deg,rgba(22,22,27,.6),rgba(16,16,21,.35));border:1px dashed rgba(201,150,46,.4);border-radius:20px}
+#empty-cat .ec-ico{width:58px;height:58px;border-radius:50%;border:1.5px solid rgba(201,150,46,.4);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:24px;color:var(--gold-2,#e7c876);background:rgba(201,150,46,.06)}
+#empty-cat h4{font-family:"Archivo",sans-serif;font-weight:800;font-size:19px;color:#fff;margin:0 0 8px}
+#empty-cat p{color:var(--gray,#a3a3ab);font-size:14.5px;max-width:440px;margin:0 auto 18px}
+#empty-cat .ec-btn{display:inline-flex;align-items:center;gap:8px;font-family:"Archivo",sans-serif;font-weight:700;font-size:13px;color:var(--gold-2,#e7c876);border:1px solid rgba(201,150,46,.4);border-radius:11px;padding:11px 18px;text-decoration:none;background:rgba(201,150,46,.05);transition:.25s}
+#empty-cat .ec-btn:hover{background:rgba(201,150,46,.14)}
+
+/* ===== Jobs: category rows + image-less cards + popup (reality v2) ===== */
+#jobs-container{display:block!important;overflow:visible!important}
+.cat-row{margin-top:30px}
+.cat-row .row-head{display:flex;align-items:center;gap:11px;margin:0 0 13px}
+.cat-row .row-head h3{font-family:"Archivo",sans-serif;font-weight:800;font-size:19px;letter-spacing:-.3px;color:#fff;margin:0}
+.cat-row .row-head .cnt{font-family:"Archivo",sans-serif;font-weight:800;font-size:12px;color:var(--gold-2,#e7c876);background:rgba(201,150,46,.1);border:1px solid var(--line-gold,rgba(201,150,46,.34));border-radius:999px;min-width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;padding:0 7px}
+.cat-row .strip-wrap{position:relative}
+.cat-row .strip{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding:4px 2px 12px;scrollbar-width:none}
+.cat-row .strip::-webkit-scrollbar{display:none}
+.cat-row .edge{position:absolute;top:0;bottom:12px;width:30px;pointer-events:none;z-index:2}
+.cat-row .edge.l{left:0;background:linear-gradient(90deg,var(--black,#08080a),transparent)}
+.cat-row .edge.r{right:0;background:linear-gradient(270deg,var(--black,#08080a),transparent)}
+.jcard{scroll-snap-align:start;flex:0 0 auto;width:min(80vw,300px);background:linear-gradient(180deg,#1c1c22,#15151a);border:1px solid var(--line,rgba(255,255,255,.08));border-radius:18px;padding:20px;cursor:pointer;transition:transform .3s cubic-bezier(.19,1,.22,1),border-color .3s,box-shadow .3s;display:flex;flex-direction:column}
+.jcard:hover{transform:translateY(-5px);border-color:var(--line-gold,rgba(201,150,46,.34));box-shadow:0 22px 50px rgba(0,0,0,.5)}
+.jcard .wj-tag{align-self:flex-start;font-family:"Archivo",sans-serif;font-weight:800;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-2,#e7c876);background:rgba(201,150,46,.1);border:1px solid var(--line-gold,rgba(201,150,46,.34));border-radius:999px;padding:5px 11px;margin-bottom:13px}
+.jcard h4{font-family:"Archivo",sans-serif;font-weight:800;font-size:18px;line-height:1.22;letter-spacing:-.3px;color:#fff;margin:0 0 10px;min-height:44px}
+.jcard .wj-salary{font-family:"Archivo",sans-serif;font-weight:900;font-size:24px;letter-spacing:-.5px;margin-bottom:5px}
+.jcard .wj-loc{color:var(--gray,#a3a3ab);font-size:13px;margin-bottom:13px}
+.jcard .wj-badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:15px}
+.jcard .wj-badge{font-size:11.5px;color:#e9dcb6;background:rgba(201,150,46,.08);border:1px solid var(--line-gold,rgba(201,150,46,.34));border-radius:7px;padding:3px 8px;display:inline-flex;align-items:center;gap:4px}
+.jcard .wj-badge svg{width:11px;height:11px;fill:none;stroke:var(--gold-2,#e7c876);stroke-width:2.8}
+.jcard .wj-cta{margin-top:auto;display:flex;align-items:center;justify-content:space-between;font-family:"Archivo",sans-serif;font-weight:700;font-size:12.5px;color:var(--gold-2,#e7c876);border-top:1px solid var(--line,rgba(255,255,255,.08));padding-top:12px}
+.jcard .wj-cta .arr{transition:transform .3s}
+.jcard:hover .wj-cta .arr{transform:translateX(4px)}
+.empty-card{scroll-snap-align:start;flex:0 0 auto;width:min(86vw,520px);background:linear-gradient(180deg,rgba(22,22,27,.55),rgba(16,16,21,.3));border:1px dashed var(--line-gold,rgba(201,150,46,.34));border-radius:18px;padding:22px;display:flex;align-items:center;gap:16px}
+.empty-card .ec-ico{flex:none;width:50px;height:50px;border-radius:50%;border:1.4px solid var(--line-gold,rgba(201,150,46,.34));display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--gold-2,#e7c876);background:rgba(201,150,46,.06)}
+.empty-card .ec-txt h4{font-family:"Archivo",sans-serif;font-weight:800;font-size:15px;color:#fff;margin:0 0 4px}
+.empty-card .ec-txt p{color:var(--gray,#a3a3ab);font-size:12.5px;margin:0 0 10px}
+.empty-card .save{font-family:"Archivo",sans-serif;font-weight:700;font-size:12px;color:var(--gold-2,#e7c876);border:1px solid var(--line-gold,rgba(201,150,46,.34));border-radius:9px;padding:8px 13px;cursor:pointer;background:rgba(201,150,46,.05);transition:.25s}
+.empty-card .save:hover{background:rgba(201,150,46,.14)}
+.wj-modal{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:16px}
+.wj-modal.open{display:flex}
+.wj-modal-bg{position:absolute;inset:0;background:rgba(4,4,6,.75);backdrop-filter:blur(7px)}
+.wj-modal-card{position:relative;width:100%;max-width:460px;max-height:90vh;overflow:auto;border-radius:22px;background:linear-gradient(180deg,#1c1c22,#15151a);border:1px solid var(--line-gold,rgba(201,150,46,.34));box-shadow:0 34px 90px rgba(0,0,0,.74);animation:wjUp .4s cubic-bezier(.2,.85,.2,1);scrollbar-width:none}
+.wj-modal-card::-webkit-scrollbar{display:none}
+@keyframes wjUp{from{opacity:0;transform:scale(.93)}to{opacity:1;transform:none}}
+.wj-modal-close{position:absolute;top:13px;right:13px;width:40px;height:40px;border-radius:50%;border:1px solid var(--line-gold,rgba(201,150,46,.34));background:rgba(8,8,10,.72);color:var(--gold-2,#e7c876);font-size:21px;cursor:pointer;z-index:3}
+.wj-photo{position:relative;aspect-ratio:16/9;width:100%;border-radius:22px 22px 0 0;overflow:hidden;background:radial-gradient(120% 140% at 78% 12%,rgba(201,150,46,.30),transparent 55%),linear-gradient(160deg,#1a1a20,#0c0c10)}
+.wj-photo .wj-photo-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.wj-photo .wj-veh{position:absolute;inset:0;margin:auto;width:72%;height:72%;fill:none;stroke:var(--gold-2,#e7c876);stroke-width:4;stroke-linecap:round;stroke-linejoin:round;opacity:.9;filter:drop-shadow(0 6px 18px rgba(201,150,46,.35))}
+.wj-photo .wj-ph-tag{position:absolute;top:13px;left:13px;font-family:"Archivo",sans-serif;font-weight:800;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#181206;background:linear-gradient(100deg,#caa23a,#f3dd97);border-radius:999px;padding:6px 12px;z-index:2}
+.wj-photo .wj-ph-wm{position:absolute;bottom:11px;right:14px;font-family:"Archivo",sans-serif;font-weight:800;font-size:11px;letter-spacing:.1em;color:rgba(231,200,118,.85);z-index:2}
+.wj-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(8,8,10,.5))}
+.wj-inner{padding:24px 26px 28px}
+.wj-inner h3{font-family:"Archivo",sans-serif;font-weight:900;font-size:23px;letter-spacing:-.5px;margin:2px 0 8px;color:#fff}
+.wj-m-salary{font-family:"Archivo",sans-serif;font-weight:900;font-size:28px;margin:6px 0}
+.wj-m-loc{color:var(--gray,#a3a3ab);font-size:13.5px;margin-bottom:6px}
+.wj-m-sec{font-family:"Archivo",sans-serif;font-weight:800;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-2,#e7c876);margin:18px 0 9px}
+.wj-m-list{list-style:none;display:flex;flex-direction:column;gap:8px;margin:0;padding:0}
+.wj-m-list li{display:flex;gap:9px;font-size:14px;color:#dcdce1}
+.wj-m-list li svg{flex:none;width:15px;height:15px;stroke:var(--gold-2,#e7c876);fill:none;stroke-width:2.6;margin-top:3px}
+.wj-m-actions{margin-top:24px;display:flex;flex-direction:column;gap:10px}
+.wj-m-full{display:flex;align-items:center;justify-content:center;gap:9px;font-family:"Archivo",sans-serif;font-weight:800;font-size:16px;color:#181206;background:linear-gradient(100deg,#caa23a,#f3dd97);border-radius:14px;padding:16px;text-decoration:none;cursor:pointer;transition:.25s}
+.wj-m-full:hover{filter:brightness(1.05)}
+.wj-m-sub{text-align:center;font-size:12px;color:var(--gray-d,#71717a)}
 
 </style>
 <script id="wejobs-fx-premium-script">
