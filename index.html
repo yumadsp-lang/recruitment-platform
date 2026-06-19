@@ -783,7 +783,6 @@ footer .fl a:hover{color:var(--gold-2)}
       cont.querySelectorAll('.jcard[data-id]').forEach(card=>{
         card.addEventListener('click', ()=> openJobModal(active.find(j=>String(j.id)===card.dataset.id)));
       });
-      cont.querySelectorAll('.empty-card .save').forEach(b=> b.addEventListener('click',()=>{ location.hash='#aplica'; }));
     }
     const fb=document.getElementById('job-filters'); if(fb) fb.style.display='none';
     const sh=document.getElementById('swipe-hint'); if(sh) sh.style.display='none';
@@ -821,11 +820,14 @@ footer .fl a:hover{color:var(--gold-2)}
   }
 
   function emptyRowHTML(cat){
+    var subj=encodeURIComponent('Vreau s\u0103 fiu anun\u021bat \u2014 '+cat);
+    var body=encodeURIComponent('Bun\u0103 ziua,\n\nA\u0219 dori s\u0103 fiu anun\u021bat(\u0103) c\u00e2nd apar locuri de munc\u0103 \u00een categoria \u201e'+cat+'\u201d. Ata\u0219ez CV-ul meu.\n\nNume:\nTelefon:\nOra\u0219:\n');
+    var mail='mailto:support@wejobs.ro?subject='+subj+'&body='+body;
     return '<div class="empty-card">'
       +'<div class="ec-ico">\u2605</div>'
       +'<div class="ec-txt"><h4>Momentan nu avem locuri \u00een \u201e'+esc(cat)+'\u201d</h4>'
-      +'<p>Recrut\u0103m constant \u2014 revino cur\u00e2nd sau las\u0103-ne datele s\u0103 te anun\u021b\u0103m primii.</p>'
-      +'<button type="button" class="save">Anun\u021b\u0103-m\u0103 c\u00e2nd apar</button></div></div>';
+      +'<p>Recrut\u0103m constant \u2014 trimite-ne CV-ul \u0219i te anun\u021b\u0103m primii c\u00e2nd apar.</p>'
+      +'<a class="save" href="'+mail+'">Anun\u021b\u0103-m\u0103 c\u00e2nd apar \u2192</a></div></div>';
   }
 
   function ensureJobModal(){
@@ -995,9 +997,10 @@ footer .fl a:hover{color:var(--gold-2)}
   /* REAL gap fix: the hero <section> inherited section{padding:64px 0}. Kill the top. */
   .hero{padding-top:4px!important}
   .hero .hero-inner{padding-top:0!important}
-  /* make the map bigger: full-bleed edge-to-edge + tighter glow */
-  .hero-visual{width:100vw;margin-left:calc(-50vw + 50%);max-width:100vw}
-  .hero-visual .frame{border-radius:18px}
+  /* keep the map fully framed inside its card (no full-bleed) */
+  .hero-visual{width:100%;margin-left:0;max-width:100%}
+  .hero-visual .frame{border-radius:18px;padding:6px}
+  .eu-map .eu-svg{width:100%;height:auto;max-height:60vh}
   .hero-visual .glow{inset:-6px!important;filter:blur(12px)!important;opacity:.55}
 }
 
@@ -1133,8 +1136,8 @@ footer .fl a:hover{color:var(--gold-2)}
 
 /* ===== Advanced FX v2 ===== */
 /* cursor spotlight (desktop only) */
-#fx-spot{position:fixed;top:0;left:0;width:480px;height:480px;margin:-240px 0 0 -240px;border-radius:50%;pointer-events:none;z-index:1;
-  background:radial-gradient(circle,rgba(231,200,118,.10),rgba(231,200,118,.045) 38%,transparent 64%);mix-blend-mode:screen;will-change:transform}
+#fx-spot{position:fixed;top:0;left:0;width:760px;height:760px;margin:-380px 0 0 -380px;border-radius:50%;pointer-events:none;z-index:1;
+  background:radial-gradient(circle,rgba(231,200,118,.20),rgba(231,200,118,.085) 38%,transparent 66%);mix-blend-mode:screen;will-change:transform}
 @media (hover:none){#fx-spot{display:none}}
 
 /* card 3D tilt */
@@ -1142,7 +1145,7 @@ footer .fl a:hover{color:var(--gold-2)}
 .jcard.fx-on,.feature.fx-on,.step.fx-on,.review-card.fx-on{transition:transform .08s ease-out,box-shadow .2s,border-color .25s;box-shadow:0 30px 72px rgba(0,0,0,.55),0 0 0 1px var(--line-gold,rgba(201,150,46,.34))}
 .jcard.fx-clip{position:relative;overflow:hidden}
 .jcard .fx-glare{position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .3s;z-index:4;
-  background:radial-gradient(220px 220px at var(--mx,50%) var(--my,50%),rgba(255,240,200,.22),transparent 60%)}
+  background:radial-gradient(320px 320px at var(--mx,50%) var(--my,50%),rgba(255,243,210,.40),transparent 62%)}
 .jcard.fx-on .fx-glare{opacity:1}
 .jcard.fx-on{border-color:var(--line-gold,rgba(201,150,46,.34))!important}
 
@@ -1150,7 +1153,7 @@ footer .fl a:hover{color:var(--gold-2)}
 .eu-map.fx-map{perspective:1200px}
 .eu-map.fx-map .eu-svg{transition:transform .25s ease-out;will-change:transform}
 .eu-map.fx-map::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:3;opacity:0;transition:opacity .35s;mix-blend-mode:screen;
-  background:radial-gradient(360px 360px at var(--shex,50%) var(--shey,50%),rgba(255,240,200,.12),transparent 60%)}
+  background:radial-gradient(420px 420px at var(--shex,50%) var(--shey,50%),rgba(255,243,210,.20),transparent 62%)}
 .eu-map.fx-map:hover::after{opacity:1}
 .eu-dot{animation:euPulse 3s ease-in-out infinite}
 @keyframes euPulse{0%,100%{opacity:.72}50%{opacity:1}}
@@ -1213,8 +1216,8 @@ footer .fl a:hover{color:var(--gold-2)}
         raf=false; if(!lastE) return;
         var r=el.getBoundingClientRect();
         var px=(lastE.clientX-r.left)/r.width, py=(lastE.clientY-r.top)/r.height;
-        var rx=(0.5-py)*9, ry=(px-0.5)*11;
-        el.style.transform="perspective(900px) rotateX("+rx.toFixed(2)+"deg) rotateY("+ry.toFixed(2)+"deg) translateY(-6px) scale(1.012)";
+        var rx=(0.5-py)*15, ry=(px-0.5)*18;
+        el.style.transform="perspective(820px) rotateX("+rx.toFixed(2)+"deg) rotateY("+ry.toFixed(2)+"deg) translateY(-9px) scale(1.025)";
         el.style.setProperty("--mx",(px*100).toFixed(1)+"%");
         el.style.setProperty("--my",(py*100).toFixed(1)+"%");
       });
@@ -1235,7 +1238,7 @@ footer .fl a:hover{color:var(--gold-2)}
       requestAnimationFrame(function(){ raf=false; if(!le)return;
         var r=wrap.getBoundingClientRect();
         var px=(le.clientX-r.left)/r.width, py=(le.clientY-r.top)/r.height;
-        svg.style.transform="rotateX("+((0.5-py)*7).toFixed(2)+"deg) rotateY("+((px-0.5)*9).toFixed(2)+"deg) scale(1.02)";
+        svg.style.transform="rotateX("+((0.5-py)*11).toFixed(2)+"deg) rotateY("+((px-0.5)*13).toFixed(2)+"deg) scale(1.04)";
         wrap.style.setProperty("--shex",(px*100).toFixed(1)+"%");
         wrap.style.setProperty("--shey",(py*100).toFixed(1)+"%");
       });
@@ -1316,8 +1319,8 @@ footer .fl a:hover{color:var(--gold-2)}
         var nf=Math.round(innerWidth*innerHeight/14000); nf=clamp(nf,40,110);
         var nn=Math.round(nf*0.35);
         far=[]; near=[];
-        for(var i=0;i<nf;i++) far.push({x:R(0,W),y:R(0,H),r:R(0.5,1.6)*DPR,a:R(.15,.5),tw:R(.4,1.6),ph:R(0,6.3),vy:R(2,8)*DPR/60});
-        for(var j=0;j<nn;j++) near.push({x:R(0,W),y:R(0,H),r:R(2.4,5.5)*DPR,a:R(.05,.16),ph:R(0,6.3),vy:R(4,12)*DPR/60});
+        for(var i=0;i<nf;i++) far.push({x:R(0,W),y:R(0,H),r:R(0.6,2.1)*DPR,a:R(.28,.72),tw:R(.4,1.6),ph:R(0,6.3),vy:R(2,9)*DPR/60});
+        for(var j=0;j<nn;j++) near.push({x:R(0,W),y:R(0,H),r:R(3,7)*DPR,a:R(.10,.28),ph:R(0,6.3),vy:R(4,13)*DPR/60});
       }
       function spawnComet(){
         var fromL=Math.random()<.5;
@@ -1332,7 +1335,7 @@ footer .fl a:hover{color:var(--gold-2)}
           var a=s.a*(0.55+0.45*Math.sin(t*0.03*s.tw+s.ph));
           ctx.beginPath(); ctx.fillStyle="rgba(231,200,118,"+a.toFixed(3)+")"; ctx.arc(s.x,s.y,s.r,0,6.2832); ctx.fill();
         }
-        var ox=(px-0.5)*40*DPR, oy=(py-0.5)*40*DPR;
+        var ox=(px-0.5)*64*DPR, oy=(py-0.5)*64*DPR;
         for(var k=0;k<near.length;k++){ var b=near[k]; b.y+=b.vy; if(b.y>H+10){b.y=-10;b.x=R(0,W);}
           var bx=b.x+ox, by=b.y+oy;
           var a2=b.a*(0.6+0.4*Math.sin(t*0.02+b.ph));
@@ -1340,13 +1343,13 @@ footer .fl a:hover{color:var(--gold-2)}
           g.addColorStop(0,"rgba(231,200,118,"+a2.toFixed(3)+")"); g.addColorStop(1,"rgba(231,200,118,0)");
           ctx.fillStyle=g; ctx.beginPath(); ctx.arc(bx,by,b.r*4,0,6.2832); ctx.fill();
         }
-        if(Math.random()<0.004 && comets.length<2) spawnComet();
+        if(Math.random()<0.014 && comets.length<3) spawnComet();
         for(var c=comets.length-1;c>=0;c--){ var m=comets[c]; m.life++; m.x+=m.vx; m.y+=m.vy;
           var tlen=18; var gx=ctx.createLinearGradient(m.x,m.y,m.x-m.vx*tlen,m.y-m.vy*tlen);
           gx.addColorStop(0,"rgba(255,233,173,0.9)"); gx.addColorStop(1,"rgba(255,233,173,0)");
-          ctx.strokeStyle=gx; ctx.lineWidth=2.2*DPR; ctx.lineCap="round";
+          ctx.strokeStyle=gx; ctx.lineWidth=3.2*DPR; ctx.lineCap="round";
           ctx.beginPath(); ctx.moveTo(m.x,m.y); ctx.lineTo(m.x-m.vx*tlen,m.y-m.vy*tlen); ctx.stroke();
-          ctx.beginPath(); ctx.fillStyle="rgba(255,240,200,0.95)"; ctx.arc(m.x,m.y,1.8*DPR,0,6.2832); ctx.fill();
+          ctx.beginPath(); ctx.fillStyle="rgba(255,240,200,0.98)"; ctx.arc(m.x,m.y,2.7*DPR,0,6.2832); ctx.fill();
           if(m.life>m.max||m.x<-50||m.x>W+50||m.y>H+50) comets.splice(c,1);
         }
         ctx.globalCompositeOperation="source-over";
