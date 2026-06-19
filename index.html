@@ -979,23 +979,23 @@ footer .fl a:hover{color:var(--gold-2)}
     display:block;margin-top:6px;font-family:"Archivo";font-weight:700;font-size:11.5px;letter-spacing:.04em;color:var(--gold-2)}
 }
 
-/* ---------- JOB MODAL (opens on tap; shows full offer + button) ---------- */
-.fx-modal{position:fixed;inset:0;z-index:9999;display:none;align-items:flex-end;justify-content:center}
+/* ---------- JOB MODAL (opens on tap; CENTERED card with full offer + button) ---------- */
+.fx-modal{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:18px}
 .fx-modal.open{display:flex}
-.fx-modal-bg{position:absolute;inset:0;background:rgba(4,4,6,.72);backdrop-filter:blur(6px);animation:fxFade .3s}
-.fx-modal-card{position:relative;width:100%;max-width:560px;max-height:92vh;overflow:auto;
-  border-radius:24px 24px 0 0;box-shadow:0 -24px 70px rgba(0,0,0,.7);animation:fxUp .42s cubic-bezier(.2,.85,.2,1)}
-.fx-modal-card .job-card{border-radius:24px 24px 0 0;border:1px solid var(--line-gold);max-height:none;transform:none;opacity:1;margin:0}
+.fx-modal-bg{position:absolute;inset:0;background:rgba(4,4,6,.74);backdrop-filter:blur(7px);animation:fxFade .3s}
+.fx-modal-card{position:relative;width:100%;max-width:460px;max-height:88vh;overflow:auto;border-radius:24px;
+  box-shadow:0 34px 90px rgba(0,0,0,.72);animation:fxPop .42s cubic-bezier(.2,.85,.2,1);scrollbar-width:none}
+.fx-modal-card::-webkit-scrollbar{display:none}
+.fx-modal-card .job-card{border-radius:24px;border:1px solid var(--line-gold);max-height:none;transform:none;opacity:1;margin:0}
 .fx-modal-card .job-card .job-grid,
 .fx-modal-card .job-card .job-perks,
 .fx-modal-card .job-card .job-body .btn{display:revert!important;opacity:1!important;transform:none!important}
 .fx-modal-card .job-card .job-body::after{display:none!important}
 .fx-modal-close{position:absolute;top:14px;right:14px;z-index:6;width:42px;height:42px;border-radius:50%;
-  border:1px solid var(--line-gold);background:rgba(8,8,10,.78);backdrop-filter:blur(6px);color:var(--gold-2);
+  border:1px solid var(--line-gold);background:rgba(8,8,10,.82);backdrop-filter:blur(6px);color:var(--gold-2);
   font-size:24px;line-height:38px;text-align:center;cursor:pointer}
-@keyframes fxUp{from{transform:translateY(50px);opacity:0}to{transform:none;opacity:1}}
+@keyframes fxPop{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
 @keyframes fxFade{from{opacity:0}to{opacity:1}}
-@media(min-width:641px){.fx-modal{align-items:center}.fx-modal-card{border-radius:24px}.fx-modal-card .job-card{border-radius:24px}}
 
 @media (prefers-reduced-motion: reduce){
   .eu-svg,.eu-ring,.eu-plane{animation:none!important}
