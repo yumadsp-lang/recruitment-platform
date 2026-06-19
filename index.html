@@ -895,7 +895,6 @@ footer .fl a:hover{color:var(--gold-2)}
 <style id="wejobs-fx-premium-style">
 /* =========================================================================
    WeJobs — Premium 3D interaction layer (ADDITIVE ONLY)
-   Hooks existing real elements. No text, no markup, no SEO touched.
    ========================================================================= */
 :root{--fxg:#c9962e;--fxg2:#e7c876;--fxg3:#ffe9ad}
 
@@ -922,20 +921,17 @@ footer .fl a:hover{color:var(--gold-2)}
 @keyframes euPing{0%{transform:scale(1);opacity:.9}70%,100%{transform:scale(4.4);opacity:0}}
 .eu-plane-glyph{fill:#ffe9ad;filter:drop-shadow(0 0 6px rgba(255,220,140,.95))}
 
-/* ---------- CARDS : cursor 3D tilt + glare + gold rim + depth shadow ---------- */
+/* ---------- CARDS : cursor 3D tilt + glare + depth shadow ---------- */
 .fx-card{position:relative;transform-style:preserve-3d;
   transition:transform .5s cubic-bezier(.19,1,.22,1),box-shadow .5s,border-color .5s}
 .fx-card.fx-on{transition:transform .1s ease-out,box-shadow .1s ease-out,border-color .25s}
 .fx-card::after{content:"";position:absolute;inset:0;border-radius:inherit;z-index:5;pointer-events:none;
-  background:
-    radial-gradient(440px circle at var(--fx-x,50%) var(--fx-y,0%),rgba(255,240,205,.16),transparent 52%),
+  background:radial-gradient(440px circle at var(--fx-x,50%) var(--fx-y,0%),rgba(255,240,205,.16),transparent 52%),
     radial-gradient(220px circle at var(--fx-x,50%) var(--fx-y,50%),rgba(201,150,46,.18),transparent 60%);
   opacity:0;transition:opacity .45s;mix-blend-mode:screen}
 .fx-card.fx-on::after{opacity:1}
 .fx-card.fx-on{border-color:var(--line-gold)!important}
-/* subtle inner image parallax on job cards (stays inside overflow) */
-.job-card.fx-card .ph{transition:transform .5s cubic-bezier(.19,1,.22,1);transform:scale(1.001)}
-.job-card.fx-card.fx-on .ph{transition:transform .12s ease-out}
+.job-card.fx-card .ph{transition:transform .5s cubic-bezier(.19,1,.22,1)}
 
 /* ---------- GOLD BUTTONS : magnetic + cursor glow + press ---------- */
 .btn.gold{position:relative;overflow:hidden;
@@ -948,70 +944,64 @@ footer .fl a:hover{color:var(--gold-2)}
 .btn.gold.fx-on{box-shadow:0 18px 44px rgba(201,150,46,.45),0 4px 14px rgba(0,0,0,.35)}
 .btn.gold:active{transform:scale(.97)!important}
 
-/* ---------- AMBIENT gold-dust canvas (decorative, behind everything) ---------- */
+/* ---------- AMBIENT gold-dust canvas ---------- */
 #fx-stars{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+
+/* ===================== MOBILE ===================== */
+@media(max-width:980px){
+  /* REAL gap fix: the hero <section> inherited section{padding:64px 0}. Kill the top. */
+  .hero{padding-top:4px!important}
+  .hero .hero-inner{padding-top:0!important}
+  /* make the map bigger: full-bleed edge-to-edge + tighter glow */
+  .hero-visual{width:100vw;margin-left:calc(-50vw + 50%);max-width:100vw}
+  .hero-visual .frame{border-radius:18px}
+  .hero-visual .glow{inset:-6px!important;filter:blur(12px)!important;opacity:.55}
+}
+
+/* ===================== JOBS — rectangular cards in a row + tap-to-open modal ===================== */
+@media(max-width:640px){
+  #jobs-container.fx-row{display:flex;flex-direction:row;gap:14px;overflow-x:auto;overflow-y:visible;
+    scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:4px 2px 12px}
+  #jobs-container.fx-row::-webkit-scrollbar{display:none}
+  #jobs-container.fx-row .job-card{flex:0 0 60%;scroll-snap-align:start;cursor:pointer;margin:0;max-height:none;
+    transform:none;transition:transform .25s,box-shadow .3s,border-color .3s}
+  #jobs-container.fx-row .job-card:active{transform:scale(.97)}
+  #jobs-container.fx-row .job-card .ph{height:140px}
+  #jobs-container.fx-row .job-card .job-body{padding:16px}
+  #jobs-container.fx-row .job-card .job-body h3{font-size:16px;margin-bottom:6px}
+  #jobs-container.fx-row .job-card .job-body .salary{font-size:15.5px;margin-bottom:4px}
+  /* teaser hides detail; it appears in the modal on tap */
+  #jobs-container.fx-row .job-card .job-grid,
+  #jobs-container.fx-row .job-card .job-perks,
+  #jobs-container.fx-row .job-card .job-body .btn{display:none}
+  /* tiny "tap to open" hint badge */
+  #jobs-container.fx-row .job-card .job-body::after{content:"Atinge pentru detalii →";
+    display:block;margin-top:6px;font-family:"Archivo";font-weight:700;font-size:11.5px;letter-spacing:.04em;color:var(--gold-2)}
+}
+
+/* ---------- JOB MODAL (opens on tap; shows full offer + button) ---------- */
+.fx-modal{position:fixed;inset:0;z-index:9999;display:none;align-items:flex-end;justify-content:center}
+.fx-modal.open{display:flex}
+.fx-modal-bg{position:absolute;inset:0;background:rgba(4,4,6,.72);backdrop-filter:blur(6px);animation:fxFade .3s}
+.fx-modal-card{position:relative;width:100%;max-width:560px;max-height:92vh;overflow:auto;
+  border-radius:24px 24px 0 0;box-shadow:0 -24px 70px rgba(0,0,0,.7);animation:fxUp .42s cubic-bezier(.2,.85,.2,1)}
+.fx-modal-card .job-card{border-radius:24px 24px 0 0;border:1px solid var(--line-gold);max-height:none;transform:none;opacity:1;margin:0}
+.fx-modal-card .job-card .job-grid,
+.fx-modal-card .job-card .job-perks,
+.fx-modal-card .job-card .job-body .btn{display:revert!important;opacity:1!important;transform:none!important}
+.fx-modal-card .job-card .job-body::after{display:none!important}
+.fx-modal-close{position:absolute;top:14px;right:14px;z-index:6;width:42px;height:42px;border-radius:50%;
+  border:1px solid var(--line-gold);background:rgba(8,8,10,.78);backdrop-filter:blur(6px);color:var(--gold-2);
+  font-size:24px;line-height:38px;text-align:center;cursor:pointer}
+@keyframes fxUp{from{transform:translateY(50px);opacity:0}to{transform:none;opacity:1}}
+@keyframes fxFade{from{opacity:0}to{opacity:1}}
+@media(min-width:641px){.fx-modal{align-items:center}.fx-modal-card{border-radius:24px}.fx-modal-card .job-card{border-radius:24px}}
 
 @media (prefers-reduced-motion: reduce){
   .eu-svg,.eu-ring,.eu-plane{animation:none!important}
   .fx-card,.btn.gold,.eu-svg{transition:none!important;transform:none!important}
   #fx-stars{display:none}
-}
-
-/* ---------- MOBILE polish (layout only; no text changed) ---------- */
-@media(max-width:980px){
-  /* pull the hero map up — kill the empty gap above it */
-  .hero .hero-inner{padding-top:14px}
-}
-@media(max-width:640px){
-  /* announcement bar: clean, balanced, centered (no ugly 2-line break) */
-  .topbar .container{display:block;text-align:center;text-wrap:balance;
-    padding:9px 16px;line-height:1.45;font-size:11.5px;letter-spacing:.01em}
-  .topbar .dot{display:inline-block;vertical-align:middle;margin:0 7px 2px 0}
-}
-
-/* ============ GAP FIX: the "empty space" was the glow halo above the frame ============ */
-@media(max-width:980px){
-  .hero .hero-inner{padding-top:8px!important}
-  .hero-visual .glow{inset:-8px!important;filter:blur(14px)!important;opacity:.7}
-}
-
-/* ============ JOBS — stacked "wallet" deck + ghost data reveal (mobile) ============ */
-@media(max-width:640px){
-  #swipe-hint{display:none!important}
-
-  #jobs-container.fx-stack{display:block;overflow:visible;scroll-snap-type:none;padding:6px 0 14px}
-  #jobs-container.fx-stack .job-card{
-    flex:none;width:100%;scroll-snap-align:none;cursor:pointer;
-    max-height:250px;overflow:hidden;margin-top:-74px;
-    transform:scale(.965);transform-origin:top center;
-    box-shadow:0 -8px 26px rgba(0,0,0,.45),0 20px 44px rgba(0,0,0,.6);
-    transition:max-height .55s cubic-bezier(.2,.85,.2,1),transform .45s cubic-bezier(.2,.85,.2,1),box-shadow .45s,opacity .4s,border-color .4s;
-    will-change:max-height,transform;
-  }
-  #jobs-container.fx-stack .job-card:first-child{margin-top:6px}
-  /* soft fade at the collapsed cut so it looks intentional */
-  #jobs-container.fx-stack .job-card::before{content:"";position:absolute;left:0;right:0;bottom:0;height:74px;z-index:6;
-    pointer-events:none;background:linear-gradient(180deg,transparent,rgba(12,12,15,.96));opacity:1;transition:opacity .4s}
-
-  /* the data that materialises like a ghost */
-  #jobs-container.fx-stack .job-card .job-grid,
-  #jobs-container.fx-stack .job-card .job-perks,
-  #jobs-container.fx-stack .job-card .job-body .btn{
-    opacity:0;transform:translateY(10px);transition:opacity .5s .06s,transform .5s .06s}
-
-  /* OPEN card: rises out of the deck, full data revealed, gold ghost glow */
-  #jobs-container.fx-stack .job-card.job-open{
-    max-height:1400px;transform:scale(1);z-index:40;border-color:var(--line-gold);
-    box-shadow:0 30px 80px rgba(0,0,0,.7),0 0 0 1px rgba(201,150,46,.5),0 0 46px rgba(201,150,46,.28);
-  }
-  #jobs-container.fx-stack .job-card.job-open::before{opacity:0}
-  #jobs-container.fx-stack .job-card.job-open .job-grid,
-  #jobs-container.fx-stack .job-card.job-open .job-perks,
-  #jobs-container.fx-stack .job-card.job-open .job-body .btn{opacity:1;transform:none}
-
-  /* the rest of the deck dims (ghost focus on the active offer) */
-  #jobs-container.fx-stack.has-open .job-card:not(.job-open){opacity:.62;filter:saturate(.85) brightness(.92)}
-  #jobs-container.fx-stack .job-card:not(.job-open):active{transform:scale(.985)}
+  .fx-modal-card,.fx-modal-bg{animation:none!important}
 }
 
 </style>
@@ -1141,7 +1131,7 @@ footer .fl a:hover{color:var(--gold-2)}
       if(!FINE && !el.classList.contains("job-card")) enableScroll3D(el);
     });
     document.querySelectorAll(".btn.gold").forEach(enhanceBtn);
-    if(window.__fxJobStack) window.__fxJobStack();
+    if(window.__fxJobs) window.__fxJobs();
   }
   scan();
   if(!FINE){ addEventListener("scroll",onScroll,{passive:true}); addEventListener("resize",onScroll,{passive:true}); setTimeout(onScroll,800); }
@@ -1175,37 +1165,46 @@ footer .fl a:hover{color:var(--gold-2)}
     document.addEventListener("visibilitychange", function(){ run=!document.hidden; if(run) requestAnimationFrame(frame); });
   })();
 
-  /* ---------------- JOBS — stacked "wallet" deck + ghost reveal (mobile) -- */
+  /* ---------------- JOBS — row of rectangular teaser cards + tap modal --- */
   (function(){
     var mq = mm && mm("(max-width:640px)");
-    var cont=null;
-    function cards(){ return cont ? Array.prototype.slice.call(cont.querySelectorAll(".job-card")) : []; }
-    function openCard(card){
-      cards().forEach(function(c){ c.classList.toggle("job-open", c===card); });
-      cont.classList.add("has-open");
+    var cont=null, modal=null;
+    function buildModal(){
+      modal=document.createElement("div");
+      modal.className="fx-modal"; modal.setAttribute("aria-hidden","true");
+      modal.innerHTML='<div class="fx-modal-bg"></div><div class="fx-modal-card"><button class="fx-modal-close" aria-label="Inchide">\u00d7</button><div class="fx-modal-host"></div></div>';
+      document.body.appendChild(modal);
+      function close(){ modal.classList.remove("open"); modal.setAttribute("aria-hidden","true"); document.documentElement.style.overflow=""; }
+      modal.querySelector(".fx-modal-bg").addEventListener("click",close);
+      modal.querySelector(".fx-modal-close").addEventListener("click",close);
+      document.addEventListener("keydown",function(e){ if(e.key==="Escape") close(); });
+    }
+    function openFor(card){
+      if(!modal) buildModal();
+      var host=modal.querySelector(".fx-modal-host"); host.innerHTML="";
+      var clone=card.cloneNode(true);
+      clone.className="job-card";          // strip reveal/fx/teaser classes -> full card shows
+      clone.removeAttribute("style"); clone.removeAttribute("data-cat");
+      host.appendChild(clone);
+      modal.classList.add("open"); modal.setAttribute("aria-hidden","false");
+      document.documentElement.style.overflow="hidden";
     }
     function setup(){
       cont=document.getElementById("jobs-container"); if(!cont) return;
       var on = mq ? mq.matches : (innerWidth<=640);
       if(on){
-        cont.classList.add("fx-stack");
-        if(!cont.__fxstack){
-          cont.__fxstack=1;
-          cont.addEventListener("click", function(e){
-            if(e.target.closest(".btn")) return;            // let "Vezi oferta completă" navigate
+        cont.classList.add("fx-row");
+        if(!cont.__fxrow){
+          cont.__fxrow=1;
+          cont.addEventListener("click",function(e){
+            if(e.target.closest(".btn")) return;
             var card=e.target.closest(".job-card"); if(!card) return;
-            if(card.classList.contains("job-open")) return; // already open
-            openCard(card);
-          }, {passive:true});
+            openFor(card);
+          });
         }
-        var cs=cards();
-        if(cs.length && !cont.querySelector(".job-card.job-open")) openCard(cs[0]);
-      } else {
-        cont.classList.remove("fx-stack","has-open");
-        cards().forEach(function(c){ c.classList.remove("job-open"); });
-      }
+      } else { cont.classList.remove("fx-row"); }
     }
-    window.__fxJobStack=setup;
+    window.__fxJobs=setup;
     setup();
     if(mq && mq.addEventListener) mq.addEventListener("change", setup);
     addEventListener("resize", setup, {passive:true});
