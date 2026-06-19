@@ -1173,6 +1173,14 @@ footer .fl a:hover{color:var(--gold-2)}
 .fx-shimmer{background-size:220% auto!important;animation:fxGold 1s ease forwards}
 @keyframes fxGold{0%{background-position:180% center}100%{background-position:-20% center}}
 
+/* ===== Desktop: fill width (cards stretch instead of left-aligned scroll strip) ===== */
+@media (min-width:861px){
+  #jobs-container .cat-row .strip{flex-wrap:wrap;overflow:visible;scroll-snap-type:none;padding:4px 0 14px}
+  #jobs-container .cat-row .strip .jcard{flex:1 0 320px;max-width:calc(50% - 9px);width:auto;scroll-snap-align:none}
+  #jobs-container .cat-row .strip .empty-card{flex:1 1 100%;max-width:none;width:auto}
+  #jobs-container .cat-row .edge{display:none}
+}
+
 </style>
 <script id="wejobs-fx-premium-script">
 /* WeJobs premium interaction layer v2 (advanced, additive — no content/SEO touched) */
