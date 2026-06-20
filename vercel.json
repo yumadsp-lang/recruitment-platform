@@ -7,6 +7,11 @@
       "has": [{ "type": "host", "value": "www.wejobs.ro" }],
       "destination": "https://wejobs.ro/:path*",
       "permanent": true
+    },
+    {
+      "source": "/job.html",
+      "destination": "/job",
+      "permanent": true
     }
   ],
   "rewrites": [
