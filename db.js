@@ -10,6 +10,7 @@
     return {
       id: row.id,
       active: row.active !== false,
+      unavailable: row.unavailable === true,
       title: row.title || "",
       category: row.category || "",
       salary: row.salary || "",
@@ -60,7 +61,7 @@
     async saveJob(job) {
       if (!this.isConfigured()) throw new Error("Conexiune indisponibilă.");
       const payload = {
-        id: job.id, active: job.active, title: job.title, category: job.category,
+        id: job.id, active: job.active, unavailable: job.unavailable === true, title: job.title, category: job.category,
         salary: job.salary, image: job.image, facts: job.facts, perks: job.perks,
         intro: job.intro, responsibilities: job.responsibilities,
         requirements: job.requirements, offer: job.offer, sort: job.sort || 0

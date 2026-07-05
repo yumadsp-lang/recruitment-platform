@@ -72,6 +72,7 @@ textarea{min-height:84px;resize:vertical}
 .pill{font-family:"Archivo";font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:5px 11px;border-radius:999px;white-space:nowrap}
 .pill.on{background:rgba(55,224,138,.13);border:1px solid rgba(55,224,138,.4);color:#9af5c9}
 .pill.off{background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--gray)}
+.pill.warn{background:rgba(201,150,46,.14);border:1px solid var(--line-gold);color:var(--gold-2)}
 .jobrow .acts{display:flex;gap:8px;flex-wrap:wrap}
 .steps{counter-reset:s;display:grid;gap:11px;margin-top:8px}
 .steps li{list-style:none;display:flex;gap:13px;align-items:flex-start;color:#d4d4da;font-size:14.5px}
@@ -190,6 +191,9 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
         </div>
         <div class="grid2">
           <label class="check"><input type="checkbox" id="f-active" checked> Job activ (vizibil pe site)</label>
+          <label class="check"><input type="checkbox" id="f-unavailable"> Indisponibil momentan (vizibil, dar fără aplicare)</label>
+        </div>
+        <div class="grid2">
           <div class="field"><label>Ordine (mic = mai sus)</label><input id="f-sort" type="number" value="0"></div>
         </div>
       </div>
@@ -393,10 +397,12 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
     el.innerHTML = jobs.map(j=>`
       <div class="jobrow">
         <span class="pill ${j.active?'on':'off'}">${j.active?'Activ':'Ascuns'}</span>
+        ${j.unavailable?'<span class="pill warn">Indisponibil</span>':''}
         <div class="info"><b>${escapeHtml(j.title)}</b><span>${escapeHtml([j.category,j.salary].filter(Boolean).join(' • ')||j.id)}</span></div>
         <div class="acts">
           <button class="btn ghost sm" onclick="editJob('${encodeURIComponent(j.id)}')">Editează</button>
           <button class="btn ghost sm" onclick="toggleActive('${encodeURIComponent(j.id)}')">${j.active?'Ascunde':'Activează'}</button>
+          <button class="btn ghost sm" onclick="toggleUnavailable('${encodeURIComponent(j.id)}')">${j.unavailable?'Redeschide aplicarea':'Marchează indisponibil'}</button>
           <button class="btn danger sm" onclick="removeJob('${encodeURIComponent(j.id)}')">Șterge</button>
         </div>
       </div>`).join('');
@@ -426,6 +432,7 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
     $('f-image').value = job?job.image||'':'';
     setImagePreview(job?job.image:'');
     $('f-active').checked = job?job.active!==false:true;
+    $('f-unavailable').checked = job?job.unavailable===true:false;
     $('f-sort').value = job?(job.sort||0):0;
     const f = (job&&job.facts)||{};
     $('f-locatii').value=f.locatii||''; $('f-permis').value=f.permis||''; $('f-tip').value=f.tip||''; $('f-tara').value=f.tara||'';
@@ -451,7 +458,7 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
     if(!title){ msg('editor-msg','err','Scrie cel puțin titlul jobului.'); return; }
     let id = ($('f-id').value.trim() || slug(title));
     const job = {
-      id, active: $('f-active').checked, title,
+      id, active: $('f-active').checked, unavailable: $('f-unavailable').checked, title,
       category: $('f-category').value.trim(), salary: $('f-salary').value.trim(),
       image: $('f-image').value.trim(),
       facts: { locatii:$('f-locatii').value.trim(), permis:$('f-permis').value.trim(), tip:$('f-tip').value.trim(), tara:$('f-tara').value.trim() },
@@ -477,6 +484,18 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
       await WeJobs.saveJob(job);
       await loadCache(); await refreshList();
       toast(job.active?'Job activat ✓':'Job ascuns ✓');
+    }catch(e){ msg('dash-msg','err','Eroare: '+(e.message||e)); }
+  }
+
+  async function toggleUnavailable(encId){
+    const id=decodeURIComponent(encId);
+    try{
+      if(!cache.length) await loadCache();
+      const job = cache.find(j=>j.id===id); if(!job) return;
+      job.unavailable = !job.unavailable;
+      await WeJobs.saveJob(job);
+      await loadCache(); await refreshList();
+      toast(job.unavailable?'Marcat indisponibil ✓':'Aplicare redeschisă ✓');
     }catch(e){ msg('dash-msg','err','Eroare: '+(e.message||e)); }
   }
 
