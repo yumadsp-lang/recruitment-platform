@@ -1,5 +1,5 @@
 const CONFIG = {
-  whatsapp: "491703044341",
+  supportEmail: "support@wejobs.ro",
   supabaseUrl: "https://cmpagnbvympkrtcjnefz.supabase.co",
   supabaseKey: "sb_publishable_B66wSpD1Xd2a7PkCUAZBQQ_qYY6650Q",
   vapidPublicKey: "BPfmq_7vuGpB2yMwC8DpF8RD9-QUgd2lexYaip_Rq0LrUCwaJhdd3t7F-WSeWDy-wCU1R1dLwrZ2S51P2z7hQJ4",

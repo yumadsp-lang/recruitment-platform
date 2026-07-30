@@ -40,7 +40,7 @@
     "https://www.instagram.com/wejobs.ro/"
   ],
   "knowsLanguage": ["ro", "de"],
-  "telephone": "+49 170 304 4341",
+  "email": "support@wejobs.ro",
   "email": "support@wejobs.ro",
   "founder": "Drăguț Alin Andrei",
   "address": {
@@ -543,7 +543,7 @@ footer .fl a:hover{color:var(--gold-2)}
     </div>
     <div class="steps">
       <div class="step reveal"><div class="num gold-text">01</div><h3>Alegi jobul</h3><p>Vezi pozițiile active și deschizi oferta completă, cu salariu și condiții.</p></div>
-      <div class="step reveal"><div class="num gold-text">02</div><h3>Aplici online</h3><p>Completezi formularul sau ne scrii pe WhatsApp. Durează câteva minute.</p></div>
+      <div class="step reveal"><div class="num gold-text">02</div><h3>Aplici online</h3><p>Completezi formularul de pe site. Durează câteva minute.</p></div>
       <div class="step reveal"><div class="num gold-text">03</div><h3>Te contactăm</h3><p>Te contactăm pentru verificare, interviu și pașii următori.</p></div>
     </div>
   </div>
@@ -677,7 +677,7 @@ footer .fl a:hover{color:var(--gold-2)}
         <p>Colaborăm cu firme din Uniunea Europeană care au nevoie de personal serios din România. Spune-ne ce posturi ai de acoperit și revenim cu o propunere de colaborare.</p>
       </div>
       <div class="companii-actions">
-        <a class="btn gold" id="companii-wa" target="_blank" href="#">Discută pe WhatsApp</a>
+        <a class="btn gold" id="companii-wa" href="mailto:support@wejobs.ro?subject=Colaborare%20WeJobs.ro">Scrie-ne pe email</a>
         <a class="btn ghost" href="mailto:support@wejobs.ro?subject=Colaborare%20WeJobs.ro">Scrie-ne pe e-mail</a>
       </div>
     </div>
@@ -711,7 +711,7 @@ footer .fl a:hover{color:var(--gold-2)}
       <div>
         <h4>Contact</h4>
         <div class="fl">
-          <a target="_blank" id="wa-footer" href="#">Scrie-ne pe WhatsApp</a>
+          <a id="wa-footer" href="mailto:support@wejobs.ro">support@wejobs.ro</a>
           <a href="#aplica">Aplică online</a>
           <a href="#companii">Pentru companii</a>
           <a href="/legal#impressum">Impressum</a>
@@ -733,10 +733,6 @@ footer .fl a:hover{color:var(--gold-2)}
 <script>
   const esc = s => String(s==null?"":s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const checkSvg = '<svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>';
-  const waBase = txt => `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(txt)}`;
-
-  document.getElementById('wa-footer').href = waBase("Bună ziua! Doresc informații despre joburile disponibile pe WeJobs.ro");
-  document.getElementById('companii-wa').href = waBase("Bună ziua! Reprezint o companie și sunt interesat(ă) de o colaborare cu WeJobs.ro.");
   // ---------- Selector de țară pentru telefon ----------
   const COUNTRIES = [
     { c:"RO", d:"+40", f:"🇷🇴" }, { c:"DE", d:"+49", f:"🇩🇪" }, { c:"HU", d:"+36", f:"🇭🇺" },
@@ -1032,7 +1028,7 @@ footer .fl a:hover{color:var(--gold-2)}
         if(prefixSel) prefixSel.value = '+40';
         if(note){ note.style.color=''; note.textContent='✓ Aplicația a fost trimisă! Te contactăm în cel mai scurt timp.'; }
       }catch(err){
-        if(note){ note.style.color='#ff9d9d'; note.textContent='Nu am putut trimite aplicația. Încearcă din nou sau scrie-ne pe WhatsApp.'; }
+        if(note){ note.style.color='#ff9d9d'; note.textContent='Nu am putut trimite aplicația. Încearcă din nou sau scrie-ne la support@wejobs.ro.'; }
       }finally{
         if(btn){ btn.disabled=false; btn.textContent = btn.dataset.orig || 'Trimite aplicația'; }
       }
