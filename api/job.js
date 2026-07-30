@@ -75,7 +75,7 @@ function footer(jobLinks) {
       <a href="https://www.tiktok.com/@wejobs.ro" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24"><path d="M16.5 5.5a4.5 4.5 0 003.5 1.7v3a7.5 7.5 0 01-3.8-1.04v6.3a5.46 5.46 0 11-5.46-5.46c.2 0 .4.01.6.04v3.06a2.5 2.5 0 102.36 2.5V2h2.8a4.5 4.5 0 00.4 3.5z"/></svg></a>
     </div>
   </div>
-  <div><h4>Joburi</h4><div class="fl">${jobLinks}</div></div>
+  <div><h4>Navigare</h4><div class="fl">${jobLinks}</div></div>
   <div><h4>Contact</h4><div class="fl">
     <a href="/#companii">Pentru companii</a>
     <a href="/legal#impressum">Impressum</a>
@@ -108,8 +108,11 @@ module.exports = async (req, res) => {
   try { all = await supa("jobs?active=eq.true&select=*&order=sort.asc,created_at.desc"); }
   catch (e) { console.error(e); }
 
-  const jobLinks = all.map(j => `<a href="/job?id=${encodeURIComponent(j.id)}">${esc(j.title)}</a>`).join("")
-    + '<a href="/#aplica">Aplică online</a>';
+  const jobLinks = '<a href="/">Acasă</a>'
+    + '<a href="/#joburi">Joburi disponibile</a>'
+    + '<a href="/#aplica">Aplică online</a>'
+    + '<a href="/#companii">Pentru companii</a>'
+    + '<a href="/#intrebari">Întrebări frecvente</a>';
 
   const job = all.find(j => j.id === id) || null;
 

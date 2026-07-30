@@ -706,7 +706,13 @@ footer .fl a:hover{color:var(--gold-2)}
       </div>
       <div>
         <h4>Navigare</h4>
-        <div class="fl" id="footer-jobs"></div>
+        <div class="fl">
+          <a href="/">Acasă</a>
+          <a href="#joburi">Joburi disponibile</a>
+          <a href="#aplica">Aplică online</a>
+          <a href="#companii">Pentru companii</a>
+          <a href="#intrebari">Întrebări frecvente</a>
+        </div>
       </div>
       <div>
         <h4>Contact</h4>
@@ -826,9 +832,6 @@ footer .fl a:hover{color:var(--gold-2)}
     const ec=document.getElementById('empty-cat'); if(ec) ec.style.display='none';
 
     document.getElementById('meta-count').textContent = active.length;
-    document.getElementById('footer-jobs').innerHTML =
-      active.map(j=>`<a href="/job?id=${encodeURIComponent(j.id)}">${esc(j.title)}</a>`).join('')
-      + '<a href="#joburi">Toate joburile</a>';
     const sel = document.getElementById('post');
     active.forEach(j=>{ const o=document.createElement('option'); o.value=j.title; o.textContent=j.title; sel.appendChild(o); });
     const io = new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
@@ -846,9 +849,12 @@ footer .fl a:hover{color:var(--gold-2)}
     var f=j.facts||{};
     var loc=f.locatii||f.tara||'';
     var badges=(j.perks||[]).slice(0,2).map(function(p){return '<span class="wj-badge">'+checkSvg+esc(p)+'</span>';}).join('');
+    var tag=(j.category?'<span class="wj-tag">'+esc(j.category)+'</span>':'');
+    var unav=(j.unavailable?'<span class="wj-unavail">Indisponibil momentan</span>':'');
+    var media = '<div class="wj-ph">'+vehSVG(j.category)+'</div>'
+      + (j.image ? '<img src="'+esc(j.image)+'" alt="'+esc(j.title)+'" loading="lazy" onerror="this.style.display=\'none\'">' : '');
     return '<div class="jcard'+(j.unavailable?' is-unavail':'')+'" data-id="'+esc(j.id)+'">'
-      +(j.category?'<span class="wj-tag">'+esc(j.category)+'</span>':'')
-      +(j.unavailable?'<span class="wj-unavail">Indisponibil momentan</span>':'')
+      +'<div class="wj-img">'+media+tag+unav+'</div>'
       +'<h4>'+esc(j.title)+'</h4>'
       +(j.salary?'<div class="wj-salary gold-text">'+esc(j.salary)+'</div>':'')
       +(loc?'<div class="wj-loc">'+esc(loc)+'</div>':'')
@@ -1192,6 +1198,15 @@ footer .fl a:hover{color:var(--gold-2)}
 .cat-row .edge.r{right:0;background:linear-gradient(270deg,var(--black,#08080a),transparent)}
 .jcard{scroll-snap-align:start;flex:0 0 auto;width:min(80vw,300px);background:linear-gradient(180deg,#1c1c22,#15151a);border:1px solid var(--line,rgba(255,255,255,.08));border-radius:18px;padding:20px;cursor:pointer;transition:transform .3s cubic-bezier(.19,1,.22,1),border-color .3s,box-shadow .3s;display:flex;flex-direction:column}
 .jcard:hover{transform:translateY(-5px);border-color:var(--line-gold,rgba(201,150,46,.34));box-shadow:0 22px 50px rgba(0,0,0,.5)}
+.jcard .wj-img{position:relative;margin:-20px -20px 14px;height:158px;overflow:hidden;border-radius:18px 18px 0 0;background:linear-gradient(150deg,#20202a,#131318);flex:none}
+.jcard .wj-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:1;transition:transform .55s cubic-bezier(.19,1,.22,1)}
+.jcard:hover .wj-img img{transform:scale(1.06)}
+.jcard .wj-img::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(8,8,10,.15) 0%,rgba(8,8,10,.05) 45%,rgba(21,21,26,.92) 100%)}
+.jcard .wj-img .wj-tag{position:absolute;left:14px;top:13px;z-index:3;margin:0;background:rgba(8,8,10,.72);backdrop-filter:blur(8px)}
+.jcard .wj-img .wj-unavail{position:absolute;right:13px;top:13px;z-index:3;margin:0;background:rgba(8,8,10,.78);backdrop-filter:blur(8px)}
+.jcard .wj-img .wj-ph{position:absolute;inset:0;display:grid;place-items:center;opacity:.4}
+.jcard .wj-img .wj-ph svg{width:62%;max-width:170px;height:auto;fill:none;stroke:var(--gold-2,#e7c876);stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+.jcard.is-unavail .wj-img img{filter:grayscale(.65) brightness(.72)}
 .jcard .wj-tag{align-self:flex-start;font-family:"Archivo",sans-serif;font-weight:800;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-2,#e7c876);background:rgba(201,150,46,.1);border:1px solid var(--line-gold,rgba(201,150,46,.34));border-radius:999px;padding:5px 11px;margin-bottom:13px}
 .jcard h4{font-family:"Archivo",sans-serif;font-weight:800;font-size:18px;line-height:1.22;letter-spacing:-.3px;color:#fff;margin:0 0 10px;min-height:44px}
 .jcard .wj-salary{font-family:"Archivo",sans-serif;font-weight:900;font-size:24px;letter-spacing:-.5px;margin-bottom:5px}
