@@ -139,6 +139,65 @@
       if (!this.isConfigured()) throw new Error("Conexiune indisponibilă.");
       const { error } = await client.from("reviews").delete().eq("id", id);
       if (error) throw error;
+    },
+
+    // ---------- APLICAȚII ----------
+    async submitApplication(a) {
+      if (!this.isConfigured()) throw new Error("Conexiune indisponibilă.");
+      const { error } = await client.from("applications").insert({
+        name: a.name,
+        phone: a.phone,
+        email: a.email || null,
+        job_title: a.job_title || null,
+        job_id: a.job_id || null,
+        experience: a.experience || null,
+        message: a.message || null,
+        source: a.source || null,
+        country: a.country || null
+      });
+      if (error) throw error;
+    },
+    async getApplications() {
+      if (!this.isConfigured()) throw new Error("Conexiune indisponibilă.");
+      const { data, error } = await client.from("applications").select("*")
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return data || [];
+    },
+    async countUnreadApplications() {
+      if (!this.isConfigured()) return 0;
+      const { count, error } = await client.from("applications")
+        .select("id", { count: "exact", head: true }).eq("is_read", false);
+      if (error) { console.error(error); return 0; }
+      return count || 0;
+    },
+    async setApplicationRead(id, isRead) {
+      if (!this.isConfigured()) throw new Error("Conexiune indisponibilă.");
+      const { error } = await client.from("applications").update({ is_read: isRead }).eq("id", id);
+      if (error) throw error;
+    },
+    async deleteApplication(id) {
+      if (!this.isConfigured()) throw new Error("Conexiune indisponibilă.");
+      const { error } = await client.from("applications").delete().eq("id", id);
+      if (error) throw error;
+    },
+
+    // ---------- ABONĂRI PUSH ----------
+    async savePushSubscription(sub, userAgent) {
+      if (!this.isConfigured()) throw new Error("Conexiune indisponibilă.");
+      const json = sub.toJSON ? sub.toJSON() : sub;
+      const { error } = await client.from("push_subscriptions").upsert({
+        endpoint: json.endpoint,
+        p256dh: json.keys.p256dh,
+        auth: json.keys.auth,
+        user_agent: userAgent || null
+      }, { onConflict: "endpoint" });
+      if (error) throw error;
+    },
+    async deletePushSubscription(endpoint) {
+      if (!this.isConfigured()) return;
+      const { error } = await client.from("push_subscriptions").delete().eq("endpoint", endpoint);
+      if (error) console.error(error);
     }
   };
 

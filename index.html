@@ -270,6 +270,9 @@ input::placeholder,textarea::placeholder{color:#5d5d66}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,150,46,.13)}
 select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%23c9962e'%3E%3Cpath d='M7 10L2 4h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
 textarea{min-height:120px;resize:vertical}
+.phone-group{display:grid;grid-template-columns:118px 1fr;gap:8px;align-items:start}
+.phone-group select{margin-bottom:18px;padding-left:12px;padding-right:26px;background-position:right 10px center;font-size:14.5px}
+.phone-group input{margin-bottom:18px}
 .form-note{font-size:12.5px;color:var(--gray-d);margin-top:4px}
 .consent{display:flex;gap:10px;align-items:flex-start;font-family:"Manrope";font-weight:500;font-size:13px;color:var(--gray);margin:0 0 18px;text-transform:none;letter-spacing:0}
 .consent input{width:auto;margin:3px 0 0}
@@ -638,7 +641,12 @@ footer .fl a:hover{color:var(--gold-2)}
       <form id="apply-form" method="POST">
         <div class="form-row">
           <div><label for="nume">Nume complet</label><input id="nume" type="text" name="nume" required placeholder="Ex: Popescu Ion"></div>
-          <div><label for="telefon">Telefon</label><input id="telefon" type="tel" name="telefon" required placeholder="Ex: +40..."></div>
+          <div><label for="telefon">Telefon</label>
+            <div class="phone-group">
+              <select id="phone-prefix" name="phone_prefix" aria-label="Prefix țară"></select>
+              <input id="telefon" type="tel" name="telefon" required inputmode="tel" placeholder="7XX XXX XXX">
+            </div>
+          </div>
         </div>
         <label for="email">Email</label>
         <input id="email" type="email" name="email" required placeholder="email@exemplu.com">
@@ -652,7 +660,6 @@ footer .fl a:hover{color:var(--gold-2)}
         <label for="mesaj">Mesaj</label>
         <textarea id="mesaj" name="mesaj" placeholder="Scrie câteva detalii despre tine..."></textarea>
         <input type="hidden" name="aplicat_de_pe" value="Pagina principală (formular general)">
-        <input type="hidden" name="_subject" value="Aplicație nouă WeJobs.ro">
         <label class="consent"><input type="checkbox" name="consimtamant" required> Sunt de acord cu prelucrarea datelor mele conform <a href="/legal" target="_blank">Politicii de confidențialitate</a>.</label>
         <button class="btn gold" type="submit" style="width:100%;">Trimite aplicația</button>
         <p class="form-note">Aplicația ajunge direct la echipa WeJobs.ro. Nu îți cerem date bancare.</p>
@@ -730,7 +737,41 @@ footer .fl a:hover{color:var(--gold-2)}
 
   document.getElementById('wa-footer').href = waBase("Bună ziua! Doresc informații despre joburile disponibile pe WeJobs.ro");
   document.getElementById('companii-wa').href = waBase("Bună ziua! Reprezint o companie și sunt interesat(ă) de o colaborare cu WeJobs.ro.");
-  document.getElementById('apply-form').action = CONFIG.formspree;
+  // ---------- Selector de țară pentru telefon ----------
+  const COUNTRIES = [
+    { c:"RO", d:"+40", f:"🇷🇴" }, { c:"DE", d:"+49", f:"🇩🇪" }, { c:"HU", d:"+36", f:"🇭🇺" },
+    { c:"MD", d:"+373", f:"🇲🇩" }, { c:"IT", d:"+39", f:"🇮🇹" }, { c:"ES", d:"+34", f:"🇪🇸" },
+    { c:"FR", d:"+33", f:"🇫🇷" }, { c:"GB", d:"+44", f:"🇬🇧" }, { c:"AT", d:"+43", f:"🇦🇹" },
+    { c:"BE", d:"+32", f:"🇧🇪" }, { c:"NL", d:"+31", f:"🇳🇱" }, { c:"PL", d:"+48", f:"🇵🇱" },
+    { c:"BG", d:"+359", f:"🇧🇬" }, { c:"CZ", d:"+420", f:"🇨🇿" }, { c:"SK", d:"+421", f:"🇸🇰" },
+    { c:"PT", d:"+351", f:"🇵🇹" }, { c:"GR", d:"+30", f:"🇬🇷" }, { c:"CH", d:"+41", f:"🇨🇭" },
+    { c:"IE", d:"+353", f:"🇮🇪" }, { c:"DK", d:"+45", f:"🇩🇰" }, { c:"SE", d:"+46", f:"🇸🇪" },
+    { c:"NO", d:"+47", f:"🇳🇴" }, { c:"FI", d:"+358", f:"🇫🇮" }, { c:"HR", d:"+385", f:"🇭🇷" },
+    { c:"RS", d:"+381", f:"🇷🇸" }, { c:"UA", d:"+380", f:"🇺🇦" }
+  ];
+  (function(){
+    const sel = document.getElementById('phone-prefix');
+    if(!sel) return;
+    COUNTRIES.forEach(x=>{
+      const o = document.createElement('option');
+      o.value = x.d; o.dataset.cc = x.c;
+      o.textContent = x.f + " " + x.d;
+      sel.appendChild(o);
+    });
+    sel.value = "+40"; // România implicit
+  })();
+
+  // Construiește numărul complet: prefix + număr, fără dublarea prefixului
+  function buildPhone(prefix, local){
+    var d = String(local||'').replace(/[^0-9]/g,'');
+    var pd = String(prefix||'').replace(/[^0-9]/g,'');
+    if(pd){
+      if(d.indexOf('00'+pd)===0) d = d.slice(2+pd.length);
+      else if(d.indexOf(pd)===0 && d.length > pd.length+5) d = d.slice(pd.length);
+    }
+    d = d.replace(/^0+/,'');
+    return prefix + d;
+  }
 
   const burger = document.getElementById('burger');
   const mobileMenu = document.getElementById('mobile-menu');
@@ -934,6 +975,67 @@ footer .fl a:hover{color:var(--gold-2)}
         if (starsPick) starsPick.querySelectorAll('span').forEach(s=>s.classList.remove('on'));
         status.textContent = 'Mulțumim! Părerea ta va apărea pe site după ce o verificăm.';
       }catch(err){ status.textContent = 'Nu am putut trimite părerea. Încearcă din nou.'; }
+    });
+  }
+
+  // ---------- APLICARE → Supabase + notificare push ----------
+  const applyForm = document.getElementById('apply-form');
+  if (applyForm){
+    applyForm.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const btn = applyForm.querySelector('button[type="submit"]');
+      const note = applyForm.querySelector('.form-note');
+      const origNote = note ? note.textContent : '';
+
+      const name = document.getElementById('nume').value.trim();
+      const localPhone = document.getElementById('telefon').value.trim();
+      const prefixSel = document.getElementById('phone-prefix');
+      const prefix = prefixSel ? prefixSel.value : '';
+      const ccOpt = prefixSel ? prefixSel.options[prefixSel.selectedIndex] : null;
+      const country = ccOpt ? (ccOpt.dataset.cc || '') : '';
+      const email = document.getElementById('email').value.trim();
+      const jobTitle = document.getElementById('post').value.trim();
+      const experience = document.getElementById('exp').value.trim();
+      const message = document.getElementById('mesaj').value.trim();
+      const source = (applyForm.querySelector('input[name="aplicat_de_pe"]')||{}).value || 'Pagina principală';
+      const consent = applyForm.querySelector('input[name="consimtamant"]').checked;
+
+      if(!name || !localPhone || !email || !jobTitle || !experience){
+        if(note){ note.style.color='#ff9d9d'; note.textContent='Completează toate câmpurile obligatorii.'; }
+        return;
+      }
+      if(!consent){
+        if(note){ note.style.color='#ff9d9d'; note.textContent='Bifează acordul pentru prelucrarea datelor.'; }
+        return;
+      }
+
+      // Normalizează telefonul: prefix + număr fără 0 din față
+      const fullPhone = buildPhone(prefix, localPhone);
+
+      if(btn){ btn.disabled=true; btn.dataset.orig=btn.textContent; btn.textContent='Se trimite...'; }
+
+      try{
+        await WeJobs.submitApplication({
+          name, phone: fullPhone, email,
+          job_title: jobTitle, experience, message, source, country
+        });
+
+        // Trimite notificarea push (nu blocăm dacă eșuează)
+        try{
+          await fetch('/api/notify', {
+            method:'POST', headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({ name, job: jobTitle, phone: fullPhone })
+          });
+        }catch(_){}
+
+        applyForm.reset();
+        if(prefixSel) prefixSel.value = '+40';
+        if(note){ note.style.color=''; note.textContent='✓ Aplicația a fost trimisă! Te contactăm în cel mai scurt timp.'; }
+      }catch(err){
+        if(note){ note.style.color='#ff9d9d'; note.textContent='Nu am putut trimite aplicația. Încearcă din nou sau scrie-ne pe WhatsApp.'; }
+      }finally{
+        if(btn){ btn.disabled=false; btn.textContent = btn.dataset.orig || 'Trimite aplicația'; }
+      }
     });
   }
 </script>

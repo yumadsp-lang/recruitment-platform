@@ -1,8 +1,8 @@
 const CONFIG = {
   whatsapp: "491703044341",
-  formspree: "https://formspree.io/f/mlgkrqjg",
   supabaseUrl: "https://cmpagnbvympkrtcjnefz.supabase.co",
   supabaseKey: "sb_publishable_B66wSpD1Xd2a7PkCUAZBQQ_qYY6650Q",
+  vapidPublicKey: "BPfmq_7vuGpB2yMwC8DpF8RD9-QUgd2lexYaip_Rq0LrUCwaJhdd3t7F-WSeWDy-wCU1R1dLwrZ2S51P2z7hQJ4",
   categories: ["Șoferi Cat. B", "Șoferi Cat. C", "Șoferi Cat. C+E", "Construcții", "Depozit & Logistică", "Producție", "HoReCa", "Agricultură", "Curățenie", "Îngrijire & Medical"]
 };
 

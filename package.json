@@ -1,0 +1,9 @@
+{
+  "name": "wejobs-ro",
+  "version": "1.0.0",
+  "private": true,
+  "description": "WeJobs.ro recruitment platform",
+  "dependencies": {
+    "web-push": "^3.6.7"
+  }
+}

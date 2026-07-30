@@ -85,6 +85,20 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
 .tab.active{color:var(--gold-2);border-bottom-color:var(--gold)}
 .badge{display:none;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--gold);color:#10100a;font-size:12px;font-weight:800;align-items:center;justify-content:center}
 .badge.show{display:inline-flex}
+.app-row.unread{border-color:var(--line-gold);background:linear-gradient(180deg,rgba(201,150,46,.06),var(--card))}
+.app-row .dot{width:9px;height:9px;border-radius:50%;background:var(--gold);flex:none;box-shadow:0 0 0 3px rgba(201,150,46,.18)}
+.app-row .dot.read{background:transparent;box-shadow:none;border:1px solid var(--line)}
+.app-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.app-meta span{font-size:12.5px;color:var(--gray);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:8px;padding:2px 8px}
+.app-msg{margin-top:8px;color:#cfcfd6;font-size:14px;line-height:1.55;background:var(--black);border:1px solid var(--line);border-radius:10px;padding:10px 12px;white-space:pre-wrap}
+.notif-bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:linear-gradient(180deg,var(--card-hi),var(--card));border:1px solid var(--line-gold);border-radius:14px;padding:14px 16px;margin-top:18px}
+.notif-bar .txt{flex:1;min-width:200px}
+.notif-bar .txt b{font-family:"Archivo";font-size:15px}
+.notif-bar .txt p{color:var(--gray);font-size:13px;margin:2px 0 0}
+.notif-state{font-family:"Archivo";font-weight:700;font-size:12px;padding:5px 11px;border-radius:999px}
+.notif-state.on{background:rgba(55,224,138,.13);border:1px solid rgba(55,224,138,.4);color:#9af5c9}
+.notif-state.off{background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--gray)}
+.badge.show{display:inline-flex}
 .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:#1f2a24;border:1px solid rgba(37,211,102,.5);color:#eafff2;padding:13px 22px;border-radius:12px;font-family:"Archivo";font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:.3s;z-index:50}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 @media(max-width:640px){
@@ -103,6 +117,18 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
   .img-preview{width:100%;height:160px}
   .login-wrap{margin-top:5vh}
   textarea{min-height:120px}
+  /* Aplicații pe mobil */
+  .app-row .dot{order:1;margin-top:6px}
+  .app-row .acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .app-row .acts .btn{width:100%;flex:none}
+  .app-meta span{font-size:12px}
+  .app-msg{font-size:13.5px}
+  .notif-bar{flex-direction:column;align-items:stretch;gap:10px}
+  .notif-bar .notif-state{align-self:flex-start}
+  .notif-bar .btn{width:100%;justify-content:center}
+  .sectiontitle{flex-direction:column;align-items:flex-start;gap:10px}
+  .sectiontitle > div{width:100%;display:flex;gap:8px}
+  .sectiontitle > div .btn{flex:1;justify-content:center}
 }
 </style>
 </head>
@@ -144,6 +170,7 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
 
     <div class="tabs" id="dash-tabs">
       <button class="tab active" data-tab="jobs" onclick="switchTab('jobs')">Joburi</button>
+      <button class="tab" data-tab="apps" onclick="switchTab('apps')">Aplicații <span class="badge" id="app-badge"></span></button>
       <button class="tab" data-tab="reviews" onclick="switchTab('reviews')">Recenzii <span class="badge" id="rev-badge"></span></button>
     </div>
 
@@ -221,6 +248,26 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
         <button class="btn ghost" onclick="closeEditor()">Anulează</button>
       </div>
     </div>
+    </div>
+
+    <div id="tab-apps" class="hide">
+      <div class="notif-bar">
+        <div class="txt">
+          <b>Notificări pe telefon</b>
+          <p>Primești o alertă când cineva aplică — chiar dacă nu ești pe site.</p>
+        </div>
+        <span class="notif-state off" id="notif-state">Dezactivate</span>
+        <button class="btn gold" id="notif-btn" onclick="enableNotifications()">🔔 Activează notificările</button>
+      </div>
+      <div class="sectiontitle" style="margin-top:18px">
+        <h2>Aplicații primite</h2>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn ghost" onclick="loadApplications()">↻ Reîmprospătează</button>
+          <button class="btn ghost" onclick="markAllAppsRead()">✓ Marchează toate citite</button>
+        </div>
+      </div>
+      <p class="lead" style="margin-bottom:16px">Aplicațiile de pe site ajung aici, cu toate datele la vedere. Apasă <b>Sună</b> ca să suni direct sau <b>Copiază</b> ca să trimiți datele mai departe.</p>
+      <div class="joblist" id="applist"></div>
     </div>
 
     <div id="tab-reviews" class="hide">
@@ -328,13 +375,17 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
     hide('screen-login'); hide('screen-setup'); show('screen-dash'); show('logout-btn');
     await refreshList();
     loadReviews();
+    refreshAppBadge();
+    refreshNotifState();
   }
 
   function switchTab(t){
     document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active', b.dataset.tab===t));
     $('tab-jobs').classList.toggle('hide', t!=='jobs');
+    $('tab-apps').classList.toggle('hide', t!=='apps');
     $('tab-reviews').classList.toggle('hide', t!=='reviews');
     if(t==='reviews') loadReviews();
+    if(t==='apps') loadApplications();
   }
 
   function toggleReviewForm(forceClose){
@@ -385,6 +436,173 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
     if(!confirm('Sigur ștergi această recenzie? Acțiunea nu poate fi anulată.')) return;
     try{ await WeJobs.deleteReview(id); await loadReviews(); toast('Recenzie ștearsă ✓'); }
     catch(e){ msg('dash-msg','err','Eroare: '+(e.message||e)); }
+  }
+
+  // ================= APLICAȚII =================
+  let appsCache = [];
+
+  function fmtDate(s){
+    if(!s) return '';
+    try{ return new Date(s).toLocaleString('ro-RO',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}); }
+    catch(_){ return s; }
+  }
+
+  async function refreshAppBadge(){
+    try{
+      const n = await WeJobs.countUnreadApplications();
+      const b = $('app-badge');
+      if(n>0){ b.textContent=n; b.classList.add('show'); } else { b.textContent=''; b.classList.remove('show'); }
+    }catch(_){}
+  }
+
+  async function loadApplications(){
+    const el=$('applist');
+    el.innerHTML='<div class="msg info">Se încarcă...</div>';
+    try{ appsCache = await WeJobs.getApplications(); }
+    catch(e){ el.innerHTML='<div class="msg info">Aplicațiile nu sunt disponibile. Rulează scriptul <b>supabase-applications.sql</b> în baza de date.</div>'; return; }
+    await refreshAppBadge();
+    if(!appsCache.length){ el.innerHTML='<div class="msg info">Nu există încă aplicații.</div>'; return; }
+    el.innerHTML = appsCache.map(a=>{
+      const unread = a.is_read===false;
+      const meta = [
+        a.experience ? 'Experiență: '+escapeHtml(a.experience) : '',
+        a.country ? 'Țară: '+escapeHtml(a.country) : '',
+        a.source ? escapeHtml(a.source) : '',
+        fmtDate(a.created_at)
+      ].filter(Boolean).map(x=>`<span>${x}</span>`).join('');
+      return `
+      <div class="jobrow app-row ${unread?'unread':''}" id="app-${a.id}">
+        <span class="dot ${unread?'':'read'}"></span>
+        <div class="info">
+          <b>${escapeHtml(a.name)}${a.job_title?' · '+escapeHtml(a.job_title):''}</b>
+          <span>📞 ${escapeHtml(a.phone||'')}${a.email?' &nbsp;·&nbsp; ✉ '+escapeHtml(a.email):''}</span>
+          <div class="app-meta">${meta}</div>
+          ${a.message?`<div class="app-msg">${escapeHtml(a.message)}</div>`:''}
+        </div>
+        <div class="acts">
+          <a class="btn ghost sm" href="tel:${escapeHtml((a.phone||'').replace(/[^\\d+]/g,''))}">Sună</a>
+          <button class="btn ghost sm" onclick="copyApplication('${a.id}')">Copiază</button>
+          <button class="btn ghost sm" onclick="toggleAppRead('${a.id}')">${unread?'Marchează citit':'Marchează necitit'}</button>
+          <button class="btn danger sm" onclick="removeApplication('${a.id}')">Șterge</button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function appText(a){
+    return [
+      'Aplicație WeJobs.ro',
+      'Nume: '+(a.name||''),
+      'Telefon: '+(a.phone||''),
+      a.email?'Email: '+a.email:'',
+      a.job_title?'Post: '+a.job_title:'',
+      a.experience?'Experiență: '+a.experience:'',
+      a.country?'Țară: '+a.country:'',
+      a.source?'Sursă: '+a.source:'',
+      a.message?'Mesaj: '+a.message:'',
+      'Data: '+fmtDate(a.created_at)
+    ].filter(Boolean).join('\n');
+  }
+
+  async function copyApplication(id){
+    const a = appsCache.find(x=>x.id===id); if(!a) return;
+    const txt = appText(a);
+    try{
+      await navigator.clipboard.writeText(txt);
+      toast('Aplicație copiată ✓');
+    }catch(_){
+      // fallback pentru browsere fără clipboard API
+      const ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta);
+      ta.select(); try{ document.execCommand('copy'); toast('Aplicație copiată ✓'); }catch(e){ toast('Nu am putut copia'); }
+      document.body.removeChild(ta);
+    }
+    // marchează automat ca citit când o copiezi
+    if(a.is_read===false){ try{ await WeJobs.setApplicationRead(id,true); a.is_read=true; await loadApplications(); }catch(_){} }
+  }
+
+  async function toggleAppRead(id){
+    const a = appsCache.find(x=>x.id===id); if(!a) return;
+    try{ await WeJobs.setApplicationRead(id, a.is_read===false); await loadApplications(); }
+    catch(e){ msg('dash-msg','err','Eroare: '+(e.message||e)); }
+  }
+
+  async function markAllAppsRead(){
+    const unread = appsCache.filter(a=>a.is_read===false);
+    if(!unread.length){ toast('Nu ai aplicații necitite'); return; }
+    try{
+      await Promise.all(unread.map(a=>WeJobs.setApplicationRead(a.id,true)));
+      await loadApplications(); toast('Toate marcate citite ✓');
+    }catch(e){ msg('dash-msg','err','Eroare: '+(e.message||e)); }
+  }
+
+  async function removeApplication(id){
+    if(!confirm('Sigur ștergi această aplicație? Acțiunea nu poate fi anulată.')) return;
+    try{ await WeJobs.deleteApplication(id); await loadApplications(); toast('Aplicație ștearsă ✓'); }
+    catch(e){ msg('dash-msg','err','Eroare: '+(e.message||e)); }
+  }
+
+  // ================= NOTIFICĂRI PUSH =================
+  function urlBase64ToUint8Array(base64String){
+    const padding = '='.repeat((4 - base64String.length % 4) % 4);
+    const base64 = (base64String + padding).replace(/-/g,'+').replace(/_/g,'/');
+    const raw = atob(base64);
+    const arr = new Uint8Array(raw.length);
+    for(let i=0;i<raw.length;i++) arr[i]=raw.charCodeAt(i);
+    return arr;
+  }
+
+  function pushSupported(){
+    return ('serviceWorker' in navigator) && ('PushManager' in window) && ('Notification' in window);
+  }
+
+  async function refreshNotifState(){
+    const state=$('notif-state'), btn=$('notif-btn');
+    if(!pushSupported()){
+      state.textContent='Neacceptat'; state.className='notif-state off';
+      btn.textContent='Nu e acceptat pe acest dispozitiv'; btn.disabled=true;
+      return;
+    }
+    try{
+      const reg = await navigator.serviceWorker.getRegistration();
+      const sub = reg ? await reg.pushManager.getSubscription() : null;
+      if(sub && Notification.permission==='granted'){
+        state.textContent='Activate'; state.className='notif-state on';
+        btn.textContent='🔔 Notificări active pe acest dispozitiv';
+      }else{
+        state.textContent='Dezactivate'; state.className='notif-state off';
+        btn.textContent='🔔 Activează notificările';
+      }
+    }catch(_){}
+  }
+
+  async function enableNotifications(){
+    if(!pushSupported()){ alert('Acest dispozitiv/browser nu acceptă notificări push. Pe iPhone, adaugă întâi site-ul pe ecranul principal (Share → Add to Home Screen).'); return; }
+    if(!CONFIG.vapidPublicKey){ alert('Cheia de notificări (VAPID) nu e configurată.'); return; }
+    const btn=$('notif-btn'); const orig=btn.textContent; btn.disabled=true; btn.textContent='Se activează...';
+    try{
+      const perm = await Notification.requestPermission();
+      if(perm!=='granted'){ btn.disabled=false; btn.textContent=orig; alert('Ai refuzat notificările. Le poți reactiva din setările browserului.'); return; }
+
+      const reg = await navigator.serviceWorker.register('/sw.js');
+      await navigator.serviceWorker.ready;
+
+      let sub = await reg.pushManager.getSubscription();
+      if(!sub){
+        sub = await reg.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: urlBase64ToUint8Array(CONFIG.vapidPublicKey)
+        });
+      }
+      await WeJobs.savePushSubscription(sub, navigator.userAgent);
+      toast('Notificări activate ✓');
+      await refreshNotifState();
+    }catch(e){
+      console.error(e);
+      alert('Nu am putut activa notificările: '+(e.message||e));
+      btn.disabled=false; btn.textContent=orig;
+    }finally{
+      btn.disabled=false;
+    }
   }
 
   async function refreshList(){
