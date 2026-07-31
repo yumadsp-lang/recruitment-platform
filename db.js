@@ -176,6 +176,12 @@
       const { error } = await client.from("applications").update({ is_read: isRead }).eq("id", id);
       if (error) throw error;
     },
+    async setApplicationStatus(id, status) {
+      if (!this.isConfigured()) throw new Error("Conexiune indisponibilă.");
+      const { error } = await client.from("applications")
+        .update({ status: status, is_read: true }).eq("id", id);
+      if (error) throw error;
+    },
     async deleteApplication(id) {
       if (!this.isConfigured()) throw new Error("Conexiune indisponibilă.");
       const { error } = await client.from("applications").delete().eq("id", id);

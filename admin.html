@@ -2,7 +2,7 @@
 <html lang="ro">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>Administrare | WeJobs.ro</title>
 <meta name="robots" content="noindex,nofollow" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,7 +25,7 @@ a{color:var(--gold-2)}
 .brand img{width:40px;height:40px;object-fit:contain}
 .brand-name{font-family:"Archivo";font-weight:900;font-size:19px;letter-spacing:-.5px}
 .brand-name .ro{font-size:12px;color:var(--gold-2);vertical-align:super}
-.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:26px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:26px;padding-top:env(safe-area-inset-top,0px)}
 h1{font-family:"Archivo";font-weight:900;font-size:clamp(26px,4vw,38px);letter-spacing:-1.2px;margin:10px 0 4px}
 .lead{color:var(--gray);max-width:680px}
 .card{background:linear-gradient(180deg,var(--card-hi),var(--card));border:1px solid var(--line);border-radius:18px;padding:24px;margin-bottom:18px}
@@ -98,6 +98,22 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
 .notif-state{font-family:"Archivo";font-weight:700;font-size:12px;padding:5px 11px;border-radius:999px}
 .notif-state.on{background:rgba(55,224,138,.13);border:1px solid rgba(55,224,138,.4);color:#9af5c9}
 .notif-state.off{background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--gray)}
+.filterbar{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 18px}
+.fbtn{font-family:"Archivo";font-weight:700;font-size:13px;padding:8px 14px;border-radius:999px;background:var(--card);border:1px solid var(--line);color:var(--gray);cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:7px}
+.fbtn:hover{border-color:var(--gold);color:var(--gold-2)}
+.fbtn.on{background:rgba(201,150,46,.13);border-color:var(--line-gold);color:var(--gold-2)}
+.fbtn .cnt{background:rgba(255,255,255,.09);border-radius:999px;padding:1px 7px;font-size:11.5px;min-width:20px;text-align:center}
+.fbtn.on .cnt{background:rgba(201,150,46,.25)}
+.st-pill{font-family:"Archivo";font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:4px 10px;border-radius:999px;white-space:nowrap}
+.st-pill.nou{background:rgba(201,150,46,.13);border:1px solid var(--line-gold);color:var(--gold-2)}
+.st-pill.acceptat{background:rgba(55,224,138,.13);border:1px solid rgba(55,224,138,.4);color:#9af5c9}
+.st-pill.respins{background:rgba(255,90,90,.1);border:1px solid rgba(255,90,90,.38);color:#ff9d9d}
+.app-row.st-acceptat{border-left:3px solid rgba(55,224,138,.55)}
+.app-row.st-respins{border-left:3px solid rgba(255,90,90,.5);opacity:.72}
+.btn.ok{background:rgba(55,224,138,.12);border:1px solid rgba(55,224,138,.42);color:#9af5c9}
+.btn.ok:hover{background:rgba(55,224,138,.2)}
+.btn.no{background:rgba(255,90,90,.09);border:1px solid rgba(255,90,90,.36);color:#ff9d9d}
+.btn.no:hover{background:rgba(255,90,90,.16)}
 .badge.show{display:inline-flex}
 .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:#1f2a24;border:1px solid rgba(37,211,102,.5);color:#eafff2;padding:13px 22px;border-radius:12px;font-family:"Archivo";font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:.3s;z-index:50}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -119,8 +135,12 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
   textarea{min-height:120px}
   /* Aplicații pe mobil */
   .app-row .dot{order:1;margin-top:6px}
+  .app-row .st-pill{order:1}
   .app-row .acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
   .app-row .acts .btn{width:100%;flex:none}
+  .filterbar{gap:6px;overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:4px}
+  .filterbar::-webkit-scrollbar{display:none}
+  .fbtn{flex:0 0 auto;font-size:12.5px;padding:8px 12px}
   .app-meta span{font-size:12px}
   .app-msg{font-size:13.5px}
   .notif-bar{flex-direction:column;align-items:stretch;gap:10px}
@@ -266,7 +286,14 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
           <button class="btn ghost" onclick="markAllAppsRead()">✓ Marchează toate citite</button>
         </div>
       </div>
-      <p class="lead" style="margin-bottom:16px">Aplicațiile de pe site ajung aici, cu toate datele la vedere. Apasă <b>Sună</b> ca să suni direct sau <b>Copiază</b> ca să trimiți datele mai departe.</p>
+      <p class="lead" style="margin-bottom:6px">Aplicațiile de pe site ajung aici, cu toate datele la vedere.</p>
+      <div class="filterbar" id="app-filters">
+        <button class="fbtn on" data-f="toate"    onclick="setAppFilter('toate')">Toate <span class="cnt" id="c-toate">0</span></button>
+        <button class="fbtn"    data-f="necitite" onclick="setAppFilter('necitite')">Necitite <span class="cnt" id="c-necitite">0</span></button>
+        <button class="fbtn"    data-f="citite"   onclick="setAppFilter('citite')">Citite <span class="cnt" id="c-citite">0</span></button>
+        <button class="fbtn"    data-f="acceptat" onclick="setAppFilter('acceptat')">Acceptate <span class="cnt" id="c-acceptat">0</span></button>
+        <button class="fbtn"    data-f="respins"  onclick="setAppFilter('respins')">Respinse <span class="cnt" id="c-respins">0</span></button>
+      </div>
       <div class="joblist" id="applist"></div>
     </div>
 
@@ -440,11 +467,42 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
 
   // ================= APLICAȚII =================
   let appsCache = [];
+  let appFilter = 'toate';
 
   function fmtDate(s){
     if(!s) return '';
     try{ return new Date(s).toLocaleString('ro-RO',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}); }
     catch(_){ return s; }
+  }
+
+  function statusOf(a){ return a.status || 'nou'; }
+
+  function setAppFilter(f){
+    appFilter = f;
+    document.querySelectorAll('#app-filters .fbtn').forEach(b=>b.classList.toggle('on', b.dataset.f===f));
+    renderApplications();
+  }
+
+  function updateCounts(){
+    const c = {
+      toate: appsCache.length,
+      necitite: appsCache.filter(a=>a.is_read===false).length,
+      citite: appsCache.filter(a=>a.is_read!==false).length,
+      acceptat: appsCache.filter(a=>statusOf(a)==='acceptat').length,
+      respins: appsCache.filter(a=>statusOf(a)==='respins').length
+    };
+    Object.keys(c).forEach(k=>{ const el=$('c-'+k); if(el) el.textContent=c[k]; });
+    const b=$('app-badge');
+    if(c.necitite>0){ b.textContent=c.necitite; b.classList.add('show'); }
+    else { b.textContent=''; b.classList.remove('show'); }
+  }
+
+  function filteredApps(){
+    if(appFilter==='necitite') return appsCache.filter(a=>a.is_read===false);
+    if(appFilter==='citite')   return appsCache.filter(a=>a.is_read!==false);
+    if(appFilter==='acceptat') return appsCache.filter(a=>statusOf(a)==='acceptat');
+    if(appFilter==='respins')  return appsCache.filter(a=>statusOf(a)==='respins');
+    return appsCache;
   }
 
   async function refreshAppBadge(){
@@ -460,10 +518,19 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
     el.innerHTML='<div class="msg info">Se încarcă...</div>';
     try{ appsCache = await WeJobs.getApplications(); }
     catch(e){ el.innerHTML='<div class="msg info">Aplicațiile nu sunt disponibile. Rulează scriptul <b>supabase-applications.sql</b> în baza de date.</div>'; return; }
-    await refreshAppBadge();
+    updateCounts();
+    renderApplications();
+  }
+
+  function renderApplications(){
+    const el=$('applist');
+    const list = filteredApps();
     if(!appsCache.length){ el.innerHTML='<div class="msg info">Nu există încă aplicații.</div>'; return; }
-    el.innerHTML = appsCache.map(a=>{
+    if(!list.length){ el.innerHTML='<div class="msg info">Nicio aplicație în această categorie.</div>'; return; }
+    el.innerHTML = list.map(a=>{
       const unread = a.is_read===false;
+      const st = statusOf(a);
+      const stLabel = st==='acceptat' ? 'Acceptat' : (st==='respins' ? 'Respins' : 'Nou');
       const meta = [
         a.experience ? 'Experiență: '+escapeHtml(a.experience) : '',
         a.country ? 'Țară: '+escapeHtml(a.country) : '',
@@ -471,8 +538,9 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
         fmtDate(a.created_at)
       ].filter(Boolean).map(x=>`<span>${x}</span>`).join('');
       return `
-      <div class="jobrow app-row ${unread?'unread':''}" id="app-${a.id}">
+      <div class="jobrow app-row ${unread?'unread':''} st-${st}" id="app-${a.id}">
         <span class="dot ${unread?'':'read'}"></span>
+        <span class="st-pill ${st}">${stLabel}</span>
         <div class="info">
           <b>${escapeHtml(a.name)}${a.job_title?' · '+escapeHtml(a.job_title):''}</b>
           <span>📞 ${escapeHtml(a.phone||'')}${a.email?' &nbsp;·&nbsp; ✉ '+escapeHtml(a.email):''}</span>
@@ -480,13 +548,25 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
           ${a.message?`<div class="app-msg">${escapeHtml(a.message)}</div>`:''}
         </div>
         <div class="acts">
-          <a class="btn ghost sm" href="tel:${escapeHtml((a.phone||'').replace(/[^\\d+]/g,''))}">Sună</a>
+          <a class="btn ghost sm" href="tel:${escapeHtml((a.phone||'').replace(/[^0-9+]/g,''))}">Sună</a>
           <button class="btn ghost sm" onclick="copyApplication('${a.id}')">Copiază</button>
+          <button class="btn ${st==='acceptat'?'ghost':'ok'} sm" onclick="setStatus('${a.id}','${st==='acceptat'?'nou':'acceptat'}')">${st==='acceptat'?'Anulează':'✓ Acceptă'}</button>
+          <button class="btn ${st==='respins'?'ghost':'no'} sm" onclick="setStatus('${a.id}','${st==='respins'?'nou':'respins'}')">${st==='respins'?'Anulează':'✕ Respinge'}</button>
           <button class="btn ghost sm" onclick="toggleAppRead('${a.id}')">${unread?'Marchează citit':'Marchează necitit'}</button>
           <button class="btn danger sm" onclick="removeApplication('${a.id}')">Șterge</button>
         </div>
       </div>`;
     }).join('');
+  }
+
+  async function setStatus(id, status){
+    const a = appsCache.find(x=>x.id===id); if(!a) return;
+    try{
+      await WeJobs.setApplicationStatus(id, status);
+      a.status = status; a.is_read = true;
+      updateCounts(); renderApplications();
+      toast(status==='acceptat'?'Marcat acceptat ✓':(status==='respins'?'Marcat respins ✓':'Status resetat ✓'));
+    }catch(e){ msg('dash-msg','err','Eroare: '+(e.message||e)+' — ai rulat supabase-status.sql?'); }
   }
 
   function appText(a){
@@ -499,6 +579,7 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
       a.experience?'Experiență: '+a.experience:'',
       a.country?'Țară: '+a.country:'',
       a.source?'Sursă: '+a.source:'',
+      'Status: '+(a.status==='acceptat'?'Acceptat':(a.status==='respins'?'Respins':'Nou')),
       a.message?'Mesaj: '+a.message:'',
       'Data: '+fmtDate(a.created_at)
     ].filter(Boolean).join('\n');
@@ -517,12 +598,13 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
       document.body.removeChild(ta);
     }
     // marchează automat ca citit când o copiezi
-    if(a.is_read===false){ try{ await WeJobs.setApplicationRead(id,true); a.is_read=true; await loadApplications(); }catch(_){} }
+    if(a.is_read===false){ try{ await WeJobs.setApplicationRead(id,true); a.is_read=true; updateCounts(); renderApplications(); }catch(_){} }
   }
 
   async function toggleAppRead(id){
     const a = appsCache.find(x=>x.id===id); if(!a) return;
-    try{ await WeJobs.setApplicationRead(id, a.is_read===false); await loadApplications(); }
+    const nou = a.is_read===false;
+    try{ await WeJobs.setApplicationRead(id, nou); a.is_read=nou; updateCounts(); renderApplications(); }
     catch(e){ msg('dash-msg','err','Eroare: '+(e.message||e)); }
   }
 
@@ -531,13 +613,14 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
     if(!unread.length){ toast('Nu ai aplicații necitite'); return; }
     try{
       await Promise.all(unread.map(a=>WeJobs.setApplicationRead(a.id,true)));
-      await loadApplications(); toast('Toate marcate citite ✓');
+      unread.forEach(a=>a.is_read=true);
+      updateCounts(); renderApplications(); toast('Toate marcate citite ✓');
     }catch(e){ msg('dash-msg','err','Eroare: '+(e.message||e)); }
   }
 
   async function removeApplication(id){
     if(!confirm('Sigur ștergi această aplicație? Acțiunea nu poate fi anulată.')) return;
-    try{ await WeJobs.deleteApplication(id); await loadApplications(); toast('Aplicație ștearsă ✓'); }
+    try{ await WeJobs.deleteApplication(id); appsCache=appsCache.filter(x=>x.id!==id); updateCounts(); renderApplications(); toast('Aplicație ștearsă ✓'); }
     catch(e){ msg('dash-msg','err','Eroare: '+(e.message||e)); }
   }
 
