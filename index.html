@@ -980,6 +980,38 @@ footer .fl a:hover{color:var(--gold-2)}
     });
   }
 
+  // ---------- Fereastră de mulțumire după aplicare ----------
+  function showThanks(numeCandidat){
+    var prenume = String(numeCandidat||'').trim().split(' ')[0] || '';
+    var el = document.getElementById('wj-thanks');
+    if(!el){
+      el = document.createElement('div');
+      el.className = 'wj-thanks'; el.id = 'wj-thanks';
+      el.innerHTML =
+        '<div class="bg"></div>'
+        +'<div class="card" role="dialog" aria-modal="true">'
+        +'<div class="tick"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></div>'
+        +'<h3 id="wj-thanks-title"></h3>'
+        +'<p>Am primit aplicația ta. O verificăm și revenim cu un răspuns.</p>'
+        +'<div class="when">'
+          +'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'
+          +'<div><b>Te contactăm în 48 de ore</b><span>În zilele lucrătoare. Dacă aplici vineri sau în weekend, revenim la începutul săptămânii.</span></div>'
+        +'</div>'
+        +'<button type="button" class="btn gold ok">Am înțeles</button>'
+        +'</div>';
+      document.body.appendChild(el);
+      var inchide = function(){ el.classList.remove('open'); document.body.style.overflow=''; };
+      el.querySelector('.bg').addEventListener('click', inchide);
+      el.querySelector('.ok').addEventListener('click', inchide);
+      document.addEventListener('keydown', function(e){ if(e.key==='Escape') inchide(); });
+    }
+    document.getElementById('wj-thanks-title').textContent =
+      prenume ? ('Mulțumim, ' + prenume + '!') : 'Mulțumim pentru aplicare!';
+    el.classList.add('open');
+    document.body.style.overflow='hidden';
+    var b = el.querySelector('.ok'); if(b) b.focus();
+  }
+
   // ---------- APLICARE → Supabase + notificare push ----------
   const applyForm = document.getElementById('apply-form');
   if (applyForm){
@@ -1033,6 +1065,7 @@ footer .fl a:hover{color:var(--gold-2)}
         applyForm.reset();
         if(prefixSel) prefixSel.value = '+40';
         if(note){ note.style.color=''; note.textContent='✓ Aplicația a fost trimisă! Te contactăm în cel mai scurt timp.'; }
+        showThanks(name);
       }catch(err){
         if(note){ note.style.color='#ff9d9d'; note.textContent='Nu am putut trimite aplicația. Încearcă din nou sau scrie-ne la support@wejobs.ro.'; }
       }finally{
@@ -1228,6 +1261,20 @@ footer .fl a:hover{color:var(--gold-2)}
 .empty-card .save{font-family:"Archivo",sans-serif;font-weight:700;font-size:12px;color:var(--gold-2,#e7c876);border:1px solid var(--line-gold,rgba(201,150,46,.34));border-radius:9px;padding:8px 13px;cursor:pointer;background:rgba(201,150,46,.05);transition:.25s}
 .empty-card .save:hover{background:rgba(201,150,46,.14)}
 .wj-modal{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:16px}
+.wj-thanks{position:fixed;inset:0;z-index:10000;display:none;align-items:center;justify-content:center;padding:18px}
+.wj-thanks.open{display:flex}
+.wj-thanks .bg{position:absolute;inset:0;background:rgba(4,4,6,.8);backdrop-filter:blur(8px)}
+.wj-thanks .card{position:relative;width:100%;max-width:440px;text-align:center;padding:42px 32px 34px;border-radius:24px;background:linear-gradient(180deg,#1c1c22,#141419);border:1px solid var(--line-gold,rgba(201,150,46,.34));box-shadow:0 34px 90px rgba(0,0,0,.75);animation:wjUp .45s cubic-bezier(.2,.85,.2,1)}
+.wj-thanks .tick{width:78px;height:78px;margin:0 auto 20px;border-radius:50%;display:grid;place-items:center;background:rgba(55,224,138,.1);border:1.5px solid rgba(55,224,138,.45)}
+.wj-thanks .tick svg{width:38px;height:38px;fill:none;stroke:#5ee6a0;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:32;stroke-dashoffset:32;animation:wjTick .5s .25s ease forwards}
+@keyframes wjTick{to{stroke-dashoffset:0}}
+.wj-thanks h3{font-family:"Archivo",sans-serif;font-weight:900;font-size:clamp(22px,4.4vw,28px);letter-spacing:-.8px;line-height:1.15;margin-bottom:12px}
+.wj-thanks p{color:var(--gray,#a3a3ab);font-size:15.5px;line-height:1.65;margin-bottom:18px}
+.wj-thanks .when{display:flex;align-items:center;gap:11px;text-align:left;background:rgba(201,150,46,.08);border:1px solid var(--line-gold,rgba(201,150,46,.34));border-radius:14px;padding:13px 15px;margin-bottom:22px}
+.wj-thanks .when svg{flex:none;width:21px;height:21px;fill:none;stroke:var(--gold-2,#e7c876);stroke-width:2}
+.wj-thanks .when b{display:block;font-family:"Archivo",sans-serif;font-size:14px;color:var(--gold-2,#e7c876);margin-bottom:1px}
+.wj-thanks .when span{font-size:13px;color:var(--gray,#a3a3ab);line-height:1.45}
+.wj-thanks .ok{width:100%;justify-content:center}
 .wj-modal.open{display:flex}
 .wj-modal-bg{position:absolute;inset:0;background:rgba(4,4,6,.75);backdrop-filter:blur(7px)}
 .wj-modal-card{position:relative;width:100%;max-width:460px;max-height:90vh;overflow:auto;border-radius:22px;background:linear-gradient(180deg,#1c1c22,#15151a);border:1px solid var(--line-gold,rgba(201,150,46,.34));box-shadow:0 34px 90px rgba(0,0,0,.74);animation:wjUp .4s cubic-bezier(.2,.85,.2,1);scrollbar-width:none}
