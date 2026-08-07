@@ -136,6 +136,30 @@ header{position:sticky;top:0;z-index:100;background:rgba(8,8,10,.72);backdrop-fi
   border:1px solid rgba(55,224,138,.32);color:#9af5c9;border-radius:999px;
   padding:9px 16px;font-family:"Archivo";font-weight:700;font-size:13.5px;margin-top:4px}
 .tb-free svg{width:16px;height:16px;fill:none;stroke:#5ee6a0;stroke-width:2.6}
+
+/* ---- ajutor & sesizari ---- */
+.help{border-top:1px solid var(--line);background:rgba(255,255,255,.015)}
+.help-grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:44px;align-items:center}
+@media(max-width:900px){.help-grid{grid-template-columns:1fr;gap:26px}}
+.help h2{font-family:"Archivo";font-weight:900;font-size:clamp(26px,3.6vw,40px);letter-spacing:-1.4px;line-height:1.06;margin:12px 0 14px}
+.help p.lead{color:var(--gray);font-size:16px;line-height:1.65;margin-bottom:18px}
+.help-mail{display:inline-flex;align-items:center;gap:11px;background:var(--card);border:1px solid var(--line-gold);
+  border-radius:14px;padding:14px 18px;text-decoration:none;transition:.22s}
+.help-mail:hover{background:rgba(201,150,46,.08);transform:translateY(-2px)}
+.help-mail svg{width:20px;height:20px;fill:none;stroke:var(--gold-2);stroke-width:2}
+.help-mail b{display:block;font-family:"Archivo";font-size:16px;color:var(--white)}
+.help-mail span{font-size:12.5px;color:var(--gray-d)}
+.help-note{font-size:13.5px;color:var(--gray-d);margin-top:14px;line-height:1.6}
+.help-cards{display:grid;gap:10px}
+.hc{display:flex;gap:13px;align-items:flex-start;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;padding:15px 16px;text-decoration:none;transition:.22s}
+.hc:hover{border-color:var(--line-gold);transform:translateX(4px)}
+.hc .ic{flex:none;width:36px;height:36px;border-radius:10px;background:rgba(201,150,46,.09);
+  border:1px solid var(--line-gold);display:grid;place-items:center}
+.hc .ic svg{width:17px;height:17px;fill:none;stroke:var(--gold-2);stroke-width:2.2}
+.hc b{display:block;font-family:"Archivo";font-size:14.5px;color:var(--white);margin-bottom:2px}
+.hc span{font-size:13px;color:var(--gray);line-height:1.5}
+.hc .arr{margin-left:auto;align-self:center;color:var(--gold-2);font-size:17px;flex:none}
 .hero-trust{display:flex;gap:10px;flex-wrap:wrap;margin-top:30px}
 .hero-trust .chip{display:inline-flex;align-items:center;gap:8px;font-family:"Archivo";font-size:13px;font-weight:600;color:#dcdce1;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:9px 15px}
 .hero-trust .chip svg{width:15px;height:15px;fill:none;stroke:var(--gold-2);stroke-width:2.4}
@@ -333,10 +357,12 @@ footer .fl a:hover{color:var(--gold-2)}
   .burger{display:flex}
   .hide-mobile{display:none}
   section{padding:64px 0}
-  .hero-inner{grid-template-columns:1fr;gap:32px;min-height:auto;padding:46px 0}
-  .hero-visual{order:-1}
-  .hero-visual img{height:auto;max-height:400px;object-fit:contain}
-  .hero-visual .ph-fallback{height:300px}
+  .hero-inner{grid-template-columns:1fr;gap:24px;min-height:auto;padding:30px 0 40px}
+  .hero-copy{order:1}
+  .hero-visual{order:2}
+  .hero-visual img{height:auto;max-height:280px;object-fit:contain}
+  .hero-visual .ph-fallback{height:220px}
+  .hero-trust{margin-top:20px}
   .stats .container{grid-template-columns:1fr 1fr}
   .stats .s{padding:26px 14px}
   .stats .s:nth-child(3)::before,.stats .s+.s::before{display:none}
@@ -412,7 +438,7 @@ footer .fl a:hover{color:var(--gold-2)}
       <a href="#cum-functioneaza">Cum funcționează</a>
       <a href="#despre">Despre</a>
       <a href="#pareri">Păreri</a>
-      <a href="#intrebari">Întrebări</a>
+      <a href="#intrebari">Întrebări</a><a href="#ajutor">Ajutor</a>
     </nav>
     <a class="btn gold hide-mobile" href="#aplica">Aplică acum</a>
     <button class="burger" id="burger" aria-label="Meniu" aria-expanded="false">
@@ -425,7 +451,7 @@ footer .fl a:hover{color:var(--gold-2)}
     <a href="#cum-functioneaza">Cum funcționează</a>
     <a href="#despre">Despre</a>
     <a href="#pareri">Păreri</a>
-      <a href="#intrebari">Întrebări</a>
+      <a href="#intrebari">Întrebări</a><a href="#ajutor">Ajutor</a>
     <a class="btn gold" href="#aplica">Aplică acum</a>
   </div>
 </header>
@@ -665,6 +691,44 @@ footer .fl a:hover{color:var(--gold-2)}
   </div>
 </section>
 
+
+<section id="ajutor" class="help">
+  <div class="container help-grid">
+    <div class="reveal">
+      <span class="eyebrow">Ajutor & sesizări</span>
+      <h2>Ai o problemă?<br><span class="gold-text">Scrie-ne direct.</span></h2>
+      <p class="lead">Chiar dacă angajarea o face firma, noi rămânem responsabili pentru ce publicăm. Dacă ceva nu e în regulă — nu te-a sunat nimeni, condițiile diferă de anunț sau cineva îți cere bani — vrem să știm.</p>
+      <a class="help-mail" href="mailto:support@wejobs.ro?subject=Sesizare%20WeJobs.ro">
+        <svg viewBox="0 0 24 24"><path d="M3 5h18v14H3z"/><path d="M3 7l9 6 9-6"/></svg>
+        <span><b>support@wejobs.ro</b><span>Răspundem în maximum 48 de ore lucrătoare</span></span>
+      </a>
+      <p class="help-note">Nu îți cerem niciodată bani, comision sau date bancare. Dacă cineva o face în numele WeJobs.ro, raportează-ne imediat.</p>
+    </div>
+    <div class="help-cards reveal">
+      <a class="hc" href="mailto:support@wejobs.ro?subject=Nu%20m-a%20contactat%20nimeni&body=Numele%20meu%3A%20%0APostul%20la%20care%20am%20aplicat%3A%20%0AData%20aplic%C4%83rii%3A%20%0A%0ADetalii%3A%20">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 8v5l3 2"/><circle cx="12" cy="12" r="9"/></svg></div>
+        <div><b>Nu m-a contactat nimeni</b><span>Au trecut peste 48 de ore lucrătoare de la aplicare</span></div><span class="arr">&rarr;</span>
+      </a>
+      <a class="hc" href="mailto:support@wejobs.ro?subject=Condi%C8%9Bii%20diferite%20fa%C8%9B%C4%83%20de%20anun%C8%9B&body=Postul%3A%20%0ACe%20scria%20%C3%AEn%20anun%C8%9B%3A%20%0ACe%20mi%20s-a%20spus%3A%20">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M3 7h18v13H3z"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div>
+        <div><b>Condițiile nu sunt cele din anunț</b><span>Salariul, programul sau locația diferă</span></div><span class="arr">&rarr;</span>
+      </a>
+      <a class="hc" href="mailto:support@wejobs.ro?subject=Cineva%20%C3%AEmi%20cere%20bani&body=Cine%20mi-a%20cerut%20bani%3A%20%0ACum%20m-a%20contactat%3A%20%0ASuma%20cerut%C4%83%3A%20">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z"/><path d="M12 7v4"/><path d="M12 14h.01"/></svg></div>
+        <div><b>Cineva îmi cere bani</b><span>Raportează imediat — noi nu cerem niciodată plăți</span></div><span class="arr">&rarr;</span>
+      </a>
+      <a class="hc" href="mailto:support@wejobs.ro?subject=%C8%98tergerea%20datelor%20mele&body=Numele%20meu%3A%20%0ATelefon%2FEmail%20folosit%20la%20aplicare%3A%20%0A%0AV%C4%83%20rog%20s%C4%83%20%C8%99terge%C8%9Bi%20datele%20mele.">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="M6 7l1 13h10l1-13"/></svg></div>
+        <div><b>Vreau să-mi ștergeți datele</b><span>Dreptul tău conform GDPR — o rezolvăm rapid</span></div><span class="arr">&rarr;</span>
+      </a>
+      <a class="hc" href="mailto:support@wejobs.ro?subject=%C3%8Entrebare%20WeJobs.ro">
+        <div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 015 .5c0 1.5-2.5 2-2.5 3.5"/><path d="M12 17h.01"/></svg></div>
+        <div><b>Altă întrebare</b><span>Orice nelămurire despre un post sau despre proces</span></div><span class="arr">&rarr;</span>
+      </a>
+    </div>
+  </div>
+</section>
+
 <section id="aplica" class="apply" style="background:rgba(255,255,255,.015);border-top:1px solid var(--line)">
   <div class="container">
     <div class="apply-grid">
@@ -751,7 +815,7 @@ footer .fl a:hover{color:var(--gold-2)}
           <a href="#joburi">Joburi disponibile</a>
           <a href="#aplica">Aplică online</a>
           <a href="#companii">Pentru companii</a>
-          <a href="#intrebari">Întrebări frecvente</a>
+          <a href="#intrebari">Întrebări frecvente</a><a href="#ajutor">Ajutor & sesizări</a>
         </div>
       </div>
       <div>
