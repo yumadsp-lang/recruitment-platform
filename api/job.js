@@ -184,7 +184,7 @@ module.exports = async (req, res) => {
     </div>
     <aside class="sidebar"><div class="apply-card">
       <h3>${unavailable ? 'Aplicări închise' : 'Aplică acum'}</h3>
-      <p class="sub">${unavailable ? 'Acest post nu mai primește aplicări momentan.' : 'Te contactăm prompt.'}</p>
+      <p class="sub">${unavailable ? 'Acest post nu mai primește aplicări momentan.' : 'Angajatorul te sună în 48 de ore. Gratuit.'}</p>
       ${sideRows}
       <div class="acts">${unavailable
         ? `<span class="btn is-disabled">${PAUSE} Indisponibil momentan</span>
@@ -204,7 +204,7 @@ module.exports = async (req, res) => {
     : `<div class="form-wrap">
     <span class="eyebrow">Aplicare</span>
     <h2>Aplică pentru <span class="gold-text">${esc(job.title)}</span></h2>
-    <p>Completează formularul, iar aplicația ajunge direct la echipa WeJobs.ro.</p>
+    <p>Aplicația ajunge direct la angajator. El te sună în maximum 48 de ore lucrătoare. Nu plătești nimic.</p>
     <form id="apply-form">
       <div class="form-row">
         <div><label for="nume">Nume complet</label><input id="nume" type="text" required placeholder="Ex: Popescu Ion"></div>
@@ -222,7 +222,7 @@ module.exports = async (req, res) => {
       <label for="mesaj">Mesaj</label><textarea id="mesaj" placeholder="Scrie câteva detalii despre tine..."></textarea>
       <label class="consent"><input type="checkbox" id="consimtamant" required> Sunt de acord cu prelucrarea datelor mele conform <a href="/legal" target="_blank">Politicii de confidențialitate</a>.</label>
       <button class="btn gold" type="submit" style="width:100%;">Trimite aplicația</button>
-      <p class="form-note">Aplicația ajunge direct la echipa WeJobs.ro. Nu îți cerem date bancare.</p>
+      <p class="form-note">Aplicare 100% gratuită. Nu îți cerem comision, taxe sau date bancare.</p>
       <div id="apply-status"></div>
     </form>
   </div>`}</div></section>
@@ -245,9 +245,9 @@ module.exports = async (req, res) => {
         el.innerHTML='<div class="bg"></div><div class="card" role="dialog" aria-modal="true">'
          +'<div class="tick"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></div>'
          +'<h3 id="wj-thanks-title"></h3>'
-         +'<p>Am primit aplicația ta. O verificăm și revenim cu un răspuns.</p>'
+         +'<p>Aplicația ta a ajuns la angajator.</p>'
          +'<div class="when"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'
-         +'<div><b>Te contactăm în 48 de ore</b><span>În zilele lucrătoare. Dacă aplici vineri sau în weekend, revenim la începutul săptămânii.</span></div></div>'
+         +'<div><b>Angajatorul te sună în 48 de ore</b><span>În zilele lucrătoare. Dacă aplici vineri sau în weekend, te sună la începutul săptămânii. Nu plătești nimic.</span></div></div>'
          +'<button type="button" class="btn gold ok">Am înțeles</button></div>';
         document.body.appendChild(el);
         var inchide=function(){el.classList.remove('open');document.body.style.overflow='';};
@@ -288,7 +288,7 @@ module.exports = async (req, res) => {
         });
         try{ await fetch('/api/notify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:name,job:${JSON.stringify(job.title)},phone:phone})}); }catch(_){}
         form.reset(); if(sel) sel.value='+40';
-        st.className='form-ok'; st.textContent='\u2713 Aplicația a fost trimisă! Te contactăm în cel mai scurt timp.';
+        st.className='form-ok'; st.textContent='\u2713 Aplicația a ajuns la angajator. Te sună în maximum 48 de ore lucrătoare.';
         showThanks(name);
       }catch(err){
         st.className='form-err'; st.textContent='Nu am putut trimite aplicația. Încearcă din nou sau scrie-ne la support@wejobs.ro.';

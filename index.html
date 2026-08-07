@@ -115,6 +115,27 @@ header{position:sticky;top:0;z-index:100;background:rgba(8,8,10,.72);backdrop-fi
 .hero .slogan{font-family:"Fraunces",serif;font-style:italic;font-weight:500;font-size:clamp(22px,2.7vw,34px);line-height:1.15;margin-bottom:24px;color:var(--gold-3)}
 .hero .lead{font-size:18px;color:var(--gray);max-width:540px;margin-bottom:34px}
 .hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+
+/* ---- banda de transparenta ---- */
+.trust-band{border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(201,150,46,.055),rgba(201,150,46,.015));padding:44px 0}
+.tb-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:44px;align-items:center}
+@media(max-width:900px){.tb-grid{grid-template-columns:1fr;gap:26px}}
+.tb-copy h2{font-family:"Archivo";font-weight:900;font-size:clamp(24px,3.4vw,38px);letter-spacing:-1.3px;line-height:1.06;margin:12px 0 14px}
+.tb-copy p{color:var(--gray);font-size:16px;line-height:1.65;margin-bottom:14px}
+.tb-copy p b{color:var(--white)}
+.tb-cards{display:grid;gap:11px}
+.tb-c{display:flex;gap:13px;align-items:flex-start;background:var(--card);border:1px solid var(--line);
+  border-radius:15px;padding:16px 17px}
+.tb-c .n{flex:none;width:32px;height:32px;border-radius:9px;background:rgba(201,150,46,.1);
+  border:1px solid var(--line-gold);display:grid;place-items:center;font-family:"Archivo";
+  font-weight:900;font-size:13px;color:var(--gold-2)}
+.tb-c b{display:block;font-family:"Archivo";font-size:15px;margin-bottom:3px}
+.tb-c span{font-size:13.5px;color:var(--gray);line-height:1.55}
+.tb-free{display:inline-flex;align-items:center;gap:9px;background:rgba(55,224,138,.09);
+  border:1px solid rgba(55,224,138,.32);color:#9af5c9;border-radius:999px;
+  padding:9px 16px;font-family:"Archivo";font-weight:700;font-size:13.5px;margin-top:4px}
+.tb-free svg{width:16px;height:16px;fill:none;stroke:#5ee6a0;stroke-width:2.6}
 .hero-trust{display:flex;gap:10px;flex-wrap:wrap;margin-top:30px}
 .hero-trust .chip{display:inline-flex;align-items:center;gap:8px;font-family:"Archivo";font-size:13px;font-weight:600;color:#dcdce1;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:9px 15px}
 .hero-trust .chip svg{width:15px;height:15px;fill:none;stroke:var(--gold-2);stroke-width:2.4}
@@ -422,9 +443,9 @@ footer .fl a:hover{color:var(--gold-2)}
         <a class="btn ghost" href="#cum-functioneaza">Cum funcționează</a>
       </div>
       <div class="hero-trust">
-        <span class="chip"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> Contract direct cu angajatorul</span>
-        <span class="chip"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> Aplicare gratuită</span>
-        <span class="chip"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> Angajatori verificați</span>
+        <span class="chip"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> 0 € — nu plătești niciodată nimic</span>
+        <span class="chip"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> Angajatorul te sună direct</span>
+        <span class="chip"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> Contract semnat cu firma</span>
       </div>
     </div>
     <div class="hero-visual reveal">
@@ -478,6 +499,25 @@ footer .fl a:hover{color:var(--gold-2)}
   </div>
 </div>
 
+
+<section class="trust-band">
+  <div class="container tb-grid">
+    <div class="tb-copy reveal">
+      <span class="eyebrow">Cum funcționează, pe scurt</span>
+      <h2>Noi promovăm posturile.<br><span class="gold-text">Angajatorul te sună.</span></h2>
+      <p>WeJobs.ro nu este intermediar. Firmele din Uniunea Europeană ne plătesc ca să le promovăm posturile, iar tu aplici <b>direct la ele</b>. Contractul îl semnezi cu firma, nu cu noi.</p>
+      <p><b>De asta nu îți cerem niciodată bani.</b> Nici comision, nici taxă de dosar, nici date bancare. Dacă cineva îți cere bani în numele nostru, nu suntem noi.</p>
+      <span class="tb-free"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> Gratuit pentru candidați, întotdeauna</span>
+    </div>
+    <div class="tb-cards reveal">
+      <div class="tb-c"><div class="n">01</div><div><b>Aplici online</b><span>Alegi postul, completezi formularul. Două minute, fără cont și fără CV formatat.</span></div></div>
+      <div class="tb-c"><div class="n">02</div><div><b>Aplicația merge la angajator</b><span>O primește direct firma care caută oameni — nu trece prin niciun intermediar.</span></div></div>
+      <div class="tb-c"><div class="n">03</div><div><b>Te sună în 48 de ore</b><span>Maximum două zile lucrătoare. Dacă aplici vineri sau în weekend, te sună la începutul săptămânii.</span></div></div>
+      <div class="tb-c"><div class="n">04</div><div><b>Semnezi cu firma</b><span>Contract legal direct cu angajatorul, cu salariul și condițiile din anunț.</span></div></div>
+    </div>
+  </div>
+</section>
+
 <section id="joburi">
   <div class="container">
     <div class="section-head reveal">
@@ -523,7 +563,7 @@ footer .fl a:hover{color:var(--gold-2)}
       <div class="feature reveal">
         <div class="ic"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9z"/></svg></div>
         <h3>Proces rapid</h3>
-        <p>Aplici online în câteva minute și te contactăm pentru verificare și interviu.</p>
+        <p>Aplici online în câteva minute, iar angajatorul te sună în maximum 48 de ore lucrătoare.</p>
       </div>
       <div class="feature reveal">
         <div class="ic"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/></svg></div>
@@ -539,12 +579,12 @@ footer .fl a:hover{color:var(--gold-2)}
     <div class="section-head reveal">
       <span class="eyebrow">Simplu și transparent</span>
       <h2>Cum <span class="gold-text">funcționează</span></h2>
-      <p>Un proces clar, în trei pași. Fără conturi, fără pași complicați.</p>
+      <p>Noi promovăm posturile. Tu aplici, iar angajatorul te sună direct — fără intermediari.</p>
     </div>
     <div class="steps">
       <div class="step reveal"><div class="num gold-text">01</div><h3>Alegi jobul</h3><p>Vezi pozițiile active și deschizi oferta completă, cu salariu și condiții.</p></div>
-      <div class="step reveal"><div class="num gold-text">02</div><h3>Aplici online</h3><p>Completezi formularul de pe site. Durează câteva minute.</p></div>
-      <div class="step reveal"><div class="num gold-text">03</div><h3>Te contactăm</h3><p>Te contactăm pentru verificare, interviu și pașii următori.</p></div>
+      <div class="step reveal"><div class="num gold-text">02</div><h3>Aplici online</h3><p>Completezi formularul de pe site. Două minute, fără cont și fără CV formatat.</p></div>
+      <div class="step reveal"><div class="num gold-text">03</div><h3>Te sună angajatorul</h3><p>Compania care angajează te contactează în maximum 48 de ore lucrătoare. Contractul îl semnezi direct cu ea.</p></div>
     </div>
   </div>
 </section>
@@ -560,13 +600,13 @@ footer .fl a:hover{color:var(--gold-2)}
         <p>Cu o experiență de peste 8 ani în recrutare, lucrăm transparent și pe înțelesul tău: îți prezentăm clar salariul, condițiile și ce presupune fiecare post, ca să știi exact la ce să te aștepți. Iar când ai o întrebare, primești răspuns rapid și clar.</p>
         <ul class="about-points">
           <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Oferte verificate, cu salariu și condiții prezentate clar</li>
-          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Comunicare directă, de la prima discuție</li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Vorbești direct cu angajatorul, fără intermediari</li>
           <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Te ajutăm cu actele și cu primii pași la destinație</li>
         </ul>
       </div>
       <div class="about-panel reveal">
         <div class="ap-row"><div class="ap-ic"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div><div><b>Contract legal direct cu angajatorul</b><span>Forme în regulă și drepturi clare</span></div></div>
-        <div class="ap-row"><div class="ap-ic"><svg viewBox="0 0 24 24"><path d="M12 8v5l3 2"/><circle cx="12" cy="12" r="9"/></svg></div><div><b>Răspuns prompt</b><span>Te contactăm rapid după ce aplici</span></div></div>
+        <div class="ap-row"><div class="ap-ic"><svg viewBox="0 0 24 24"><path d="M12 8v5l3 2"/><circle cx="12" cy="12" r="9"/></svg></div><div><b>Răspuns în 48 de ore</b><span>Angajatorul te sună în zilele lucrătoare</span></div></div>
         <div class="ap-row"><div class="ap-ic"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div><div><b>Angajatori verificați</b><span>Colaborăm doar cu parteneri de încredere</span></div></div>
         <div class="ap-row"><div class="ap-ic"><svg viewBox="0 0 24 24"><path d="M3 7h18v13H3z"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div><div><b>Condiții transparente</b><span>Afli salariul și programul din start</span></div></div>
       </div>
@@ -612,13 +652,13 @@ footer .fl a:hover{color:var(--gold-2)}
       <p>Cele mai des întâlnite întrebări de la candidați.</p>
     </div>
     <div class="faq reveal">
-      <details><summary>Cum aplic la un job? <span class="pl"></span></summary><div class="ans">Alegi postul dorit, apeși „Aplică" și completezi formularul (nume, telefon, e-mail și, dacă vrei, câteva detalii despre experiență). Aplicația ajunge direct la noi și te contactăm pentru pașii următori. Nu ai nevoie de niciun cont.</div></details>
-      <details><summary>Trebuie să plătesc ceva pentru a aplica? <span class="pl"></span></summary><div class="ans">Aplicarea pe site este gratuită. Orice detalii despre condiții (inclusiv eventuale costuri de cazare sau transport, acolo unde există) ți le comunicăm clar și din timp, înainte să iei o decizie. Nu îți cerem date bancare sau plăți prin formularul de aplicare.</div></details>
+      <details><summary>Cum aplic la un job? <span class="pl"></span></summary><div class="ans">Alegi postul dorit, apeși „Aplică" și completezi formularul (nume, telefon, e-mail și, dacă vrei, câteva detalii despre experiență). Aplicația ajunge la angajatorul care caută oameni, iar el te sună în maximum 48 de ore lucrătoare. Nu ai nevoie de niciun cont.</div></details>
+      <details><summary>Trebuie să plătesc ceva pentru a aplica? <span class="pl"></span></summary><div class="ans">Nu. Aplicarea este 100% gratuită și rămâne așa întotdeauna — nu îți cerem niciun comision, nicio taxă de dosar și nicio plată în avans. Orice detalii despre condiții (inclusiv eventuale costuri de cazare sau transport, acolo unde există) ți le comunicăm clar și din timp, înainte să iei o decizie. Nu îți cerem date bancare sau plăți prin formularul de aplicare.</div></details>
       <details><summary>Am nevoie să știu limba germană? <span class="pl"></span></summary><div class="ans">Depinde de post. La unele poziții (ex. curierat) nu este obligatoriu, dar cunoștințe de bază de germană sau engleză sunt un avantaj. Cerințele exacte de limbă sunt scrise în fiecare ofertă în parte.</div></details>
       <details><summary>Contractul de muncă este legal? <span class="pl"></span></summary><div class="ans">Da. Posturile pe care le prezentăm sunt cu contract de muncă legal în UE, cu forme legale, asigurări și drepturi conform legislației locale. Condițiile sunt confirmate înainte de plecare.</div></details>
       <details><summary>Ce documente îmi trebuie? <span class="pl"></span></summary><div class="ans">În general: act de identitate/pașaport valabil și, pentru posturile de șofer, permisul de conducere corespunzător (B sau C+E) și actele aferente (ex. card tahograf, atestat). Lista exactă ți-o spunem pentru fiecare post și te ajutăm cu pașii.</div></details>
       <details><summary>Există cazare? <span class="pl"></span></summary><div class="ans">La o parte dintre posturi cazarea este disponibilă, în unele cazuri contra cost. Dacă un post include cazare, scrie în ofertă, iar detaliile ți le confirmăm la interviu.</div></details>
-      <details><summary>Cât durează până plec efectiv la muncă? <span class="pl"></span></summary><div class="ans">După ce aplici, te contactăm pentru o verificare și un interviu. De acolo stabilim împreună pașii și data plecării, în funcție de post și de actele tale. Termenul exact diferă de la caz la caz.</div></details>
+      <details><summary>Cât durează până plec efectiv la muncă? <span class="pl"></span></summary><div class="ans">După ce aplici, angajatorul te sună în maximum 48 de ore lucrătoare. De acolo stabiliți împreună interviul, actele și data plecării. Termenul exact diferă de la caz la caz.</div></details>
       <details><summary>Ce se întâmplă cu datele mele după ce aplic? <span class="pl"></span></summary><div class="ans">Folosim datele tale doar pentru a procesa aplicarea și a te contacta în legătură cu posturile. Nu le vindem și nu le dăm către terți în scopuri de marketing. Detaliile complete sunt în <a href="/legal">Politica de confidențialitate</a>.</div></details>
       <details><summary>Pot aplica dacă nu am experiență? <span class="pl"></span></summary><div class="ans">Da, în multe cazuri da. Experiența este un avantaj, dar pentru anumite posturi contează mai mult seriozitatea și disponibilitatea. Aplică și discutăm — îți spunem sincer dacă se potrivește.</div></details>
     </div>
@@ -631,9 +671,9 @@ footer .fl a:hover{color:var(--gold-2)}
       <div class="apply-copy reveal" id="contact">
         <span class="eyebrow">Aplicare rapidă</span>
         <h2 style="font-family:'Archivo';font-weight:800;font-size:clamp(32px,4vw,48px);line-height:1.02;letter-spacing:-1.4px;margin:16px 0 0;">Aplică pentru <span class="gold-text">un job</span></h2>
-        <p class="lead">Completează formularul, iar aplicația ajunge direct la noi. Te contactăm pentru verificare și interviu.</p>
+        <p class="lead">Completezi formularul, iar aplicația ajunge direct la angajator. El te sună în maximum 48 de ore lucrătoare. Nu plătești nimic.</p>
         <div class="contact-list">
-          <div class="ci"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 5h18v14H3z"/><path d="M3 7l9 6 9-6"/></svg></div><div><b>Aplicare online</b><span>Formular trimis direct echipei noastre</span></div></div>
+          <div class="ci"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 5h18v14H3z"/><path d="M3 7l9 6 9-6"/></svg></div><div><b>Aplicare 100% gratuită</b><span>Fără comision, fără taxe, fără date bancare</span></div></div>
           <div class="ci"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div><div><b>Locații în Uniunea Europeană</b><span>Posturi verificate, condiții clare</span></div></div>
         </div>
       </div>
@@ -992,10 +1032,10 @@ footer .fl a:hover{color:var(--gold-2)}
         +'<div class="card" role="dialog" aria-modal="true">'
         +'<div class="tick"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></div>'
         +'<h3 id="wj-thanks-title"></h3>'
-        +'<p>Am primit aplicația ta. O verificăm și revenim cu un răspuns.</p>'
+        +'<p>Aplicația ta a ajuns la angajator.</p>'
         +'<div class="when">'
           +'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'
-          +'<div><b>Te contactăm în 48 de ore</b><span>În zilele lucrătoare. Dacă aplici vineri sau în weekend, revenim la începutul săptămânii.</span></div>'
+          +'<div><b>Angajatorul te sună în 48 de ore</b><span>În zilele lucrătoare. Dacă aplici vineri sau în weekend, te sună la începutul săptămânii. Nu plătești nimic.</span></div>'
         +'</div>'
         +'<button type="button" class="btn gold ok">Am înțeles</button>'
         +'</div>';
@@ -1064,7 +1104,7 @@ footer .fl a:hover{color:var(--gold-2)}
 
         applyForm.reset();
         if(prefixSel) prefixSel.value = '+40';
-        if(note){ note.style.color=''; note.textContent='✓ Aplicația a fost trimisă! Te contactăm în cel mai scurt timp.'; }
+        if(note){ note.style.color=''; note.textContent='✓ Aplicația a ajuns la angajator. Te sună în maximum 48 de ore lucrătoare.'; }
         showThanks(name);
       }catch(err){
         if(note){ note.style.color='#ff9d9d'; note.textContent='Nu am putut trimite aplicația. Încearcă din nou sau scrie-ne la support@wejobs.ro.'; }
@@ -1537,5 +1577,260 @@ footer .fl a:hover{color:var(--gold-2)}
 })();
 
 </script>
+<!-- ═══════════════════ WEJOBS · STRAT CINEMATIC ═══════════════════ -->
+<style>
+/* --- cortina de intrare --- */
+#wj-curtain{position:fixed;inset:0;z-index:99999;background:#08080a;display:grid;place-items:center;overflow:hidden}
+#wj-curtain .c-logo{font-family:"Archivo",sans-serif;font-weight:900;font-size:clamp(30px,7vw,64px);letter-spacing:-2px;position:relative;opacity:0}
+#wj-curtain .c-logo .ro{font-size:.42em;color:var(--gold-2);vertical-align:super}
+#wj-curtain .c-line{position:absolute;left:50%;bottom:-16px;width:0;height:2px;transform:translateX(-50%);
+  background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+#wj-curtain .c-sub{position:absolute;top:calc(50% + 54px);left:50%;transform:translateX(-50%);
+  font-family:"Archivo",sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.34em;text-transform:uppercase;
+  color:var(--gray-d);opacity:0;white-space:nowrap}
+#wj-curtain .panel{position:absolute;left:0;width:100%;height:50.5%;background:#08080a}
+#wj-curtain .panel.top{top:0}
+#wj-curtain .panel.bot{bottom:0}
+html.wj-loading,html.wj-loading body{overflow:hidden!important}
+
+/* --- bara de progres --- */
+#wj-prog{position:fixed;top:0;left:0;height:2px;width:0;z-index:99998;
+  background:linear-gradient(90deg,var(--gold),var(--gold-3));box-shadow:0 0 12px rgba(201,150,46,.6)}
+
+/* --- lumina care urmareste cursorul (doar desktop) --- */
+#wj-glow{position:fixed;width:460px;height:460px;border-radius:50%;pointer-events:none;z-index:1;opacity:0;
+  background:radial-gradient(circle,rgba(201,150,46,.10),transparent 62%);
+  transform:translate(-50%,-50%);transition:opacity .5s}
+@media(hover:none),(max-width:900px){#wj-glow{display:none}}
+
+/* --- masca pentru text --- */
+.wj-mask{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.06em}
+.wj-mask > span{display:inline-block;will-change:transform}
+
+/* --- carduri 3D --- */
+.jcard,.job-card{transform-style:preserve-3d;backface-visibility:hidden}
+
+/* --- pastreaza vizibil daca JS nu ruleaza --- */
+.no-js .reveal{opacity:1!important;transform:none!important}
+
+@media (prefers-reduced-motion: reduce){
+  #wj-curtain{display:none!important}
+  #wj-glow,#wj-prog{display:none!important}
+  html.wj-loading,html.wj-loading body{overflow:auto!important}
+  .reveal{opacity:1!important;transform:none!important}
+}
+</style>
+
+<div id="wj-curtain" aria-hidden="true">
+  <div class="panel top"></div>
+  <div class="panel bot"></div>
+  <div class="c-logo" translate="no">WE<span class="gold-text">JOBS</span><span class="ro">.RO</span><i class="c-line"></i></div>
+  <div class="c-sub">România → Uniunea Europeană</div>
+</div>
+<div id="wj-prog"></div>
+<div id="wj-glow"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  var docEl=document.documentElement;
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var mobile=matchMedia('(max-width:900px)').matches;
+
+  function deschide(){                       // scoate cortina, orice s-ar intampla
+    docEl.classList.remove('wj-loading');
+    var c=document.getElementById('wj-curtain'); if(c) c.remove();
+    document.querySelectorAll('.reveal').forEach(function(e){e.style.opacity=1;e.style.transform='none';});
+  }
+
+  if(reduce){ deschide(); return; }
+  docEl.classList.add('wj-loading');
+  setTimeout(function(){ if(docEl.classList.contains('wj-loading')) deschide(); },4000); // plasa de siguranta
+
+  window.addEventListener('load',function(){
+    if(typeof gsap==='undefined'||typeof ScrollTrigger==='undefined'){ deschide(); return; }
+    gsap.registerPlugin(ScrollTrigger);
+
+    /* ---------- 1. taie textul in cuvinte, cu masca ---------- */
+    function masca(el){
+      if(!el||el.dataset.wjSplit) return [];
+      el.dataset.wjSplit='1';
+      var out=[];
+      Array.prototype.slice.call(el.childNodes).forEach(function(nod){
+        if(nod.nodeType===3){                                  // text simplu
+          var frag=document.createDocumentFragment();
+          nod.textContent.split(/(\s+)/).forEach(function(cuv){
+            if(!cuv.trim()){ frag.appendChild(document.createTextNode(cuv)); return; }
+            var m=document.createElement('span'); m.className='wj-mask';
+            var s=document.createElement('span'); s.textContent=cuv;
+            m.appendChild(s); frag.appendChild(m); out.push(s);
+          });
+          el.replaceChild(frag,nod);
+        } else if(nod.nodeType===1){                           // pastreaza <span class=gold-text>
+          var m2=document.createElement('span'); m2.className='wj-mask';
+          nod.parentNode.insertBefore(m2,nod); m2.appendChild(nod); out.push(nod);
+        }
+      });
+      return out;
+    }
+
+    /* ---------- 2. cortina + intrarea in scena ---------- */
+    var h1=document.querySelector('.hero h1');
+    var cuvH1=masca(h1);
+    var tl=gsap.timeline();
+
+    tl.to('#wj-curtain .c-logo',{opacity:1,duration:.5,ease:'power2.out'})
+      .to('#wj-curtain .c-line',{width:'118%',duration:.7,ease:'power2.inOut'},'-=.15')
+      .to('#wj-curtain .c-sub',{opacity:1,duration:.45},'-=.45')
+      .to('#wj-curtain .c-logo, #wj-curtain .c-sub',{opacity:0,duration:.4,ease:'power2.in'},'+=.35')
+      .to('#wj-curtain .panel.top',{yPercent:-100,duration:.95,ease:'expo.inOut'},'-=.1')
+      .to('#wj-curtain .panel.bot',{yPercent:100,duration:.95,ease:'expo.inOut'},'<')
+      .add(function(){ docEl.classList.remove('wj-loading'); },'-=.6')
+      .from(cuvH1,{yPercent:118,duration:1,stagger:.07,ease:'power4.out'},'-=.55')
+      .from('.hero .eyebrow',{y:14,opacity:0,duration:.6},'-=.85')
+      .from('.hero .slogan',{y:20,opacity:0,duration:.7},'-=.6')
+      .from('.hero .lead',{y:20,opacity:0,duration:.7},'-=.55')
+      .from('.hero-actions .btn',{y:18,opacity:0,duration:.6,stagger:.08},'-=.5')
+      .from('.hero-trust .chip',{y:14,opacity:0,scale:.94,duration:.5,stagger:.07},'-=.45')
+      .from('.hero-visual',{scale:.93,opacity:0,duration:1.3,ease:'power3.out'},'-=1.5')
+      .add(function(){ var c=document.getElementById('wj-curtain'); if(c) c.remove(); });
+
+    // arcurile hartii se deseneaza
+    document.querySelectorAll('.eu-arc').forEach(function(p,i){
+      try{
+        var L=p.getTotalLength();
+        gsap.set(p,{strokeDasharray:L,strokeDashoffset:L});
+        gsap.to(p,{strokeDashoffset:0,duration:1.7,delay:1.9+i*.045,ease:'power2.inOut'});
+      }catch(e){}
+    });
+    gsap.from('.eu-dot',{scale:0,opacity:0,duration:.5,delay:2.5,stagger:.035,transformOrigin:'center'});
+    gsap.from('.tagchip',{y:18,opacity:0,duration:.7,delay:3.1});
+
+    /* ---------- 3. bara de progres ---------- */
+    var bara=document.getElementById('wj-prog');
+    ScrollTrigger.create({start:0,end:'max',onUpdate:function(s){ bara.style.width=(s.progress*100)+'%'; }});
+
+    /* ---------- 4. lumina dupa cursor ---------- */
+    if(!mobile){
+      var g=document.getElementById('wj-glow'),gx=gsap.quickTo(g,'x','px',{duration:.7,ease:'power3'}),
+          gy=gsap.quickTo(g,'y','px',{duration:.7,ease:'power3'});
+      gsap.set(g,{xPercent:-50,yPercent:-50});
+      addEventListener('mousemove',function(e){ g.style.opacity=1; gx(e.clientX); gy(e.clientY); },{passive:true});
+      addEventListener('mouseleave',function(){ g.style.opacity=0; });
+    }
+
+    /* ---------- 5. titlurile de secțiune apar cuvânt cu cuvânt ---------- */
+    document.querySelectorAll('section h2, .apply h2, #companii h2').forEach(function(t){
+      var cuv=masca(t); if(!cuv.length) return;
+      gsap.from(cuv,{yPercent:112,duration:.9,stagger:.055,ease:'power4.out',
+        scrollTrigger:{trigger:t,start:'top 86%'}});
+    });
+
+    /* ---------- 6. elementele .reveal (le preia GSAP) ---------- */
+    document.querySelectorAll('.reveal').forEach(function(el){
+      if(el.closest('.hero')) { el.style.opacity=1; el.style.transform='none'; return; }
+      if(el.closest('#cum-functioneaza')) return;          // are animatia lui, nu o dubla
+      el.style.opacity=''; el.style.transform='';
+      gsap.set(el,{y:34,opacity:0});
+      gsap.to(el,{y:0,opacity:1,duration:.85,ease:'power3.out',
+        scrollTrigger:{trigger:el,start:'top 90%',once:true}});
+    });
+
+    /* ---------- 7. harta se misca la scroll ---------- */
+    gsap.to('.hero-visual',{yPercent:-11,ease:'none',
+      scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:.7}});
+
+    /* ---------- 8. cifrele urca ---------- */
+    document.querySelectorAll('.stats .s strong').forEach(function(el){
+      var brut=el.textContent.trim(), nr=parseInt(brut.replace(/\D/g,''),10);
+      if(isNaN(nr)||nr===0){                                   // "UE", "100%", "8+"
+        gsap.from(el,{scale:.7,opacity:0,duration:.7,ease:'back.out(1.7)',
+          scrollTrigger:{trigger:el,start:'top 90%'}});
+        return;
+      }
+      var suf=brut.replace(/[\d\s.,]/g,''), o={v:0};
+      ScrollTrigger.create({trigger:el,start:'top 90%',once:true,onEnter:function(){
+        gsap.to(o,{v:nr,duration:1.5,ease:'power2.out',
+          onUpdate:function(){ el.textContent=Math.round(o.v)+suf; }});
+      }});
+    });
+
+    /* ---------- 9. cardurile intra decalat, cu adancime ---------- */
+    function cardEntry(sel,trig){
+      var el=document.querySelectorAll(sel); if(!el.length) return;
+      gsap.set(el,{y:60,opacity:0,rotateX:9,transformPerspective:900});
+      gsap.to(el,{y:0,opacity:1,rotateX:0,duration:.9,stagger:.11,
+        ease:'power3.out',scrollTrigger:{trigger:trig||el[0],start:'top 87%',once:true}});
+    }
+    setTimeout(function(){                                     // joburile se incarca din Supabase
+      cardEntry('#jobs-container .job-card','#jobs-container');
+      document.querySelectorAll('.cat-row').forEach(function(r){
+        var jc=r.querySelectorAll('.jcard');
+        gsap.set(jc,{y:50,opacity:0});
+        gsap.to(jc,{y:0,opacity:1,duration:.8,stagger:.09,ease:'power3.out',
+          scrollTrigger:{trigger:r,start:'top 88%',once:true}});
+      });
+      ScrollTrigger.refresh();
+    },1400);
+
+    /* ---------- 10. inclinare 3D la hover pe carduri ---------- */
+    if(!mobile){
+      document.addEventListener('mousemove',function(e){
+        var c=e.target.closest && e.target.closest('.jcard,.job-card,.card');
+        if(!c) return;
+        var r=c.getBoundingClientRect();
+        var px=(e.clientX-r.left)/r.width-.5, py=(e.clientY-r.top)/r.height-.5;
+        gsap.to(c,{rotateY:px*7,rotateX:-py*7,transformPerspective:800,duration:.5,ease:'power2.out'});
+      },{passive:true});
+      document.addEventListener('mouseout',function(e){
+        var c=e.target.closest && e.target.closest('.jcard,.job-card,.card');
+        if(c) gsap.to(c,{rotateY:0,rotateX:0,duration:.7,ease:'power3.out'});
+      },{passive:true});
+    }
+
+    /* ---------- 11. butoanele aurii "trag" spre cursor ---------- */
+    if(!mobile){
+      document.querySelectorAll('.btn.gold').forEach(function(b){
+        b.addEventListener('mousemove',function(e){
+          var r=b.getBoundingClientRect();
+          gsap.to(b,{x:(e.clientX-r.left-r.width/2)*.22,y:(e.clientY-r.top-r.height/2)*.34,duration:.4,ease:'power2.out'});
+        });
+        b.addEventListener('mouseleave',function(){ gsap.to(b,{x:0,y:0,duration:.6,ease:'elastic.out(1,.4)'}); });
+      });
+    }
+
+    /* ---------- 12. "Cum funcționează": pașii se aprind pe rând ---------- */
+    var pasi=document.querySelectorAll('#cum-functioneaza .step, #cum-functioneaza .stepcard, #cum-functioneaza .s');
+    if(pasi.length){
+      gsap.set(pasi,{y:44,opacity:0});
+      gsap.to(pasi,{y:0,opacity:1,duration:.8,stagger:.16,ease:'power3.out',
+        scrollTrigger:{trigger:'#cum-functioneaza',start:'top 82%',once:true}});
+
+    }
+
+    /* ---------- 13. părerile plutesc usor ---------- */
+    document.querySelectorAll('#pareri .card, #pareri .review, #pareri .rcard').forEach(function(c,i){
+      gsap.to(c,{y:(i%2?14:-14),ease:'none',
+        scrollTrigger:{trigger:c,start:'top bottom',end:'bottom top',scrub:1}});
+    });
+
+    // plasa de siguranta: daca ceva a ramas invizibil desi e pe ecran, il aratam
+    function salveazaVizibilitatea(){
+      document.querySelectorAll('.reveal').forEach(function(e){
+        var r=e.getBoundingClientRect();
+        if(r.top < innerHeight*1.1 && +getComputedStyle(e).opacity < .25){
+          gsap.set(e,{opacity:1,y:0,clearProps:'transform'});
+        }
+      });
+    }
+    addEventListener('scroll',salveazaVizibilitatea,{passive:true});
+    setTimeout(function(){ ScrollTrigger.refresh(); salveazaVizibilitatea(); },2200);
+    setTimeout(salveazaVizibilitatea,4000);
+  });
+})();
+</script>
+<!-- ═══════════════ SFÂRȘIT STRAT CINEMATIC ═══════════════ -->
+
 </body>
 </html>
