@@ -315,6 +315,22 @@ input::placeholder,textarea::placeholder{color:#5d5d66}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,150,46,.13)}
 select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%23c9962e'%3E%3Cpath d='M7 10L2 4h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
 textarea{min-height:120px;resize:vertical}
+
+/* ---- formular tip CV ---- */
+.cv-more{border:1px solid var(--line);border-radius:14px;margin:4px 0 18px;overflow:hidden}
+.cv-more>summary{list-style:none;cursor:pointer;padding:14px 16px;font-family:"Archivo";font-weight:700;
+  font-size:14.5px;color:var(--gold-2);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.cv-more>summary::-webkit-details-marker{display:none}
+.cv-more>summary span.hint{font-family:"Manrope";font-weight:400;font-size:12.5px;color:var(--gray-d)}
+.cv-more>summary::after{content:"+";font-size:20px;color:var(--gold-2);flex:none}
+.cv-more[open]>summary::after{content:"–"}
+.cv-more .inner{padding:2px 16px 16px}
+.cv-more label{margin-top:12px}
+.chk-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.chk-row label{display:inline-flex;align-items:center;gap:7px;margin:0;font-size:13.5px;color:#cfcfd6;
+  background:var(--card);border:1px solid var(--line);border-radius:999px;padding:8px 13px;cursor:pointer}
+.chk-row input{width:auto;margin:0}
+.chk-row label:has(input:checked){border-color:var(--line-gold);color:var(--gold-2);background:rgba(201,150,46,.09)}
 .phone-group{display:grid;grid-template-columns:118px 1fr;gap:8px;align-items:start}
 .phone-group select{margin-bottom:18px;padding-left:12px;padding-right:26px;background-position:right 10px center;font-size:14.5px}
 .phone-group input{margin-bottom:18px}
@@ -756,11 +772,60 @@ footer .fl a:hover{color:var(--gold-2)}
         <input id="email" type="email" name="email" required placeholder="email@exemplu.com">
         <label for="post">Post dorit</label>
         <select id="post" name="post_dorit" required><option value="">Alege postul</option></select>
-        <label for="exp">Experiență</label>
-        <select id="exp" name="experienta" required>
-          <option value="">Alege experiența</option>
-          <option>Sub 1 an</option><option>1-2 ani</option><option>2-5 ani</option><option>Peste 5 ani</option>
-        </select>
+        <div class="form-row">
+          <div><label for="nastere">Data nașterii</label><input id="nastere" type="date" name="nastere" required></div>
+          <div><label for="exp">Experiență</label>
+            <select id="exp" name="experienta" required>
+              <option value="">Alege experiența</option>
+              <option>Fără experiență</option><option>Sub 1 an</option><option>1-2 ani</option><option>2-5 ani</option><option>Peste 5 ani</option>
+            </select>
+          </div>
+        </div>
+
+        <details class="cv-more" id="cv-more">
+          <summary>Completează profilul <span class="hint">opțional · crește șansele de a fi sunat</span></summary>
+          <div class="inner">
+            <label for="oras">Localitate / județ</label>
+            <input id="oras" type="text" name="oras" placeholder="Ex: Cluj-Napoca, Cluj">
+
+            <label>Permis de conducere</label>
+            <div class="chk-row" id="permise">
+              <label><input type="checkbox" value="B"> Categoria B</label>
+              <label><input type="checkbox" value="C"> Categoria C</label>
+              <label><input type="checkbox" value="C+E"> Categoria C+E</label>
+              <label><input type="checkbox" value="D"> Categoria D</label>
+              <label><input type="checkbox" value="Nu am"> Nu am permis</label>
+            </div>
+
+            <label for="ultim-job">Ultimul loc de muncă</label>
+            <input id="ultim-job" type="text" name="ultim_job" placeholder="Ex: Șofer livrări la Firma X, 2 ani">
+
+            <div class="form-row">
+              <div><label for="lang-de">Germană</label>
+                <select id="lang-de" name="lang_de">
+                  <option value="">Alege nivelul</option>
+                  <option>Deloc</option><option>Începător</option><option>Conversațional</option><option>Bine</option><option>Fluent</option>
+                </select>
+              </div>
+              <div><label for="lang-en">Engleză</label>
+                <select id="lang-en" name="lang_en">
+                  <option value="">Alege nivelul</option>
+                  <option>Deloc</option><option>Începător</option><option>Conversațional</option><option>Bine</option><option>Fluent</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div><label for="disponibil">Disponibil de la</label><input id="disponibil" type="date" name="disponibil"></div>
+              <div><label for="cazare">Ai nevoie de cazare?</label>
+                <select id="cazare" name="cazare">
+                  <option value="">Alege</option><option>Da</option><option>Nu</option><option>Nu contează</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </details>
+
         <label for="mesaj">Mesaj</label>
         <textarea id="mesaj" name="mesaj" placeholder="Scrie câteva detalii despre tine..."></textarea>
         <input type="hidden" name="aplicat_de_pe" value="Pagina principală (formular general)">
@@ -1135,11 +1200,35 @@ footer .fl a:hover{color:var(--gold-2)}
       const jobTitle = document.getElementById('post').value.trim();
       const experience = document.getElementById('exp').value.trim();
       const message = document.getElementById('mesaj').value.trim();
+      const nastere = (document.getElementById('nastere')||{}).value || '';
+      const oras = ((document.getElementById('oras')||{}).value||'').trim();
+      const ultimJob = ((document.getElementById('ultim-job')||{}).value||'').trim();
+      const langDe = (document.getElementById('lang-de')||{}).value || '';
+      const langEn = (document.getElementById('lang-en')||{}).value || '';
+      const disponibil = (document.getElementById('disponibil')||{}).value || '';
+      const cazare = (document.getElementById('cazare')||{}).value || '';
+      const permise = Array.prototype.slice
+        .call(document.querySelectorAll('#permise input:checked'))
+        .map(function(x){return x.value;}).join(', ');
       const source = (applyForm.querySelector('input[name="aplicat_de_pe"]')||{}).value || 'Pagina principală';
       const consent = applyForm.querySelector('input[name="consimtamant"]').checked;
 
-      if(!name || !localPhone || !email || !jobTitle || !experience){
+      if(!name || !localPhone || !email || !jobTitle || !experience || !nastere){
         if(note){ note.style.color='#ff9d9d'; note.textContent='Completează toate câmpurile obligatorii.'; }
+        return;
+      }
+      var varsta = (function(d){
+        if(!d) return 0;
+        var b=new Date(d), t=new Date(), a=t.getFullYear()-b.getFullYear(), m=t.getMonth()-b.getMonth();
+        if(m<0 || (m===0 && t.getDate()<b.getDate())) a--;
+        return a;
+      })(nastere);
+      if(varsta < 18){
+        if(note){ note.style.color='#ff9d9d'; note.textContent='Trebuie să ai cel puțin 18 ani ca să aplici.'; }
+        return;
+      }
+      if(varsta > 75){
+        if(note){ note.style.color='#ff9d9d'; note.textContent='Verifică data nașterii — pare greșită.'; }
         return;
       }
       if(!consent){
@@ -1155,7 +1244,15 @@ footer .fl a:hover{color:var(--gold-2)}
       try{
         await WeJobs.submitApplication({
           name, phone: fullPhone, email,
-          job_title: jobTitle, experience, message, source, country
+          job_title: jobTitle, experience, message, source, country,
+          birth_date: nastere || null,
+          city: oras || null,
+          licenses: permise || null,
+          last_job: ultimJob || null,
+          lang_de: langDe || null,
+          lang_en: langEn || null,
+          available_from: disponibil || null,
+          needs_housing: cazare || null
         });
 
         // Trimite notificarea push (nu blocăm dacă eșuează)

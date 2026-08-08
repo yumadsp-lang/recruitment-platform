@@ -153,7 +153,15 @@
         experience: a.experience || null,
         message: a.message || null,
         source: a.source || null,
-        country: a.country || null
+        country: a.country || null,
+        birth_date: a.birth_date || null,
+        city: a.city || null,
+        licenses: a.licenses || null,
+        last_job: a.last_job || null,
+        lang_de: a.lang_de || null,
+        lang_en: a.lang_en || null,
+        available_from: a.available_from || null,
+        needs_housing: a.needs_housing || null
       });
       if (error) throw error;
     },

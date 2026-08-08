@@ -88,6 +88,21 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
 .app-row.unread{border-color:var(--line-gold);background:linear-gradient(180deg,rgba(201,150,46,.06),var(--card))}
 .app-row .dot{width:9px;height:9px;border-radius:50%;background:var(--gold);flex:none;box-shadow:0 0 0 3px rgba(201,150,46,.18)}
 .app-row .dot.read{background:transparent;box-shadow:none;border:1px solid var(--line)}
+
+.cv{margin-top:10px;background:var(--black);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.cv .sec{padding:11px 13px;border-bottom:1px solid var(--line)}
+.cv .sec:last-child{border-bottom:0}
+.cv .sec>b{display:block;font-family:"Archivo";font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--gold-2);margin-bottom:7px}
+.cv .g{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:7px 16px}
+.cv .f{font-size:13.5px;color:#d8d8e0}
+.cv .f span{display:block;font-size:11px;color:var(--gray-d);margin-bottom:1px}
+.cv .lic{display:inline-block;font-family:"Archivo";font-weight:700;font-size:11px;color:var(--gold-2);
+  background:rgba(201,150,46,.11);border:1px solid var(--line-gold);border-radius:6px;padding:3px 8px;margin:2px 4px 2px 0}
+.cv .msg{font-size:13.5px;color:#cfcfd6;line-height:1.55;white-space:pre-wrap}
+.age{font-family:"Archivo";font-weight:800;font-size:11.5px;color:#9af5c9;background:rgba(55,224,138,.11);
+  border:1px solid rgba(55,224,138,.3);border-radius:6px;padding:2px 8px;margin-left:7px}
+.age.none{color:var(--gray);background:rgba(255,255,255,.05);border-color:var(--line)}
 .app-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
 .app-meta span{font-size:12.5px;color:var(--gray);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:8px;padding:2px 8px}
 .app-msg{margin-top:8px;color:#cfcfd6;font-size:14px;line-height:1.55;background:var(--black);border:1px solid var(--line);border-radius:10px;padding:10px 12px;white-space:pre-wrap}
@@ -475,6 +490,44 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
     catch(_){ return s; }
   }
 
+
+  function varsta(d){
+    if(!d) return null;
+    var b=new Date(d), t=new Date(), a=t.getFullYear()-b.getFullYear(), m=t.getMonth()-b.getMonth();
+    if(m<0 || (m===0 && t.getDate()<b.getDate())) a--;
+    return (a>0 && a<110) ? a : null;
+  }
+  function dOnly(s){
+    if(!s) return '';
+    try{ return new Date(s).toLocaleDateString('ro-RO',{day:'2-digit',month:'2-digit',year:'numeric'}); }
+    catch(_){ return s; }
+  }
+  function camp(et,val){
+    if(!val) return '';
+    return '<div class="f"><span>'+et+'</span>'+escapeHtml(val)+'</div>';
+  }
+  function cvHTML(a){
+    var v = varsta(a.birth_date);
+    var identitate = camp('Data nașterii', a.birth_date ? dOnly(a.birth_date)+(v?' ('+v+' ani)':'') : '')
+      + camp('Localitate', a.city) + camp('Țară', a.country);
+    var prof = camp('Experiență', a.experience) + camp('Ultimul loc de muncă', a.last_job)
+      + camp('Post dorit', a.job_title);
+    var limbi = camp('Germană', a.lang_de) + camp('Engleză', a.lang_en);
+    var dispo = camp('Disponibil de la', a.available_from ? dOnly(a.available_from) : '')
+      + camp('Are nevoie de cazare', a.needs_housing);
+    var lic = a.licenses ? a.licenses.split(',').map(function(x){
+        x=x.trim(); return x ? '<span class="lic">'+escapeHtml(x)+'</span>' : ''; }).join('') : '';
+
+    var out = '';
+    if(identitate) out += '<div class="sec"><b>Date personale</b><div class="g">'+identitate+'</div></div>';
+    if(prof)       out += '<div class="sec"><b>Profil profesional</b><div class="g">'+prof+'</div></div>';
+    if(lic)        out += '<div class="sec"><b>Permis de conducere</b>'+lic+'</div>';
+    if(limbi)      out += '<div class="sec"><b>Limbi străine</b><div class="g">'+limbi+'</div></div>';
+    if(dispo)      out += '<div class="sec"><b>Disponibilitate</b><div class="g">'+dispo+'</div></div>';
+    if(a.message)  out += '<div class="sec"><b>Mesajul candidatului</b><div class="msg">'+escapeHtml(a.message)+'</div></div>';
+    return out ? '<div class="cv">'+out+'</div>' : '';
+  }
+
   function statusOf(a){ return a.status || 'nou'; }
 
   function setAppFilter(f){
@@ -532,8 +585,6 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
       const st = statusOf(a);
       const stLabel = st==='acceptat' ? 'Acceptat' : (st==='respins' ? 'Respins' : 'Nou');
       const meta = [
-        a.experience ? 'Experiență: '+escapeHtml(a.experience) : '',
-        a.country ? 'Țară: '+escapeHtml(a.country) : '',
         a.source ? escapeHtml(a.source) : '',
         fmtDate(a.created_at)
       ].filter(Boolean).map(x=>`<span>${x}</span>`).join('');
@@ -542,10 +593,10 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
         <span class="dot ${unread?'':'read'}"></span>
         <span class="st-pill ${st}">${stLabel}</span>
         <div class="info">
-          <b>${escapeHtml(a.name)}${a.job_title?' · '+escapeHtml(a.job_title):''}</b>
+          <b>${escapeHtml(a.name)}${(function(){var v=varsta(a.birth_date);return v?'<span class="age">'+v+' ani</span>':'<span class="age none">vârstă necompletată</span>';})()}${a.job_title?'<br><span style="font-weight:600;color:#b8b8c2">'+escapeHtml(a.job_title)+'</span>':''}</b>
           <span>📞 ${escapeHtml(a.phone||'')}${a.email?' &nbsp;·&nbsp; ✉ '+escapeHtml(a.email):''}</span>
           <div class="app-meta">${meta}</div>
-          ${a.message?`<div class="app-msg">${escapeHtml(a.message)}</div>`:''}
+          ${cvHTML(a)}
         </div>
         <div class="acts">
           <a class="btn ghost sm" href="tel:${escapeHtml((a.phone||'').replace(/[^0-9+]/g,''))}">Sună</a>
@@ -570,19 +621,35 @@ code{background:rgba(255,255,255,.06);border:1px solid var(--line);padding:2px 7
   }
 
   function appText(a){
+    var v=varsta(a.birth_date);
     return [
-      'Aplicație WeJobs.ro',
+      '=== CANDIDAT — WeJobs.ro ===',
+      '',
       'Nume: '+(a.name||''),
+      a.birth_date?'Data nașterii: '+dOnly(a.birth_date)+(v?' ('+v+' ani)':''):'',
+      a.city?'Localitate: '+a.city:'',
       'Telefon: '+(a.phone||''),
       a.email?'Email: '+a.email:'',
-      a.job_title?'Post: '+a.job_title:'',
+      '',
+      '--- PROFIL PROFESIONAL ---',
+      a.job_title?'Post dorit: '+a.job_title:'',
       a.experience?'Experiență: '+a.experience:'',
-      a.country?'Țară: '+a.country:'',
-      a.source?'Sursă: '+a.source:'',
-      'Status: '+(a.status==='acceptat'?'Acceptat':(a.status==='respins'?'Respins':'Nou')),
-      a.message?'Mesaj: '+a.message:'',
-      'Data: '+fmtDate(a.created_at)
-    ].filter(Boolean).join('\n');
+      a.last_job?'Ultimul loc de muncă: '+a.last_job:'',
+      a.licenses?'Permis de conducere: '+a.licenses:'',
+      '',
+      '--- LIMBI STRĂINE ---',
+      a.lang_de?'Germană: '+a.lang_de:'',
+      a.lang_en?'Engleză: '+a.lang_en:'',
+      '',
+      '--- DISPONIBILITATE ---',
+      a.available_from?'Disponibil de la: '+dOnly(a.available_from):'',
+      a.needs_housing?'Are nevoie de cazare: '+a.needs_housing:'',
+      '',
+      a.message?'--- MESAJ ---\n'+a.message:'',
+      '',
+      'Aplicat: '+fmtDate(a.created_at)+(a.source?' · '+a.source:''),
+      'Status: '+(a.status==='acceptat'?'Acceptat':(a.status==='respins'?'Respins':'Nou'))
+    ].filter(function(x){return x!==''||true;}).join('\n').replace(/\n{3,}/g,'\n\n');
   }
 
   async function copyApplication(id){
